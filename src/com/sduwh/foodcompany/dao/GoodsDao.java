@@ -10,7 +10,7 @@ public interface GoodsDao {
 	/*
 	 * 创建商品
 	 */
-	public void insertGood(Map map);
+	public int insertGood(Map map);
 	/*
 	 * 可通过键值good_id,good_name(模糊),good_standard,good_cost,good_expiration_date查询
 	 */

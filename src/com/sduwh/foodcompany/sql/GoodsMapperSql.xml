@@ -5,14 +5,16 @@
  
  
  	<!-- 创建商品_存储过程 -->
- 	<update id="insertGood" parameterType="Map">
- 		 call proc_GoodsByInsert(
+     <update id="insertGood" parameterType="Map">
+ 		 exec proc_GoodsByInsert
          #{good_name,mode=IN,jdbcType=VARCHAR},
          #{good_standard,mode=IN,jdbcType=VARCHAR},
          #{good_cost,mode=IN,jdbcType=REAL},
          #{good_expiration_date,mode=IN,jdbcType=INTEGER}
-         )
+         
  	</update>
+  
+ 	
  	
  	<!-- select语句 -->
  	<select id="findGoods" parameterType="Map" resultType="com.sduwh.foodcompany.entity.Goods">

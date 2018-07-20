@@ -5,15 +5,15 @@
  
  
  	<!-- 创建客户_存储过程 -->
- 	<update id="insertCustomer" parameterType="Map">
- 		 call proc_CustomerByInsert(
+ 	<update id="insertCustomer" parameterType="Map" statementType="CALLABLE">
+ 		 exec proc_CustomerByInsert 
          #{user_name,mode=IN,jdbcType=VARCHAR},
          #{user_psw,mode=IN,jdbcType=VARCHAR},
          #{user_tel,mode=IN,jdbcType=VARCHAR},
          #{cus_rank,mode=IN,jdbcType=INTEGER},
          #{cus_score,mode=IN,jdbcType=REAL},
          #{cus_address,mode=IN,jdbcType=VARCHAR}
-         )
+        
  	</update>
  	
  	<!-- select 语句 -->

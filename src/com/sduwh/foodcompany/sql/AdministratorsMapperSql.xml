@@ -4,13 +4,13 @@
  <mapper namespace="com.sduwh.foodcompany.dao.AdministratorsDao">
  
  	<!--创建管理员_存储过程-->
- 	<update id="insertAdministrators" parameterType="Map">
- 		 call proc_AdministratorsByInsert(
+ 	<update id="insertAdministrators" parameterType="Map" statementType="CALLABLE">
+ 		 exec proc_AdministratorsByInsert
          #{name,mode=IN,jdbcType=VARCHAR},
          #{psw,mode=IN,jdbcType=VARCHAR},
          #{tel,mode=IN,jdbcType=VARCHAR},
          #{power,mode=IN,jdbcType=INTEGER}
-         )
+         
  	</update>
  			
  	<!-- select语句 -->	

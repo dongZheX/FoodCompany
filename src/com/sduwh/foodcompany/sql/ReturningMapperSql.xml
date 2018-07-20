@@ -2,12 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.sduwh.foodcompany.dao.ReturningDao">
- 	<update id="insertReturned" parameterType="Map" >
- 		call proc_ReturningByInsert(
+ 	<update id="insertReturned" parameterType="Map" statementType="CALLABLE">
+ 		exec proc_ReturningByInsert
  			#{order_id,mode=IN,jdbcType=VARCHAR},
  			#{return_money,mode=IN,jdbcType=REAL},
  			#{sale_user_id,mode=IN,jdbcType=VARCHAR}
- 		)
+ 		
  	</update>
  	<!-- select语句 -->
  	<select id="findReturning" parameterType="Map" resultType="com.sduwh.foodcompany.entity.Returning">

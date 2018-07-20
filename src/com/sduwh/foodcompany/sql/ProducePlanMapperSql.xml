@@ -4,13 +4,13 @@
  <mapper namespace="com.sduwh.foodcompany.dao.ProducePlanDao">
  
  	<!-- 创建生产计划单_存储过程 -->
- 	<update id="insertProducePlan" parameterType="Map" >
- 		call proc_ProducePlanByInser(
+ 	<update id="insertProducePlan" parameterType="Map" statementType="CALLABLE">
+ 		exec proc_ProducePlanByInser
  			#{good_id,mode=IN,jdbcType=VARCHAR},
  			#{good_num,mode=IN,jdbcType=INTEGER},
  			#{deadline,mode=IN,jdbcType=DATE},
  			#{planer_user_id,mode=IN,jdbcType=VARCHAR}
- 		)
+ 		
  	</update>
  	
  	<!-- select语句 -->

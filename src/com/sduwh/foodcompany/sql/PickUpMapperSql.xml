@@ -5,12 +5,12 @@
  
  
  	<!-- 创建提货单_存储过程 -->
- 	<update id="insertPickUp" parameterType="Map">
- 		 call proc_PickUpByInsert(
+ 	<update id="insertPickUp" parameterType="Map" statementType="CALLABLE">
+ 		 exec proc_PickUpByInsert
          #{pick_up_id,mode=IN,jdbcType=VARCHAR},
          #{pick_up_state,mode=IN,jdbcType=INTEGER},
          #{accountant_user_id,mode=IN,jdbcType=VARCHAR}
-         )
+         
  	</update>
  	
  	<!-- select语句 -->

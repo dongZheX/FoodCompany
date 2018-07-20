@@ -2,6 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.sduwh.foodcompany.dao.AdministratorsDao">
+ 
+ 	<!--创建管理员_存储过程-->
  	<update id="insertAdministrators" parameterType="Map">
  		 call proc_AdministratorsByInsert(
          #{name,mode=IN,jdbcType=VARCHAR},
@@ -10,4 +12,27 @@
          #{power,mode=IN,jdbcType=INTEGER}
          )
  	</update>
+ 			
+ 	<!-- select语句 -->	
+ 	<select id="findAdministrators" parameterType="Map" resultType="com.sduwh.foodcompany.entity.Administrators">
+ 		select * from Administrators 
+ 		<where>
+ 			<if test="user_id!=null">user_id = #{user_id}</if>
+ 			<if test="user_name!=null">and user_name = #{user_name}</if>
+ 			<if test="user_tel!=null">and user_tel = #{user_tel}</if>
+ 			<if test="adm_power!=null">and adm_power = #{adm_power}</if>
+ 		</where>
+ 	</select>
+ 	
+ 	<!-- update语句 -->
+ 	<update id="updateAdministrators" parameterType="Map">
+ 		update Administrators
+ 		<set>
+ 			<if test="user_tel!=null">user_tel = #{user_tel}</if>
+ 			<if test="user_psw!=null">user_psw = #{user_psw}</if>
+ 			<if test="adm_power!=null">adm_power = #{adm_power}</if>
+ 		</set>
+ 		where user_id = #{user_id}
+ 	</update>
+ 	
  </mapper>

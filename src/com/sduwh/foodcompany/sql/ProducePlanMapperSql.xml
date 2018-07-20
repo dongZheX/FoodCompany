@@ -2,6 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.sduwh.foodcompany.dao.ProducePlanDao">
+ 
+ 	<!-- 创建生产计划单_存储过程 -->
  	<update id="insertProducePlan" parameterType="Map" >
  		call proc_ProducePlanByInser(
  			#{good_id,mode=IN,jdbcType=VARCHAR},
@@ -9,5 +11,27 @@
  			#{deadline,mode=IN,jdbcType=DATE},
  			#{planer_user_id,mode=IN,jdbcType=VARCHAR}
  		)
+ 	</update>
+ 	
+ 	<!-- select语句 -->
+ 	<select id="findProducePlan" parameterType="Map" resultType="com.sduwh.foodcompany.entity.ProducePlan">
+ 		select * from ProducePlan
+ 		<where>
+ 			<if test="plan_id!=null">plan_id = #{plan_id}</if>
+ 			<if test="good_id!=null">good_id = #{good_id}</if>
+ 			<if test="deadline!null">deadline = #{deadline}</if>
+ 			<if test="plan_state!=null">plan_state = #{plan_state}</if>
+ 			<if test="planer_user_id">planer_user_id = #{planer_user_id}</if>
+ 		</where>
+ 	</select>
+ 	
+ 	<!-- update语句 -->
+ 	<update id="updateProducePlan" parameterType="Map">
+ 		update 	ProducePlan
+ 		<set>
+ 			<if test="deadline!null">deadline = #{deadline}</if>
+ 			<if test="plan_state!=null">plan_state = #{plan_state}</if>
+ 		</set>
+ 		where plan_id = #{plan_id}
  	</update>
  </mapper>

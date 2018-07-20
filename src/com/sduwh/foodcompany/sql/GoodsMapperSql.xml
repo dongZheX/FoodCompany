@@ -2,6 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.sduwh.foodcompany.dao.GoodsDao">
+ 
+ 
+ 	<!-- 创建商品_存储过程 -->
  	<update id="insertGood" parameterType="Map">
  		 call proc_GoodsByInsert(
          #{good_name,mode=IN,jdbcType=VARCHAR},
@@ -9,5 +12,29 @@
          #{good_cost,mode=IN,jdbcType=REAL},
          #{good_expiration_date,mode=IN,jdbcType=INTEGER}
          )
+ 	</update>
+ 	
+ 	<!-- select语句 -->
+ 	<select id="findGoods" parameterType="Map" resultType="com.sduwh.foodcompany.entity.Goods">
+ 		select * from Goods
+ 		<where>
+ 			<if test="good_id!=null">good_id = #{good_id}</if>
+ 			<if test="good_name!null">and good_name like #{good_name}</if>
+ 			<if test="good_standard!=null">and good_standard = #{good_standard}</if>
+ 			<if test="good_cost!=null">and good_cost = #{good_cost}</if>
+ 			<if test="good_expiration_date">and good_expiration_date = #{good_expiration_date}</if>
+ 		</where>
+ 	</select>
+ 	
+ 	<!-- update 语句 -->
+ 	<update id="updateGoods" parameterType="Map" >
+ 		update Goods
+ 		<set>
+ 			<if test="good_name">good_name = #{good_name}</if>
+ 			<if test="good_standard!=null">and good_standard = #{good_standard}</if>
+ 			<if test="good_cost!=null">and good_cost = #{good_cost}</if>
+ 			<if test="good_expiration_date">and good_expiration_date = #{good_expiration_date}</if>
+ 		</set>
+ 		where good_id = #{good_id}
  	</update>
  </mapper>

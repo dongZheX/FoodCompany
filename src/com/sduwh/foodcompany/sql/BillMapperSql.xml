@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.sduwh.foodcompany.dao.BillDao">
+ 	<!--创建订单_存储过程-->
  	<update id="billByInsert" parameterType="Map" >
  		call proc_BillByInsert(
  			#{money,mode=IN,jdbcType=REAL},
@@ -9,4 +10,19 @@
  			#{accountant_user_i,mode=IN,jdbcType=VARCHAR}
  		)
  	</update>
+ 	
+ 	<!-- select语句 -->
+ 	<select id="findBill" parameterType="Map" resultType="com.sduwh.foodcompany.entity.Bill">
+ 		select * from Bill
+ 		<where>
+ 			<if test="bill_id!=null">bill_id = #{bill_id}</if>
+ 			<if test="bill_date!=null">and bill_date = #{bill_date}</if>
+ 			<if test="bill_money!=null">and bill_money = #{bill_money}</if>
+ 			<if test="receipt_id!=null">and receipt_id = #{receipt_id}</if>
+ 			<if test="accountant_user_id!=null">and accountant_user_id = #{accountant_user_id}</if>
+ 		</where>
+ 	</select>
+ 	
+ 	<!-- update语句 -->
+ 	<!-- 无法修改 -->
  </mapper>

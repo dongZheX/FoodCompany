@@ -2,11 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.sduwh.foodcompany.dao.PickUpDao">
+ 
+ 
+ 	<!-- 创建提货单_存储过程 -->
  	<update id="insertPickUp" parameterType="Map">
  		 call proc_PickUpByInsert(
          #{pick_up_id,mode=IN,jdbcType=VARCHAR},
          #{pick_up_state,mode=IN,jdbcType=INTEGER},
          #{accountant_user_id,mode=IN,jdbcType=VARCHAR}
          )
+ 	</update>
+ 	
+ 	<!-- select语句 -->
+ 	<select id="findPickUp" parameterType="Map" resultType="om.sduwh.foodcompany.entity.PickUp">
+ 		select * from PickUp
+ 		<where>
+ 			<if test="pick_up_id">pick_up_id = #{pick_up_id}</if>
+ 			<if test="pick_up_state">pick_up_state = #{pick_up_state}</if>
+ 			<if test="accountant_user_id">accountant_user_id = #{accountant_user_id}</if>
+ 		</where>
+ 	</select>
+ 	
+ 	<!-- update语句 -->
+ 	<update id="updatePickUp" parameterType="Map">
+ 		update PickUp
+ 		<set>
+ 			<if test="pick_up_state">pick_up_state = #{pick_up_state}</if>
+ 		</set>
+ 		where pick_up_id = #{pick_up_id}
  	</update>
  </mapper>

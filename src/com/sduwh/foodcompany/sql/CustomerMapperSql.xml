@@ -2,6 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.sduwh.foodcompany.dao.CustomerDao">
+ 
+ 
+ 	<!-- 创建客户_存储过程 -->
  	<update id="insertCustomer" parameterType="Map">
  		 call proc_CustomerByInsert(
          #{user_name,mode=IN,jdbcType=VARCHAR},
@@ -13,5 +16,29 @@
          )
  	</update>
  	
+ 	<!-- select 语句 -->
+ 	<select id="findCustomer" parameterType="Map" resultType="com.sduwh.foodcompany.entity.Customer">
+ 		select * from Customer
+ 		<where>
+ 			<if test="user_id!=null">user_id = #{user_id}</if>
+ 			<if test="user_name!=null">and user_name = #{user_name}</if>
+ 			<if test="user_tel!=null">and user_tel = #{user_tel}</if>
+ 			<if test="cus_rank!=null">and cus_rank = #{cus_rank}</if>
+ 			<if test="cus_score!=null">and cus_score = #{cus_score}</if>
+ 			<if test="cus_address!=null">and cus_address like #{cus_address}</if>
+ 		</where>
+ 	</select>
  	
+ 	<!-- update语句 -->
+ 	<update id="updateCustomer" parameterType="Map">
+ 		update Customer
+ 		<set>
+ 			<if test="user_tel!=null">user_tel = #{user_tel}</if>
+ 			<if test="user_psw!=null">user_psw = #{user_psw}</if>
+ 			<if test="cus_rank!=null">cus_rank = #{cus_rank}</if>
+ 			<if test="cus_score!=null">cus_score = #{cus_score}</if>
+ 			<if test="cus_address!=null">cus_address = #{cus_address}</if>
+ 		</set>
+ 		where user_id = #{user_id}
+ 	</update>
  </mapper>

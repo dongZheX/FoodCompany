@@ -2,5 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.sduwh.foodcompany.dao.ReturnedDao">
- 
+ 	<update id="insertReturned" parameterType="Map" >
+ 		call proc_ReturnedByInsert(
+ 			#{order_id,mode=IN,jdbcType=VARCHAR},
+ 			#{return_id,mode=IN,jdbcType=VARCHAR},
+ 			#{teller_user_id,mode=IN,jdbcType=VARCHAR}
+ 		)
+ 	</update>
  </mapper>

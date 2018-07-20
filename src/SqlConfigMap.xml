@@ -26,6 +26,18 @@
            </dataSource>
          </environment>
      </environments> 
-
+	<mappers>
+		<!-- 映射不同接口 -->
+		<mapper resource="com/sduwh/foodcompany/sql/AdministratorsMapperSql.xml"/>
+		<mapper resource="com/sduwh/foodcompany/sql/CustomerMapperSql.xml"/>
+		<mapper resource="com/sduwh/foodcompany/sql/BillMapperSql.xml"/>
+		<mapper resource="com/sduwh/foodcompany/sql/GoodsMapperSql.xml"/>
+		<mapper resource="com/sduwh/foodcompany/sql/OrderedMapperSql.xml"/>
+		<mapper resource="com/sduwh/foodcompany/sql/PickUpMapperSql.xml"/>
+		<mapper resource="com/sduwh/foodcompany/sql/ProducePlanMapperSql.xml"/>
+		<mapper resource="com/sduwh/foodcompany/sql/ReceiptMapperSql.xml"/>
+		<mapper resource="com/sduwh/foodcompany/sql/ReturnedMapperSql.xml"/>
+		<mapper resource="com/sduwh/foodcompany/sql/ReturningMapperSql.xml"/>
+	</mappers>
     
  </configuration>

@@ -12,4 +12,21 @@
          #{good_state,mode=IN,jdbcType=INTEGER},
          )
  	</update>
+ 	<!-- select语句 -->
+ 	<select id="findWareHouse" resultMap="com.sduwh.foodcompany.entity.Warehouse" parameterType="Map">
+ 		select * from Warehouse
+ 		<where>
+ 			<if test="batch_id!=null">batch_id=#{batch_id}</if>
+ 			<if test="good_id!=null">and good_id=#{good_id}</if>
+ 			<if test="good_PD!=null">and good_PD=#{good_PD}</if>
+ 			<if test="good_GP!=null">and good_GP=#{good_GP}</if>
+ 			<if test="warehouse_user_id!=null">and warehouse_user_id=#{warehouse_user_id}</if>
+ 			<if test="workshop_user_id!=null">and workshop_user_id=#{workshop_user_id}</if>
+ 			<if test="good_state!=null">and good_state = #{good_state}</if>
+ 		</where>
+ 	</select>
+ 	<update id="updateWarehouse" parameterType="Map">
+ 		update Warehouse set good_state = #{good_state} 
+ 		where batch_id=#{batch_id}
+ 	</update>
  </mapper>

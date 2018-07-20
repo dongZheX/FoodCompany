@@ -10,4 +10,18 @@
  			#{teller_user_id,mode=IN,jdbcType=VARCHAR}
  		)
  	</update>
+ 	
+ 	<!-- select语句 -->
+ 	<select id="findReceipt" parameterType="Map" resultType="com.sduwh.foodcompany.entity.Receipt">
+ 		select * from Returning 
+ 		<where>
+ 			<if test="receipt_id!=null">receipt_id = #{receipt_id}</if>
+ 			<if test="order!=null">and order=#{order_id}</if>
+ 			<if test="receipt_money!=null">and receipt_money=#{receipt_money}</if>
+ 			<if test="teller_user_id!=null">and teller_user_id=#{tell_user_id}</if>
+ 			<if test="receipt_date!=null">and receipt_date=#{receipt_date}</if>
+ 		</where> 
+ 	</select>
+ 	<!-- update语句 -->
+ 	<!-- 不能修改 -->
  </mapper>

@@ -9,4 +9,16 @@
  			#{sale_user_id,mode=IN,jdbcType=VARCHAR}
  		)
  	</update>
+ 	<!-- select语句 -->
+ 	<select id="findReturning" parameterType="Map" resultType="com.sduwh.foodcompany.entity.Returning">
+ 		select * from Returning 
+ 		<where>
+ 			<if test="returned_id!=null">returned_id = #{returned_id}</if>
+ 			<if test="return_id!=null">and return_id=#{return_id}</if>
+ 			<if test="teller_user_id!=null">and teller_user_id=#{teller_user_id}</if>
+ 			<if test="returned_date!=null">and returned_date=#{returned_date}</if>
+ 		</where> 
+ 	</select>
+ 	<!-- update语句 -->
+ 	<!-- 不能修改 -->
  </mapper>

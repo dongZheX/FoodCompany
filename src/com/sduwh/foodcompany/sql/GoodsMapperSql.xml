@@ -19,10 +19,10 @@
  		select * from Goods
  		<where>
  			<if test="good_id!=null">good_id = #{good_id}</if>
- 			<if test="good_name!null">and good_name like #{good_name}</if>
+ 			<if test="good_name!=null">and good_name like #{good_name}</if>
  			<if test="good_standard!=null">and good_standard = #{good_standard}</if>
  			<if test="good_cost!=null">and good_cost = #{good_cost}</if>
- 			<if test="good_expiration_date">and good_expiration_date = #{good_expiration_date}</if>
+ 			<if test="good_expiration_date!=null">and good_expiration_date = #{good_expiration_date}</if>
  		</where>
  	</select>
  	
@@ -30,10 +30,10 @@
  	<update id="updateGoods" parameterType="Map" >
  		update Goods
  		<set>
- 			<if test="good_name">good_name = #{good_name}</if>
+ 			<if test="good_name!=null">good_name = #{good_name}</if>
  			<if test="good_standard!=null">and good_standard = #{good_standard}</if>
  			<if test="good_cost!=null">and good_cost = #{good_cost}</if>
- 			<if test="good_expiration_date">and good_expiration_date = #{good_expiration_date}</if>
+ 			<if test="good_expiration_date!=null">and good_expiration_date = #{good_expiration_date}</if>
  		</set>
  		where good_id = #{good_id}
  	</update>

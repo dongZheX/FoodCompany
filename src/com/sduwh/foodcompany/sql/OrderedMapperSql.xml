@@ -37,13 +37,13 @@
  		<where>
  			<if test="order_id!=null">order_id = #{order_id}</if>
  			<if test="good_id!=null">and good_id = #{good_id}</if>
- 			<if test="cus_user_id">and cus_user_id = #{cus_user_id}</if>
- 			<if test="sale_user_id">and sale_user_id = #{sale_user_id}</if>
- 			<if test="order_type">and order_type = #{order_type}</if>
- 			<if test="order_date">and order_date = #{order_date}</if>
- 			<if test="pick_up_time_start">and pick_up_time_start = #{pick_up_time_start}</if>
- 			<if test="pick_up_time_end">and pick_up_time_end = #{pick_up_time_end}</if>
- 			<if test="order_state">and order_state = #{order_state}</if>
+ 			<if test="cus_user_id!=null">and cus_user_id = #{cus_user_id}</if>
+ 			<if test="sale_user_id!=null">and sale_user_id = #{sale_user_id}</if>
+ 			<if test="order_type!=null">and order_type = #{order_type}</if>
+ 			<if test="order_date!=null">and order_date = #{order_date}</if>
+ 			<if test="pick_up_time_start!=null">and pick_up_time_start = #{pick_up_time_start}</if>
+ 			<if test="pick_up_time_end!=null">and pick_up_time_end = #{pick_up_time_end}</if>
+ 			<if test="order_state!=null">and order_state = #{order_state}</if>
  		</where>
  	</select>
  	
@@ -51,9 +51,9 @@
  	<update id="updateOrdered" parameterType="Map">
  		update Ordered
  		<set>
- 			<if test="pick_up_time_start">and pick_up_time_start = #{pick_up_time_start}</if>
- 			<if test="pick_up_time_end">and pick_up_time_end = #{pick_up_time_end}</if>
- 			<if test="order_state">and order_state = #{order_state}</if>
+ 			<if test="pick_up_time_start!=null">and pick_up_time_start = #{pick_up_time_start}</if>
+ 			<if test="pick_up_time_end!=null">and pick_up_time_end = #{pick_up_time_end}</if>
+ 			<if test="order_state!=null">and order_state = #{order_state}</if>
  		</set>
  		where order_id = #{order_id}
  	</update>

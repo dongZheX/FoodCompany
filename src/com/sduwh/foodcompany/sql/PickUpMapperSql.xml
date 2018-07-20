@@ -14,12 +14,12 @@
  	</update>
  	
  	<!-- select语句 -->
- 	<select id="findPickUp" parameterType="Map" resultType="om.sduwh.foodcompany.entity.PickUp">
+ 	<select id="findPickUp" parameterType="Map" resultType="com.sduwh.foodcompany.entity.PickUp">
  		select * from PickUp
  		<where>
- 			<if test="pick_up_id">pick_up_id = #{pick_up_id}</if>
- 			<if test="pick_up_state">pick_up_state = #{pick_up_state}</if>
- 			<if test="accountant_user_id">accountant_user_id = #{accountant_user_id}</if>
+ 			<if test="pick_up_id!=null">pick_up_id = #{pick_up_id}</if>
+ 			<if test="pick_up_state!=null">pick_up_state = #{pick_up_state}</if>
+ 			<if test="accountant_user_id!=null">accountant_user_id = #{accountant_user_id}</if>
  		</where>
  	</select>
  	
@@ -27,7 +27,7 @@
  	<update id="updatePickUp" parameterType="Map">
  		update PickUp
  		<set>
- 			<if test="pick_up_state">pick_up_state = #{pick_up_state}</if>
+ 			<if test="pick_up_state!=null">pick_up_state = #{pick_up_state}</if>
  		</set>
  		where pick_up_id = #{pick_up_id}
  	</update>

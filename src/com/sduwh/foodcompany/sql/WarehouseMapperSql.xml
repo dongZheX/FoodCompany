@@ -13,7 +13,7 @@
          )
  	</update>
  	<!-- select语句 -->
- 	<select id="findWareHouse" resultMap="com.sduwh.foodcompany.entity.Warehouse" parameterType="Map">
+ 	<select id="findWareHouse" resultType="com.sduwh.foodcompany.entity.Warehouse" parameterType="Map">
  		select * from Warehouse
  		<where>
  			<if test="batch_id!=null">batch_id=#{batch_id}</if>

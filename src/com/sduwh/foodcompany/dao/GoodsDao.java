@@ -1,5 +1,8 @@
 package com.sduwh.foodcompany.dao;
 
-public interface GoodsDao {
+import com.sduwh.foodcompany.entity.Administrators;
+import com.sduwh.foodcompany.entity.Goods;
 
+public interface GoodsDao {
+	
 }

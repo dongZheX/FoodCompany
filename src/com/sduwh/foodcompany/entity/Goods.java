@@ -13,7 +13,7 @@ public class Goods implements Serializable{
 	private String good_name;
 	private String good_standard;
 	private float good_cost;
-	private Date good_expiration_date;
+	private int good_expiration_date;
 	//默认构造函数
 	public Goods(){
 		good_id = "";
@@ -46,10 +46,10 @@ public class Goods implements Serializable{
 	public void setGood_cost(float good_cost) {
 		this.good_cost = good_cost;
 	}
-	public Date getGood_expiration_date() {
+	public int getGood_expiration_date() {
 		return good_expiration_date;
 	}
-	public void setGood_expiration_date(Date good_expiration_date) {
+	public void setGood_expiration_date(int good_expiration_date) {
 		this.good_expiration_date = good_expiration_date;
 	}
 	@Override

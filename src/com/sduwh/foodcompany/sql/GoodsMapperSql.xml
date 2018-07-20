@@ -2,5 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.sduwh.foodcompany.dao.GoodsDao">
- 	
+ 	<update id="insertGood" parameterType="Map">
+ 		 call proc_GoodsByInsert(
+         #{good_name,mode=IN,jdbcType=VARCHAR},
+         #{good_standard,mode=IN,jdbcType=VARCHAR},
+         #{good_cost,mode=IN,jdbcType=REAL},
+         #{good_expiration_date,mode=IN,jdbcType=INTEGER}
+         )
+ 	</update>
  </mapper>

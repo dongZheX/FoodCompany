@@ -2,5 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.sduwh.foodcompany.dao.PickUpDao">
- 
+ 	<update id="insertPickUp" parameterType="Map">
+ 		 call proc_PickUpByInsert(
+         #{pick_up_id,mode=IN,jdbcType=VARCHAR},
+         #{pick_up_state,mode=IN,jdbcType=INTEGER},
+         #{accountant_user_id,mode=IN,jdbcType=VARCHAR}
+         )
+ 	</update>
  </mapper>

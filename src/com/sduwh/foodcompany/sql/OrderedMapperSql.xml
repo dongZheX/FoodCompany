@@ -2,5 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.sduwh.foodcompany.dao.OrderedDao">
- 
+ 	<update id="insertOrder" parameterType="Map">
+ 		 call proc_OrderedByInsert(
+         #{order_id,mode=IN,jdbcType=VARCHAR},
+         #{good_id,mode=IN,jdbcType=VARCHAR},
+         #{cus_user_id,mode=IN,jdbcType=VARCHAR},
+         #{sale_user_id,mode=IN,jdbcType=VARCHAR},
+         #{order_unit_price,mode=IN,jdbcType=REAL},
+         #{order_num,mode=IN,jdbcType=INTEGER},
+         #{order_type,mode=IN,jdbcType=INTEGER},
+         #{order_date,mode=IN,jdbcType=DATE},
+         #{pick_up_time_start,mode=IN,jdbcType=DATE},
+         #{pick_up_time_end,mode=IN,jdbcType=DATE},
+         #{order_state,mode=IN,jdbcType=INTEGER}
+         )
+ 	</update>
+ 	
+ 	<update id="getOrder" parameterType="Map" >
+ 		 call proc_OrderedIdByGet(
+         #{order_id,mode=OUT,jdbcType=VARCHAR}
+         )
+ 	</update>
+ 	
+ 	<update id="selectOrder" parameterType="Map">
+ 		 call proc_OrderedBySelect(
+         #{order_id,mode=IN,jdbcType=VARCHAR},
+         #{sum,mode=OUT,jdbcType=REAL}
+         )
+ 	</update>
  </mapper>

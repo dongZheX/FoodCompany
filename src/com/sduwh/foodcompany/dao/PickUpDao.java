@@ -1,5 +1,7 @@
 package com.sduwh.foodcompany.dao;
 
-public interface PickUpDao {
+import java.util.Map;
 
+public interface PickUpDao {
+	public void insertPickUp(Map map);
 }

@@ -2,5 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.sduwh.foodcompany.dao.AdministratorsDao">
- 	
+ 	<update id="insertAdministrators" parameterType="Map">
+ 		 call proc_AdministratorsByInsert(
+         #{name,mode=IN,jdbcType=VARCHAR},
+         #{psw,mode=IN,jdbcType=VARCHAR},
+         #{tel,mode=IN,jdbcType=VARCHAR},
+         #{power,mode=IN,jdbcType=INTEGER}
+         )
+ 	</update>
  </mapper>

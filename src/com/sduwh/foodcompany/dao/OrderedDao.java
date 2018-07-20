@@ -1,5 +1,9 @@
 package com.sduwh.foodcompany.dao;
 
-public interface OrderedDao {
+import java.util.Map;
 
+public interface OrderedDao {
+	public void insertOrder(Map map);
+	public void getOrder(Map map);
+	public void selectOrder(Map map);
 }

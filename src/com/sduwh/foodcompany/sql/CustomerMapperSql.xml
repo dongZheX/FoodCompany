@@ -2,5 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.sduwh.foodcompany.dao.CustomerDao">
- 
+ 	<update id="insertCustomer" parameterType="Map">
+ 		 call proc_CustomerByInsert(
+         #{user_name,mode=IN,jdbcType=VARCHAR},
+         #{user_psw,mode=IN,jdbcType=VARCHAR},
+         #{user_tel,mode=IN,jdbcType=VARCHAR},
+         #{cus_rank,mode=IN,jdbcType=INTEGER},
+         #{cus_score,mode=IN,jdbcType=REAL},
+         #{cus_address,mode=IN,jdbcType=VARCHAR}
+         )
+ 	</update>
+ 	
+ 	
  </mapper>

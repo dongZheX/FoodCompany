@@ -1,5 +1,7 @@
 package com.sduwh.foodcompany.dao;
 
-public interface CustomerDao {
+import java.util.Map;
 
+public interface CustomerDao {
+	public void insertCustomer(Map map);
 }

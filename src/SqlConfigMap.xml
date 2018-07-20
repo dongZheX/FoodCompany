@@ -38,6 +38,7 @@
 		<mapper resource="com/sduwh/foodcompany/sql/ReceiptMapperSql.xml"/>
 		<mapper resource="com/sduwh/foodcompany/sql/ReturnedMapperSql.xml"/>
 		<mapper resource="com/sduwh/foodcompany/sql/ReturningMapperSql.xml"/>
+		<mapper resource="com/sduwh/foodcompany/sql/WarehouseMapperSql.xml"/>
 	</mappers>
     
  </configuration>

@@ -2,5 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="com.sduwh.foodcompany.dao.WarehouseDao">
- 
+ 	<update id="insertWarehouse" parameterType="Map">
+ 		 call proc_WarehouseByInsert(
+         #{good_id,mode=IN,jdbcType=VARCHAR},
+         #{good_PD,mode=IN,jdbcType=DATE},
+         #{good_GP,mode=IN,jdbcType=DATE},
+         #{warehouse_user_id,mode=IN,jdbcType=VARCHAR},
+         #{workshop_user_id,mode=IN,jdbcType=VARCHAR},
+         #{good_state,mode=IN,jdbcType=INTEGER},
+         )
+ 	</update>
  </mapper>

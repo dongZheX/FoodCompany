@@ -7,6 +7,10 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 public class MybatisUtil {
+	/*
+	 * 获取session
+	 * Mybatis框架方法
+	 */
 	public static SqlSession getSession() {
 		//mybatis的配置文件
         String resource = "SqlConfigMap.xml";

@@ -10,6 +10,10 @@ import java.security.NoSuchAlgorithmException;
  */
 
 public class MD5 {
+	/*
+	 * @param content 需要加密的内容
+	 * @return 返回加密后的内容
+	 */
     public static String getMD5(String content){
         try {
             MessageDigest digest = MessageDigest.getInstance("MD5");
@@ -20,7 +24,10 @@ public class MD5 {
         }
         return null;
     }
-    public static String getHashString(MessageDigest digest){
+    /*
+	 * @param digest
+	 */
+    private static String getHashString(MessageDigest digest){
         StringBuilder builder = new StringBuilder();
         for(byte b:digest.digest()){
             builder.append(Integer.toHexString((b>>4)&0xf));

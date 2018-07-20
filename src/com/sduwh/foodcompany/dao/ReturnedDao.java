@@ -1,5 +1,5 @@
 package com.sduwh.foodcompany.dao;
 
-public class ReturnedDao {
+public interface ReturnedDao {
 
 }

@@ -180,7 +180,7 @@ public class MainWindow {
 				{
 					JOptionPane.showMessageDialog(null, "登录信息不完整，请重试", "【出错啦】", JOptionPane.ERROR_MESSAGE);
 				}
-				else if(id.length()!= 12)
+				else if(id.length()!= 11)
 				{
 					JOptionPane.showMessageDialog(null, "账号长度有误，请重新输入", "【出错啦】", JOptionPane.ERROR_MESSAGE);
 				}

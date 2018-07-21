@@ -18,6 +18,7 @@ import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 import com.sduwh.foodcompany.comm.MDIDesktopPane;
+import com.sduwh.foodcompany.entity.Administrators;
 
 import javax.swing.JTabbedPane;
 import javax.swing.JSplitPane;
@@ -55,13 +56,16 @@ public class ProducePlanFrame extends JFrame implements ActionListener{
 	/**
 	 * Create the frame.
 	 */
-	public ProducePlanFrame() {
+	public ProducePlanFrame(Administrators adm) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 750);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+		
+		//获取用户
+		Administrators user = adm;
 		
 		//初始化JMenuBar
 		menuBar = new JMenuBar();

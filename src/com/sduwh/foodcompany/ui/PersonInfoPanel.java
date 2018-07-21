@@ -9,6 +9,9 @@ import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
+
+import com.sduwh.foodcompany.entity.Administrators;
+
 import javax.swing.JButton;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;

@@ -4,10 +4,18 @@ import java.io.Serializable;
 import java.util.Date;
 /*
  * @author 董喆
- * @date 2018/7/20
+ * @date 2018/7/21
  * 映射数据库中的Warehouse表，实现toString，实现equals
  */
 public class Warehouse implements Serializable{
+	//正常
+	public static final int WAREHOUSE_NORMAL = 1;
+	//售空
+	public static final int WAREHOUSE_EMPTY = 2;
+	//过期
+	public static final int WAREHOUSE_OUT_OF_DATE = 3;
+	//已销毁
+	public static final int WAREHOUSE_DESTORYED = 4;
 	private String batch_id;
 	private String good_id;
 	private Date good_PD;

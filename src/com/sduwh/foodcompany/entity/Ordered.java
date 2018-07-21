@@ -1,5 +1,7 @@
 package com.sduwh.foodcompany.entity;
-
+/*
+ * @author董喆 2018/7/21
+ */
 import java.io.Serializable;
 /*
  * @author 董喆
@@ -8,6 +10,22 @@ import java.io.Serializable;
  */
 import java.util.Date;
 public class Ordered implements Serializable{
+	//现货（先付）
+	public static final int XIAN_HUO_BEF = 1;
+	//现货（后附）
+	public static final int XIAN_HUO_AFT = 2;
+	//预约（先付）
+	public static final int ORDER_HUO_BEF = 3;
+	//预约（后付）
+	public static final int ORDER_HUO_AFT = 4;
+	//未付款
+	public static final int UMPAID= 1;
+	//付定金
+	public static final int PAID_PART = 2;
+	//付全款
+	public static final int PAID_ALL = 3;
+	//取消
+	public static final int PAID_CANCEL = 4;
 	private String order_id;
 	private String good_id;
 	private String cus_user_id;

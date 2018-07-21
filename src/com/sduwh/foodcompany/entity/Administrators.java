@@ -7,6 +7,21 @@ import java.io.Serializable;
  * 映射数据库中的Administrators表，继承自User表，实现toString，实现equals
  */
 public class Administrators extends User implements Serializable{
+	//系统管理员
+	public static final int SYSTEM_ADMIN_NUM = 2;
+	//成品库管理员
+	public static final int WAREHOUSE_ADMIN_NUM = 3;
+	//会计管理员
+	public static final int ACCOUNTANT_ADMIN_NUM = 4;
+	//出纳管理员
+	public static final int TELLER_ADMIN_NUM = 5;
+	//生产车间管理员
+	public static final int PRODUCE_ADMIN_NUM = 6;
+	//生产计划科管理员
+	public static final int PRODUCE_PLAN_ADMIN_NUM = 7;
+	//销售管理员
+	public static final int SALE_ADMIN_NUM = 8;
+	
 	private int adm_power;
 	//默认构造方法
 	public Administrators(){

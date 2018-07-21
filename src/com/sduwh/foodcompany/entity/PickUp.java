@@ -3,10 +3,17 @@ package com.sduwh.foodcompany.entity;
 import java.io.Serializable;
 /*
  * @author 董喆
- * @date 2018/7/20
+ * @date 2018/7/21
  * 映射数据库中的PickUp表，实现toString，实现equals
  */
 public class PickUp implements Serializable{
+	//未提货
+	public static final int HAVE_NOT_PICKUP = 1;
+	//已提货
+	public static final int HAVE_PICKUP = 2;
+	//退货销毁
+	public static final int HAVE_DESTORYED_PICKUP = 3;
+	
 	private String pick_up_id ;
 	private int pick_up_state;
 	private String accountant_user_id;

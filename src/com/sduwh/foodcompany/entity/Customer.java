@@ -3,10 +3,16 @@ package com.sduwh.foodcompany.entity;
 import java.io.Serializable;
 /*
  * @author 董喆
- * @date 2018/7/20
+ * @date 2018/7/21
  * 映射数据库中的Customer表，继承自User表，实现toString，实现equals
  */
 public class Customer extends User implements Serializable{
+	//一级批发商
+	public final static int FIRST_GRADE_WHOLESALE = 1;
+	//二级批发商
+	public final static int SECOND_GRADE_WHOLESALE = 2;
+	//零售
+	public final static int RETAIL_GRADE_SALE = 3;
 	
 	private int cus_rank;
 	private float cus_score;

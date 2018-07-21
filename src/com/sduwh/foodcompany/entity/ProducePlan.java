@@ -4,10 +4,18 @@ import java.io.Serializable;
 import java.util.Date;
 /*
  * @author 董喆
- * @date 2018/7/20
+ * @date 2018/7/21
  * 映射数据库中的ProducePlan表，实现toString，实现equals
  */
 public class ProducePlan implements Serializable{
+	//未确认
+	public static final int HAVE_NOT_CONFIRM = 1;
+	//已投入生产
+	public static final int HAVE_PUT_INTO_PRODUCE = 2;
+	//入库
+	public static final int HAVE_FINISHED = 3;
+	//取消
+	public static final int HAVE_CANCELED = 4;
 	private String plan_id;
 	private String good_id;
 	private int good_num;

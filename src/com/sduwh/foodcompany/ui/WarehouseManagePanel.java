@@ -117,7 +117,7 @@ public class WarehouseManagePanel extends JPanel implements ActionListener{
 		jTable.setDefaultRenderer(Object.class, r);	
 		JScrollPane table_scroll = new JScrollPane(jTable);
 		table_scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		table_scroll.setPreferredSize(new Dimension(900, 550));
+		table_scroll.setPreferredSize(new Dimension(900, 440));
 		down_panel.add(table_scroll);
 		/*
 		 * jtable添加鼠标点击事件

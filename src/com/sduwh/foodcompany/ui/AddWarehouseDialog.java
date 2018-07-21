@@ -14,8 +14,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class AddWarehouseDialog extends JDialog {
+public class AddWarehouseDialog extends JDialog implements ActionListener{
 
 	/*
 	 * 声明控件
@@ -104,10 +106,20 @@ public class AddWarehouseDialog extends JDialog {
 		textFied_good_num.setColumns(10);
 		textFied_good_num.setBounds(220, 92, 151, 25);
 		getContentPane().add(textFied_good_num);
-		
+		/*
+		 * 设置按钮
+		 */
 		JButton button = new JButton("\u6DFB\u52A0");
 		button.setBounds(168, 337, 93, 34);
 		getContentPane().add(button);
+		button.addActionListener(this);
+	}
+
+
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 }

@@ -43,12 +43,16 @@ public class ProducePlanFrame extends JFrame implements ActionListener{
 	private JTabbedPane tabbedPane;
 	//JPane 个人信息面板
 	private PersonInfoPanel personInfoPane;
+	      //库存面板
+	private WarehouseManagePanel warehousePane;
 	      //查询面板和生产计划面板
 	private JPanel selectPane,planPane;
 	//toolbar
 	private JToolBar toolbar;
+	private JToolBar toolbar_plan;
 	//button
-	private JButton selectPickUp_btn,selectWarehouse_btn;
+	private JButton selectPickUp_btn,selectWarehouse_btn,selectProducePlan_btn;
+	private JButton insertPlan_btn,alterPlan_btn;
 	
 
 
@@ -84,7 +88,8 @@ public class ProducePlanFrame extends JFrame implements ActionListener{
 		selectScrollPane = new JScrollPane();
 		planScrollPane = new JScrollPane();
 		//初始化个人信息、查询和生产计划面板
-		personInfoPane = new PersonInfoPanel();
+		personInfoPane = new PersonInfoPanel(user);
+		warehousePane = new WarehouseManagePanel(user);
 		selectPane = new JPanel();
 		selectPane.setLayout(new BorderLayout(0,0));
 		planPane = new JPanel();
@@ -95,6 +100,7 @@ public class ProducePlanFrame extends JFrame implements ActionListener{
 		tabbedPane.addTab("查询", selectPane);
 		tabbedPane.addTab("生产计划", planPane);
 		tabbedPane.addTab("个人信息", personInfoPane);
+		tabbedPane.addTab("库存管理", warehousePane);
 		//初始化为选择selectPane
 		tabbedPane.setSelectedIndex(0);
 		//向selectPane和planPane中添加scrollPane
@@ -108,17 +114,29 @@ public class ProducePlanFrame extends JFrame implements ActionListener{
 		//初始化button
 		selectPickUp_btn = new JButton("查询提货单");
 		selectWarehouse_btn = new JButton("查询库存");
+		selectProducePlan_btn = new JButton("查询生产计划");
+		insertPlan_btn = new JButton("创建生产计划");
+		alterPlan_btn = new JButton("修改生产计划");
 		//为Button注册监听信息
 		selectPickUp_btn.addActionListener(this);
 		selectWarehouse_btn.addActionListener(this);
+		selectProducePlan_btn.addActionListener(this);
+		insertPlan_btn.addActionListener(this);
+		alterPlan_btn.addActionListener(this);
 		//初始化toolbar
 		toolbar = new JToolBar();
+		toolbar_plan = new JToolBar();
 		//向toolbar中添加JButton
 		toolbar.add(selectPickUp_btn);
 		toolbar.add(selectWarehouse_btn);
+		toolbar.add(selectProducePlan_btn);
 		toolbar.setFloatable(true);
+		toolbar_plan.add(insertPlan_btn);
+		toolbar_plan.add(alterPlan_btn);
+		toolbar_plan.setFloatable(true);
 		//向selectPane中添加toolbar
 		selectPane.add(toolbar, BorderLayout.NORTH);
+		planPane.add(toolbar_plan, BorderLayout.NORTH);
 		setVisible(true);
 		
 	}
@@ -132,6 +150,12 @@ public class ProducePlanFrame extends JFrame implements ActionListener{
 		
 		if(btn_name.equals("查询提货单")){
 			selectDesktop.add(new SelectPickUpFrame());
+		}
+		else if(btn_name.equals("查询库存")){
+			selectDesktop.add(new SelectWarehouse());
+		}
+		else if(btn_name.equals("查询生产计划")){
+			selectDesktop.add(new SelectProducePlan());
 		}
         JInternalFrame jf = selectDesktop.getSelectedFrame();  
 		jf.show();

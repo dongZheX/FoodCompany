@@ -1,23 +1,16 @@
 package com.sduwh.foodcompany.ui;
 
-import java.awt.BorderLayout;
-import java.awt.Button;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
-import java.awt.Label;
-import java.awt.ScrollPane;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseWheelEvent;
-import java.util.Enumeration;
+import java.util.Locale;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -25,27 +18,24 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableModel;
 
-public class SelectPickUpFrame extends JInternalFrame implements ActionListener{
+public class SelectWarehouse extends JInternalFrame implements ActionListener {
 
+	
 
+	
+	
 	//JSplitPane
 	private JSplitPane splitPane;
 	//selectPane和viewPane
 	private JPanel selectPane,viewPane;
 	//textfield
-	private JTextField pick_up_id_field;
+	private JTextField batch_id_field,good_id_field,warehouse_user_id_field,workshop_user_id_field;
 	//combobox
-	private JComboBox<String> pick_up_state_combobox;
+	private JComboBox<String> good_state_combobox;
 	//label
-	private JLabel pick_up_id_lable,pick_up_state_label;
-	//checkbox
-	private JCheckBox only_me_checkbox;
+	private JLabel batch_id_label,good_id_label,warehouse_user_id_label,workshop_user_id_label,good_state_label;
 	//button
 	private JButton select_btn;
 	//table
@@ -53,13 +43,16 @@ public class SelectPickUpFrame extends JInternalFrame implements ActionListener{
 	private DefaultTableModel tableModel;
 	//scrollPane
 	private JScrollPane scrollPane;
-	
+		
 	/**
 	 * Create the frame.
 	 */
-	public SelectPickUpFrame() {
+	public SelectWarehouse() {
 		setBounds(100, 100, 450, 300);
-		setTitle("查询提货单信息窗口");
+		
+		
+		setBounds(100, 100, 450, 300);
+		setTitle("查询库存信息窗口");
 		
 		//this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	    setMaximizable(true);	//标题栏有最大化按钮
@@ -70,39 +63,58 @@ public class SelectPickUpFrame extends JInternalFrame implements ActionListener{
 	    //初始化selectPane和viewPane
 	    selectPane = new JPanel();
 	    viewPane = new JPanel();
+	   
+	    //字符串
+	    String [] good_state ={"正常","已售空","已过期","已销毁"};
+	    String [] table_title = {"批号","商品号","生产日期","有效期","商品余量","成品库操作人员","生产车间操作人员","商品状态"};
+	    
 	    //初始化splitPane
 	    splitPane = new JSplitPane();
-	    //字符串
-	    String [] pick_up_state ={"未提货","已提货","退货销毁"};
-	    String [] table_title = {"提货单编号","提货单状态","操作人编号"};
-	    //在this中添加splitPane
-	    this.add(splitPane);
+	    //设置分割线位置
+	    splitPane.setDividerLocation(100);
 	    //向splitPane中添加面板
 	    splitPane.setLeftComponent(selectPane);
 	    splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
-	    selectPane.setLayout(new FlowLayout(FlowLayout.LEFT, 25, 10));
+	    selectPane.setLayout(new FlowLayout(FlowLayout.CENTER, 25, 10));
 	    splitPane.setRightComponent(viewPane);
-	    //设置分割线位置
-	    splitPane.setLastDividerLocation(50);
+	    
+	    
+	    //在this中添加splitPane
+	    this.add(splitPane);
+	    
+	    
 	    
 	    //初始化textfield
-	    pick_up_id_field = new JTextField();
-	    pick_up_id_field.setColumns(30);;
+	    batch_id_field = new JTextField();
+	    batch_id_field.setColumns(20);
+	    good_id_field = new JTextField();
+	    good_id_field.setColumns(20);
+	    warehouse_user_id_field = new JTextField();
+	    warehouse_user_id_field.setColumns(20);
+	    workshop_user_id_field = new JTextField();
+	    workshop_user_id_field.setColumns(20);
 	    //初始化combobox
-	    pick_up_state_combobox = new JComboBox(pick_up_state);
+	    good_state_combobox = new JComboBox(good_state);
 	    //初始化label
-	    pick_up_id_lable = new JLabel("提货编号：");
-	    pick_up_state_label = new JLabel("提货状态：");
-	    //初始化only_me_checkbox
-	    only_me_checkbox = new JCheckBox("只看我的");
+	    batch_id_label = new JLabel("批号：");
+	    good_id_label = new JLabel("商品编号：");
+	    warehouse_user_id_label = new JLabel("成品库操作人员编号：");
+	    workshop_user_id_label = new JLabel("生产车间操作人员编号：");
+	    good_state_label = new JLabel("商品状态：");
 	    //初始化select_btn
 	    select_btn = new JButton("查询");
+	    select_btn.setPreferredSize(new Dimension(230, 30));
 	    //将label,combobox,textfield放入selectPane
-	    selectPane.add(pick_up_id_lable);
-	    selectPane.add(pick_up_id_field);
-	    selectPane.add(pick_up_state_label);
-	    selectPane.add(pick_up_state_combobox);
-	    selectPane.add(only_me_checkbox);
+	    selectPane.add(batch_id_label);
+	    selectPane.add(batch_id_field);
+	    selectPane.add(good_id_label);
+	    selectPane.add(good_id_field);
+	    selectPane.add(warehouse_user_id_label);
+	    selectPane.add(warehouse_user_id_field);
+	    selectPane.add(workshop_user_id_label);
+	    selectPane.add(workshop_user_id_field);
+	    selectPane.add(good_state_label);
+	    selectPane.add(good_state_combobox);
 	    selectPane.add(select_btn);
 	  	    	   
 	    //初始化table
@@ -115,7 +127,7 @@ public class SelectPickUpFrame extends JInternalFrame implements ActionListener{
 	    //设置滚动条一直显示
 	    scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 	    //设置滚动面板大小
-	    scrollPane.setPreferredSize(new Dimension(900,400));
+	    scrollPane.setPreferredSize(new Dimension(900,350));
 	    //将滚动面板加入viewPane
 	    viewPane.add(scrollPane);
 	    this.setVisible(true);

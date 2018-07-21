@@ -7,7 +7,7 @@
  		exec proc_BillByInsert
  			#{money,mode=IN,jdbcType=REAL},
  			#{receipt_id,mode=IN,jdbcType=VARCHAR},
- 			#{accountant_user_i,mode=IN,jdbcType=VARCHAR}
+ 			#{accountant_user_id,mode=IN,jdbcType=VARCHAR}
  		
  	</update>
  	

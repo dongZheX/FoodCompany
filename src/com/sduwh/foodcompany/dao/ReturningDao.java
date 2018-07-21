@@ -10,7 +10,7 @@ public interface ReturningDao {
 	/*
 	 * 插入一条退货单记录
 	 */
-	public void insertReturned(Map map);
+	public void insertReturning(Map map);
 	/*
 	 * 根据键值return_id,return_money,sale_user_id, return_date查询
 	 */

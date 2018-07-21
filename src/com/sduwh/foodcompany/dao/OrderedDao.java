@@ -14,7 +14,7 @@ public interface OrderedDao {
 	/*
 	 * 查询订单总额
 	 */
-	public void selectOrder(Map map);
+	public int selectOrder(Map map);
 	/*
 	 * 可通过键值order_id,good_id,cus_user_id,sale_user_id,order_type
 	 * order_date,pick_up_time_start,pick_up_time_end,order_state查询

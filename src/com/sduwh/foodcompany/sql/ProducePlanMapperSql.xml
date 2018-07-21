@@ -5,7 +5,7 @@
  
  	<!-- 创建生产计划单_存储过程 -->
  	<update id="insertProducePlan" parameterType="Map" statementType="CALLABLE">
- 		exec proc_ProducePlanByInser
+ 		exec proc_ProducePlanByInsert
  			#{good_id,mode=IN,jdbcType=VARCHAR},
  			#{good_num,mode=IN,jdbcType=INTEGER},
  			#{deadline,mode=IN,jdbcType=DATE},

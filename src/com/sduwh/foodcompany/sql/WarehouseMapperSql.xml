@@ -7,6 +7,7 @@
          #{good_id,mode=IN,jdbcType=VARCHAR},
          #{good_PD,mode=IN,jdbcType=DATE},
          #{good_GP,mode=IN,jdbcType=DATE},
+         #{good_num,mode=IN,jdbcType=INTEGER},
          #{warehouse_user_id,mode=IN,jdbcType=VARCHAR},
          #{workshop_user_id,mode=IN,jdbcType=VARCHAR},
          #{good_state,mode=IN,jdbcType=INTEGER},

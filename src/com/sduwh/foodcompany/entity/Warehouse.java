@@ -12,6 +12,7 @@ public class Warehouse implements Serializable{
 	private String good_id;
 	private Date good_PD;
 	private Date good_GP;
+	private int good_num;
 	private String warehouse_user_id;
 	private String workshop_user_id;
 	private int good_state;
@@ -20,6 +21,7 @@ public class Warehouse implements Serializable{
 		batch_id = "";
 		good_id = null;
 		good_PD = null;
+		good_num = 0;
 		warehouse_user_id = "";
 		good_state = 0;
 	}
@@ -66,11 +68,18 @@ public class Warehouse implements Serializable{
 	public void setGood_state(int good_state) {
 		this.good_state = good_state;
 	}
+	
+	public int getGood_num() {
+		return good_num;
+	}
+	public void setGood_num(int good_num) {
+		this.good_num = good_num;
+	}
 	@Override
 	public String toString() {
 		return "Warehouse [batch_id=" + batch_id + ", good_id=" + good_id + ", good_PD=" + good_PD + ", good_GP="
-				+ good_GP + ", warehouse_user_id=" + warehouse_user_id + ", workshop_user_id=" + workshop_user_id
-				+ ", good_state=" + good_state + "]";
+				+ good_GP + ", good_num=" + good_num + ", warehouse_user_id=" + warehouse_user_id
+				+ ", workshop_user_id=" + workshop_user_id + ", good_state=" + good_state + "]";
 	}
 	public boolean equals(Warehouse c) {
 		if(c instanceof Warehouse) {

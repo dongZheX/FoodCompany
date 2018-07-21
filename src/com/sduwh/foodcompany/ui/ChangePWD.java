@@ -11,6 +11,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
@@ -25,9 +26,9 @@ public class ChangePWD extends JDialog implements ActionListener{
 	 */
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textField_id_c;
-	private JTextField textField_old_pass_c;
-	private JTextField textField_new_pass_c;
-	private JTextField textField_new_con_pass_c;
+	private JPasswordField textField_old_pass_c;
+	private JPasswordField textField_new_pass_c;
+	private JPasswordField textField_new_con_pass_c;
 	private JButton button_c_changpass;
 
 
@@ -60,12 +61,12 @@ public class ChangePWD extends JDialog implements ActionListener{
 		label_old_pass.setBounds(91, 107, 77, 16);
 		contentPanel.add(label_old_pass);
 		
-		textField_old_pass_c = new JTextField();
+		textField_old_pass_c = new JPasswordField();
 		textField_old_pass_c.setColumns(10);
 		textField_old_pass_c.setBounds(166, 102, 169, 28);
 		contentPanel.add(textField_old_pass_c);
 		
-		JLabel label_new_pass = new JLabel("\u65E7\u5BC6\u7801\uFF1A");
+		JLabel label_new_pass = new JLabel("\u65B0\u5BC6\u7801\uFF1A");
 		label_new_pass.setFont(new Font("宋体", Font.PLAIN, 14));
 		label_new_pass.setBounds(91, 154, 77, 16);
 		contentPanel.add(label_new_pass);
@@ -75,12 +76,12 @@ public class ChangePWD extends JDialog implements ActionListener{
 		label__new_con_pass_c.setBounds(79, 200, 77, 16);
 		contentPanel.add(label__new_con_pass_c);
 		
-		textField_new_pass_c = new JTextField();
+		textField_new_pass_c = new JPasswordField();
 		textField_new_pass_c.setColumns(10);
 		textField_new_pass_c.setBounds(166, 152, 169, 28);
 		contentPanel.add(textField_new_pass_c);
 		
-		textField_new_con_pass_c = new JTextField();
+		textField_new_con_pass_c = new JPasswordField();
 		textField_new_con_pass_c.setColumns(10);
 		textField_new_con_pass_c.setBounds(166, 195, 169, 28);
 		contentPanel.add(textField_new_con_pass_c);
@@ -100,9 +101,9 @@ public class ChangePWD extends JDialog implements ActionListener{
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
 		String user_id = textField_id_c.getText().toString();
-		String old_pass = textField_old_pass_c.getText().toString();
-		String new_pass = textField_new_pass_c.getText().toString();
-		String new_pass_con =textField_new_con_pass_c.getText().toString();
+		String old_pass = textField_old_pass_c.getPassword().toString();
+		String new_pass = textField_new_pass_c.getPassword().toString();
+		String new_pass_con =textField_new_con_pass_c.getPassword().toString();
 		/*
 		 * 判断用户输入是否有问题
 		 */

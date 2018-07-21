@@ -18,18 +18,18 @@
          
  	</update>
  	
- 	<update id="getOrder" parameterType="Map" >
+ 	<update id="getOrder" parameterType="Map" statementType="CALLABLE">
  		 exec proc_OrderedIdByGet
          #{order_id,mode=OUT,jdbcType=VARCHAR}
          
  	</update>
  	
- 	<update id="selectOrder" parameterType="Map">
+ 	<select id="selectOrder" parameterType="Map" statementType="CALLABLE">
  		 exec proc_OrderedBySelect
          #{order_id,mode=IN,jdbcType=VARCHAR},
          #{sum,mode=OUT,jdbcType=REAL}
          
- 	</update>
+ 	</select>
  	
  	<!-- select语句 -->
  	<select id="findOrdered" parameterType="Map" resultType="com.sduwh.foodcompany.entity.Ordered">

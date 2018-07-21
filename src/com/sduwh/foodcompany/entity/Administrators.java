@@ -17,11 +17,11 @@ public class Administrators extends User implements Serializable{
 		adm_power = 0;//д╛хо
 	}
 	//getter and setters
-	protected int getAdm_power() {
+	public int getAdm_power() {
 		return adm_power;
 	}
 
-	protected void setAdm_power(int adm_power) {
+	public void setAdm_power(int adm_power) {
 		this.adm_power = adm_power;
 	}
 

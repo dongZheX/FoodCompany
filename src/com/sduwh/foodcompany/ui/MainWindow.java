@@ -34,6 +34,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.Map;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
@@ -89,6 +90,11 @@ public class MainWindow {
 		frame.setBounds(100, 100, 548, 405);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+		//获取文件夹当前位置  按钮图标
+		File file = new File(""); 
+		String absolute_path = file.getAbsolutePath();
+		System.out.println(absolute_path);
+		
 		
 		//显示在屏幕中间 -----------------------------------------------------
 		Toolkit kit = Toolkit.getDefaultToolkit(); // 定义工具包
@@ -101,8 +107,8 @@ public class MainWindow {
 		
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(240, 255, 240));
-		panel.setForeground(SystemColor.inactiveCaptionBorder);
+		panel.setBackground(new Color(240, 248, 255));
+		panel.setForeground(UIManager.getColor("Button.darkShadow"));
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -120,17 +126,21 @@ public class MainWindow {
 		panel_1.setLayout(null);
 		
 		JLabel label = new JLabel("\u5A01\u6D77\u98DF\u54C1\u5382");
+		label.setBackground(UIManager.getColor("Button.darkShadow"));
+		label.setForeground(UIManager.getColor("Button.disabledForeground"));
 		label.setHorizontalAlignment(SwingConstants.CENTER);
-		label.setFont(new Font("华文行楷", Font.PLAIN, 16));
+		label.setFont(new Font("华文新魏", Font.PLAIN, 18));
 		label.setIcon(new ImageIcon("C:\\Users\\student\\Desktop\\interesting.jpg"));
 		label.setBounds(10, 12, 154, 59);
 		panel.add(label);
 		
 		JLabel label_1 = new JLabel("\u8D26\u53F7\uFF1A");
+		label_1.setForeground(UIManager.getColor("Button.darkShadow"));
 		label_1.setBounds(168, 149, 42, 15);
 		panel.add(label_1);
 		
 		JLabel label_2 = new JLabel("\u5BC6\u7801\uFF1A");
+		label_2.setForeground(UIManager.getColor("Button.darkShadow"));
 		label_2.setBounds(168, 180, 42, 15);
 		panel.add(label_2);
 		
@@ -146,7 +156,7 @@ public class MainWindow {
 		panel.add(textField_1);
 		textField_1.setColumns(10);
 		
-		
+		//下拉列表 --登录类型
 		JComboBox<String>comboBox = new JComboBox();
 		comboBox.setBounds(212, 115, 138, 21);
 		panel.add(comboBox);
@@ -155,15 +165,21 @@ public class MainWindow {
 		for(int i = 0; i < combobox_num; i++)
 			comboBox.addItem(combobox_item[i]);
 		
+		
 		JLabel label_3 = new JLabel("\u8EAB\u4EFD\u7C7B\u578B\uFF1A");
+		label_3.setForeground(UIManager.getColor("Button.darkShadow"));
 		label_3.setBounds(142, 115, 60, 21);
 		panel.add(label_3);
 		frame.getContentPane().setLayout(groupLayout);
 		
 		
-		JButton btnNewButton = new JButton("  \u767B\u5F55");
+		//登录按钮
+		String path_login = absolute_path + "\\src\\com\\sduwh\\foodcompany\\ui\\login.png";
+		MyButton btnNewButton = new MyButton(path_login, path_login, path_login);
+		btnNewButton.setForeground(UIManager.getColor("Button.disabledForeground"));
+		btnNewButton.setBackground(new Color(240, 255, 240));
 		
-		//
+		
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -215,11 +231,16 @@ public class MainWindow {
 				
 			}
 		});
-		btnNewButton.setIcon(new ImageIcon("C:\\Users\\student\\Desktop\\interesting.jpg"));
-		btnNewButton.setBounds(197, 250, 138, 23);
+		
+		String path_bqb = absolute_path + "\\src\\com\\sduwh\\foodcompany\\ui\\interesting.png";
+		btnNewButton.setIcon(new ImageIcon(path_bqb));
+		btnNewButton.setBounds(335, 225, 71, 72);
 		panel.add(btnNewButton);
 		
+		//显示密码
 		JButton btnNewButton_1 = new JButton("\u67E5\u770B");
+		btnNewButton_1.setBackground(UIManager.getColor("Button.darkShadow"));
+		btnNewButton_1.setForeground(UIManager.getColor("Button.disabledForeground"));
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			        String cmd = arg0.getActionCommand();

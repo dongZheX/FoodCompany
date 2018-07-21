@@ -2,6 +2,10 @@ package com.sduwh.foodcompany.comm;
 
 import java.util.Calendar;
 import java.util.regex.Pattern;
+
+import org.apache.ibatis.annotations.Case;
+
+import com.sduwh.foodcompany.entity.Administrators;
 /*
  * @author 董喆
  * 检测字符串、日期等是否合法
@@ -77,5 +81,28 @@ public class CheckUnit {
 		  */
 	  public static void print(Object o) {
 		  System.out.print(o);
+	  }
+	  /*
+	   * 通过权限号得知管理员身份
+	   */
+	  public static String getPowerOfAdmin(int a) {
+		  switch (a) {
+		  	case Administrators.ACCOUNTANT_ADMIN_NUM:
+		  		return "会计管理员";
+		  	case Administrators.PRODUCE_ADMIN_NUM:
+		  		return "生产车间管理员";
+		  	case Administrators.PRODUCE_PLAN_ADMIN_NUM:
+		  		return "生产计划科管理员";
+		  	case Administrators.SALE_ADMIN_NUM:
+		  		return "销售管理员";
+		  	case Administrators.SYSTEM_ADMIN_NUM:
+		  		return "系统管理员";
+		  	case Administrators.TELLER_ADMIN_NUM:
+		  		return "出纳管理员";
+		  	case Administrators .WAREHOUSE_ADMIN_NUM:
+		  		return "库房管理员";
+
+		  }
+		  return null;
 	  }
 }

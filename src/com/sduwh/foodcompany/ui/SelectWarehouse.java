@@ -50,8 +50,6 @@ public class SelectWarehouse extends JInternalFrame implements ActionListener {
 	public SelectWarehouse() {
 		setBounds(100, 100, 450, 300);
 		
-		
-		setBounds(100, 100, 450, 300);
 		setTitle("查询库存信息窗口");
 		
 		//this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

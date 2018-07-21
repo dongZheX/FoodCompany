@@ -157,11 +157,13 @@ public class ProducePlanFrame extends JFrame implements ActionListener{
 		else if(btn_name.equals("查询生产计划")){
 			selectDesktop.add(new SelectProducePlan());
 		}
-        JInternalFrame jf = selectDesktop.getSelectedFrame();  
-		jf.show();
+		else if(btn_name.equals("创建生产计划")){
+			planDesktop.add(new InsertProducePlan());
+		}
+		JInternalFrame sf = selectDesktop.getSelectedFrame();
 		try {
 			//将当前窗口最大化
-			jf.setMaximum(true);
+			sf.setMaximum(true);
 		}
 		catch(Exception e){		}
 	}

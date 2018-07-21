@@ -1,7 +1,7 @@
 package com.sduwh.foodcompany.ui;
-
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import java.awt.Font;
@@ -9,9 +9,11 @@ import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
-
+import javax.xml.ws.handler.MessageContext;
+import com.sduwh.foodcompany.bill.PersonalInfoBll;
+import com.sduwh.foodcompany.comm.CheckUnit;
 import com.sduwh.foodcompany.entity.Administrators;
-
+import com.sduwh.foodcompany.entity.User;
 import javax.swing.JButton;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -48,13 +50,16 @@ public class PersonInfoPanel extends JPanel implements ActionListener{
 	//按钮
 	JButton btn_edit;
 	JButton button_save;
+	//逻辑
+	private String user_id;
 	/**
 	 * Create the panel.
 	 */
-	public PersonInfoPanel() {
+	public PersonInfoPanel(Administrators user) {
 		//初始设置
 		setSize(800,700);
 		setLayout(null);
+		user_id = user.getUser_id();
 		/*
 		 * 标签和输入框的样式设置
 		 */
@@ -72,6 +77,7 @@ public class PersonInfoPanel extends JPanel implements ActionListener{
 		textField_user_id.setEnabled(false);
 		add(textField_user_id);
 		textField_user_id.setColumns(10);
+		
 		//姓名标签
 		JLabel label_user_name = new JLabel("姓名：");
 		label_user_name.setBounds(433, 208, 96, 19);
@@ -86,6 +92,7 @@ public class PersonInfoPanel extends JPanel implements ActionListener{
 		textField_user_name.setEditable(false);
 		textField_user_name.setColumns(10);
 		add(textField_user_name);
+		
 		//电话标签
 		label_tel = new JLabel("电话：");
 		label_tel.setBounds(152, 305, 107, 19);
@@ -101,12 +108,13 @@ public class PersonInfoPanel extends JPanel implements ActionListener{
 		textField_tel.setColumns(10);
 		add(textField_tel);
 		
+		//身份标签
 		label__admin_power = new JLabel("身份：");
 		label__admin_power.setBounds(444, 305, 73, 19);
 		label__admin_power.setHorizontalAlignment(SwingConstants.CENTER);
 		label__admin_power.setFont(new Font("宋体", Font.PLAIN, 16));
 		add(label__admin_power);
-		
+		//身份输入框
 		textField_admin_power = new JTextField();
 		textField_admin_power.setBounds(539, 300, 179, 29);
 		textField_admin_power.setFont(new Font("宋体", Font.PLAIN, 16));
@@ -114,6 +122,7 @@ public class PersonInfoPanel extends JPanel implements ActionListener{
 		textField_admin_power.setEditable(false);
 		textField_admin_power.setColumns(10);
 		add(textField_admin_power);
+		
 		/*
 		 * 添加按钮
 		 */
@@ -181,6 +190,13 @@ public class PersonInfoPanel extends JPanel implements ActionListener{
 				
 			}
 		});
+		//设置文本框内容
+		if(user!=null) {
+			textField_admin_power.setText(CheckUnit.getPowerOfAdmin(user.getAdm_power()));
+			textField_tel.setText(user.getUser_tel());
+			textField_user_id.setText(user.getUser_id());
+			textField_user_name.setText(user.getUser_name());
+		}
 		setVisible(true);
 
 	}
@@ -197,11 +213,26 @@ public class PersonInfoPanel extends JPanel implements ActionListener{
 			
 		}
 		if(name.equals("保存")) {
-			btn_edit.setEnabled(true);
-			btn_edit.setEnabled(true);
-			button_save.setEnabled(false);
-			textField_tel.setEnabled(false);
-			textField_tel.setEditable(false);
+			
+			String new_tel = textField_tel.getText().toString();
+			if(!CheckUnit.isMobileNumber(new_tel)) {
+				JOptionPane.showMessageDialog(this, "不是合格的电话号码,请重新输入");
+			}
+			else {
+				//修改电话号码逻辑
+				boolean state = PersonalInfoBll.reSetUserTel(user_id,new_tel);
+				if(state) {
+					JOptionPane.showMessageDialog(this, "修改成功");
+					btn_edit.setEnabled(true);
+					btn_edit.setEnabled(true);
+					button_save.setEnabled(false);
+					textField_tel.setEnabled(false);
+					textField_tel.setEditable(false);
+				}else {
+					JOptionPane.showMessageDialog(this, "修改失败，异常002");
+					
+				}
+			}
 		}
 		
 	}

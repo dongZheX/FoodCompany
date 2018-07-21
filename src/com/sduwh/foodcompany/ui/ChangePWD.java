@@ -37,6 +37,7 @@ public class ChangePWD extends JDialog implements ActionListener{
 	 * Create the dialog.
 	 */
 	public ChangePWD() {
+		setTitle("\u4FEE\u6539\u5BC6\u7801");
 		/*
 		 * ¿Ø¼þ³õÊ¼»¯
 		 */

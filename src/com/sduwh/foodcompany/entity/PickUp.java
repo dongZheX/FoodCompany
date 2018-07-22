@@ -6,6 +6,7 @@ import java.io.Serializable;
  * @date 2018/7/21
  * 映射数据库中的PickUp表，实现toString，实现equals
  */
+import java.util.ArrayList;
 public class PickUp implements Serializable{
 	//未提货
 	public static final int HAVE_NOT_PICKUP = 1;
@@ -58,5 +59,44 @@ public class PickUp implements Serializable{
 		else {
 			return false;
 		}
+	}
+	
+	//数字转文字
+	public static String state_toString(PickUp pickUp){
+		String pick_up_state_str = "";
+		switch (pickUp.getPick_up_state()) {
+		case PickUp.HAVE_NOT_PICKUP:
+			pick_up_state_str = "未提货";
+			break;
+		case PickUp.HAVE_PICKUP:
+			pick_up_state_str = "已提货";
+			break;
+		case PickUp.HAVE_DESTORYED_PICKUP:
+			pick_up_state_str = "退货销毁";
+			break;
+		default:pick_up_state_str = null;
+			break;
+		}
+		return pick_up_state_str;
+	}
+	
+	//文字转数字
+	public static int state_toInt(String state){
+		int pick_up_state = 0;
+		switch (state) {
+		case "已提货":
+			pick_up_state = PickUp.HAVE_PICKUP;
+			break;
+		case "未提货":
+			pick_up_state = PickUp.HAVE_NOT_PICKUP;
+			break;
+		case "退货销毁":
+			pick_up_state = PickUp.HAVE_DESTORYED_PICKUP;
+			break;
+		default: 
+			pick_up_state = -1;
+			break;
+		}
+		return pick_up_state;
 	}
 }

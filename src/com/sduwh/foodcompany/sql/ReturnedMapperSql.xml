@@ -13,7 +13,7 @@
  		select * from Returning 
  		<where>
  			<if test="returned_id!=null">return_id = #{return_id}</if>
- 			<if test="return_money!=null">and return_money=#{return_money}</if>
+ 			<if test="return_money!=-1">and return_money=#{return_money}</if>
  			<if test="sale_user_id!=null">and sale_user_id=#{sale_user_id}</if>
  			<if test="return_date!=null">and return_date=#{return_date}</if>
  		</where> 

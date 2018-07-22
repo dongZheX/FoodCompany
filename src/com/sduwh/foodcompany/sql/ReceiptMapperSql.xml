@@ -16,7 +16,7 @@
  		select * from Receipt
  		<where>
  			<if test="receipt_id!=null">receipt_id = #{receipt_id}</if>
- 			<if test="order!=null">and order=#{order_id}</if>
+ 			<if test="order_id!=null">and order=#{order_id}</if>
  			<if test="receipt_money!=null">and receipt_money=#{receipt_money}</if>
  			<if test="teller_user_id!=null">and teller_user_id=#{tell_user_id}</if>
  			<if test="receipt_date!=null">and receipt_date=#{receipt_date}</if>

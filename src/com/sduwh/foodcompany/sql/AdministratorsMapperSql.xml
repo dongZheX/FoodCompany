@@ -20,7 +20,7 @@
  			<if test="user_id!=null">user_id = #{user_id}</if>
  			<if test="user_name!=null">and user_name = #{user_name}</if>
  			<if test="user_tel!=null">and user_tel = #{user_tel}</if>
- 			<if test="adm_power!=null">and adm_power = #{adm_power}</if>
+ 			<if test="adm_power!=0">and adm_power = #{adm_power}</if>
  		</where>
  	</select>
  	
@@ -30,7 +30,7 @@
  		<set>
  			<if test="user_tel!=null">user_tel = #{user_tel}</if>
  			<if test="user_psw!=null">user_psw = #{user_psw}</if>
- 			<if test="adm_power!=null">adm_power = #{adm_power}</if>
+ 			<if test="adm_power!=0">adm_power = #{adm_power}</if>
  		</set>
  		where user_id = #{user_id}
  	</update>

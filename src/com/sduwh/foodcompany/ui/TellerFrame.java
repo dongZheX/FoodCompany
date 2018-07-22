@@ -121,6 +121,10 @@ public class TellerFrame  extends JFrame{
 	 * 出纳的pane
 	 */
 	private void tellerPane() {
+		
+		JPanel panel = new JPanel();
+		tabbedPane.addTab("\u9500\u552E\u7BA1\u7406", null, panel, null);
+		panel.setLayout(null);
 		JPanel receiptPane = new JPanel();
 		tabbedPane.addTab("开具收据", null, receiptPane, null);
 		receiptPane.setLayout(new BorderLayout(0, 0));

@@ -6,7 +6,7 @@ import java.io.Serializable;
  * @date 2018/7/20
  * 映射数据库中的Receipt表，实现toString，实现equals
  */
-import java.util.Date;
+import java.sql.Date;
 public class Receipt implements Serializable{
 	private String receipt_id;
 	private String order_id;

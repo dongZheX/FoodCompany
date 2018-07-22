@@ -5,7 +5,7 @@ package com.sduwh.foodcompany.entity;
  * 映射数据库中的Bill表，实现toString，实现equals
  */
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Bill {
 	private String bill_id;

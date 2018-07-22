@@ -1,6 +1,7 @@
 package com.sduwh.foodcompany.comm;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.regex.Pattern;
 
 import org.apache.ibatis.annotations.Case;
@@ -104,5 +105,80 @@ public class CheckUnit {
 
 		  }
 		  return null;
+	  }
+	  /**
+	   * 按指定日期单位计算两个日期间的间隔
+	   * 
+	   * @param timeInterval
+	   * @param date1
+	   * @param date2
+	   * @return
+	   */
+	  public static long dateDiff(String timeInterval, Date date1, Date date2) {
+	   if (timeInterval.equals("year")) {
+	    Calendar calendar = Calendar.getInstance();
+	    calendar.setTime(date1);
+	    int time = calendar.get(Calendar.YEAR);
+	    calendar.setTime(date2);
+	    return time - calendar.get(Calendar.YEAR);
+	   }
+
+	   if (timeInterval.equals("quarter")) {
+	    Calendar calendar = Calendar.getInstance();
+	    calendar.setTime(date1);
+	    int time = calendar.get(Calendar.YEAR) * 4;
+	    calendar.setTime(date2);
+	    time -= calendar.get(Calendar.YEAR) * 4;
+	    calendar.setTime(date1);
+	    time += calendar.get(Calendar.MONTH) / 4;
+	    calendar.setTime(date2);
+	    return time - calendar.get(Calendar.MONTH) / 4;
+	   }
+
+	   if (timeInterval.equals("month")) {
+	    Calendar calendar = Calendar.getInstance();
+	    calendar.setTime(date1);
+	    int time = calendar.get(Calendar.YEAR) * 12;
+	    calendar.setTime(date2);
+	    time -= calendar.get(Calendar.YEAR) * 12;
+	    calendar.setTime(date1);
+	    time += calendar.get(Calendar.MONTH);
+	    calendar.setTime(date2);
+	    return time - calendar.get(Calendar.MONTH);
+	   }
+
+	   if (timeInterval.equals("week")) {
+	    Calendar calendar = Calendar.getInstance();
+	    calendar.setTime(date1);
+	    int time = calendar.get(Calendar.YEAR) * 52;
+	    calendar.setTime(date2);
+	    time -= calendar.get(Calendar.YEAR) * 52;
+	    calendar.setTime(date1);
+	    time += calendar.get(Calendar.WEEK_OF_YEAR);
+	    calendar.setTime(date2);
+	    return time - calendar.get(Calendar.WEEK_OF_YEAR);
+	   }
+
+	   if (timeInterval.equals("day")) {
+	    long time = date1.getTime() / 1000 / 60 / 60 / 24;
+	    return time - date2.getTime() / 1000 / 60 / 60 / 24;
+	   }
+
+	   if (timeInterval.equals("hour")) {
+	    long time = date1.getTime() / 1000 / 60 / 60;
+	    return time - date2.getTime() / 1000 / 60 / 60;
+	   }
+
+	   if (timeInterval.equals("minute")) {
+	    long time = date1.getTime() / 1000 / 60;
+	    return time - date2.getTime() / 1000 / 60;
+	   }
+
+	   if (timeInterval.equals("second")) {
+	    long time = date1.getTime() / 1000;
+	    return time - date2.getTime() / 1000;
+	   }
+
+	   return date1.getTime() - date2.getTime();
 	  }
 }

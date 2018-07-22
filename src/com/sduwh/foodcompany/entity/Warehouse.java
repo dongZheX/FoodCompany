@@ -103,4 +103,35 @@ public class Warehouse implements Serializable{
 			return false;
 		}
 	}
+	/*
+	 * 状态和对应字符串的转化
+	 */
+	public static int stateToNum(String state) {
+		switch (state) {
+		case "正常":
+			return Warehouse.WAREHOUSE_NORMAL;
+		case "售空":
+			return Warehouse.WAREHOUSE_EMPTY;
+		case "销毁":
+			return Warehouse.WAREHOUSE_DESTORYED;
+		case "已过期":
+			return Warehouse.WAREHOUSE_OUT_OF_DATE;
+		default:
+			return -1;
+		}		
+	}
+	public static String numToState(int num) {
+		switch (num) {
+		case WAREHOUSE_NORMAL:
+			return "正常";
+		case WAREHOUSE_EMPTY:
+			return "售空";
+		case WAREHOUSE_OUT_OF_DATE:
+			return "已过期";
+		case WAREHOUSE_DESTORYED:
+			return "已销毁";
+		default:
+			return null;
+		}
+	} 
 }

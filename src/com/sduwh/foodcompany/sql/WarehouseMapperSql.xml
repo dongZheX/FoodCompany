@@ -27,8 +27,17 @@
  		</where>
  		order by good_PD DESC
  	</select>
+ 	
+ 	<select id="findWareHouseOutOfDateAllMore" resultType="com.sduwh.foodcompany.entity.Warehouse" statementType="CALLABLE">
+ 		exec getWarehouseOutOfDateList
+ 	</select>
+ 	
  	<update id="updateWarehouse" parameterType="Map">
  		update Warehouse set good_state = #{good_state} 
  		where batch_id=#{batch_id}
+ 	</update>
+ 	<!-- 过期检测 -->
+ 	<update id="out_of_date_check" parameterType="String" statementType="CALLABLE">
+ 		exec out_of_date_check 
  	</update>
  </mapper>

@@ -19,4 +19,12 @@ public interface WarehouseDao {
 	 * 根据batch_id修改good_state
 	 */
 	public int updateWarehouse(Map map);
+	/*
+	 * 查询快过期商品
+	 */
+	public  ArrayList<Warehouse> findWareHouseOutOfDateAllMore();
+	/*
+	 * 刷新过期问题
+	 */
+	public void out_of_date_check();
 }

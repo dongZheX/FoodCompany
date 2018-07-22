@@ -59,7 +59,7 @@ public class WarehouseManagePanel extends JPanel implements ActionListener{
 	private String labelString[] = {"批次号:","商品名:","成品库管理员名:","生产车间管理员名:"};
 	//下拉列表
 	private JComboBox<String> jComboBox_state;
-	private String comboBoxString[] = {"正常","售空","销毁","已过期"};
+	private String comboBoxString[] = {"<--请选择-->","正常","售空","销毁","已过期"};
 	JTextField textField_batch_id = new JTextField(20);
 	//split
 	private JSplitPane splitPane = new JSplitPane();
@@ -68,6 +68,7 @@ public class WarehouseManagePanel extends JPanel implements ActionListener{
 	//Button
 	private JButton btn_select = new JButton("查询");
 	private JButton btn_select_out = new JButton("查询快过期的商品");
+	private JButton btn_select_out_a = new JButton("查询过期的商品");
 	private WarehouseManagePanel sManagePanel = this;
 	//弹出菜单
 	private JPopupMenu m_popupMenu;
@@ -114,9 +115,11 @@ public class WarehouseManagePanel extends JPanel implements ActionListener{
 		btn_select_out.addActionListener(this);
 		up_panel.add(btn_select_out);
 		btn_select_out.setPreferredSize(new Dimension(120, 30));
+		btn_select_out_a.setPreferredSize(new Dimension(120, 30));
+		up_panel.add(btn_select_out_a);
 		//表格设置
 		defaultTableModel = new DefaultTableModel();
-		defaultTableModel.setColumnIdentifiers(new String[] {"批次号","商品名","商品数量","生产日期","有效期","成品库管理员","计划科管理员"});
+		defaultTableModel.setColumnIdentifiers(new String[] {"批次号","商品名","商品数量","生产日期","有效期","成品库管理员","计划科管理员","状态"});
 		defaultTableModel.setRowCount(100);//暂时
 		defaultTableModel.addTableModelListener(new TableModelListener() {
 			
@@ -133,9 +136,6 @@ public class WarehouseManagePanel extends JPanel implements ActionListener{
 				return false;
 			}
 		};
-		jTable.setValueAt("1", 1, 2);
-		jTable.setValueAt("sdasd", 1, 1);
-		jTable.setValueAt("sadsa", 1, 0);
 		jTable.setMaximumSize(new Dimension(20, 20));
 		
 		//设置剧中
@@ -226,6 +226,8 @@ public class WarehouseManagePanel extends JPanel implements ActionListener{
         MenItem_add.setText("添加  ");
         JMenuItem MenItem_copy = new JMenuItem();
         MenItem_copy.setText("复制  ");
+        JMenuItem MenItem_destroy = new JMenuItem();
+        MenItem_destroy.setText("销毁  ");
         //添加监听器
         MenItem_add.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -288,8 +290,17 @@ public class WarehouseManagePanel extends JPanel implements ActionListener{
 				
 			}
 		});
+        MenItem_destroy.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
         m_popupMenu.add(MenItem_change);
         m_popupMenu.add(MenItem_add);
         m_popupMenu.add(MenItem_copy);
+        m_popupMenu.add(MenItem_destroy);
 	}
 }

@@ -60,7 +60,7 @@ public class SelectProducePlan extends JInternalFrame {
 	 */
 	public SelectProducePlan(Administrators user) {
 		setBounds(100, 100, 450, 300);
-		setTitle("查询库存信息窗口");
+		setTitle("查询生产计划窗口");
 		
 		//this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	    setMaximizable(true);	//标题栏有最大化按钮

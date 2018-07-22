@@ -33,7 +33,7 @@
  	
  	<!-- select语句 -->
  	<select id="findOrdered" parameterType="Map" resultType="com.sduwh.foodcompany.entity.Ordered">
- 		select * from Order
+ 		select * from Ordered
  		<where>
  			<if test="order_id!=null">order_id = #{order_id}</if>
  			<if test="good_id!=null">and good_id = #{good_id}</if>

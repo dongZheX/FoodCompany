@@ -209,7 +209,10 @@ public class SelectPickUpFrame extends JInternalFrame implements ActionListener{
 		planMenItem_look.addActionListener(new java.awt.event.ActionListener() {
 		        public void actionPerformed(java.awt.event.ActionEvent evt) {
 		        			//该操作需要做的事
-		        	LookOrderByPickUpDialog lookOrderByPickUpDialog = new LookOrderByPickUpDialog();
+		        	int y = table.getSelectedRow();
+		        	Object o = table.getModel().getValueAt(y, 0);
+		        	String pick_up_id = o==null?null:o.toString();
+		        	LookOrderByPickUpDialog lookOrderByPickUpDialog = new LookOrderByPickUpDialog(pick_up_id);
 		        	Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
 		        	int width = (int)screensize.getWidth();
 		        	int height = (int)screensize.getHeight();
@@ -232,11 +235,11 @@ public class SelectPickUpFrame extends JInternalFrame implements ActionListener{
 		Object [] args ={"pick_up_id",pick_up_id_field.getText().equals("")?null:pick_up_id_field.getText(),"pick_up_state",pick_up_state==-1?null:pick_up_state};
 		
 		ArrayList<PickUp> pick_up_arr = NameToEntity.PickUp_select(args);
-		String[][] datas = new String[3][pick_up_arr.size()];
+		//String[][] datas = new String[3][pick_up_arr.size()];
 		DefaultTableModel dablemodel = new DefaultTableModel();
 		dablemodel.setColumnIdentifiers(table_title);
 		for(int i =0;i<pick_up_arr.size();i++){
-			PickUp pickUp = pick_up_arr.get(0);
+			PickUp pickUp = pick_up_arr.get(i);
 			dablemodel.addRow(new String[]{
 					pickUp.getPick_up_id(),PickUp.state_toString(pickUp),pickUp.getAccountant_user_id()
 			});			

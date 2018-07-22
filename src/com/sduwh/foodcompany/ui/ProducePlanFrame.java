@@ -6,6 +6,7 @@ import java.awt.EventQueue;
 import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyVetoException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -67,7 +68,7 @@ public class ProducePlanFrame extends JFrame implements ActionListener{
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-		
+		setResizable(false);
 		//获取用户
 		Administrators user = adm;
 		
@@ -81,6 +82,8 @@ public class ProducePlanFrame extends JFrame implements ActionListener{
 		menuBar.add(menuWindow);menuBar.add(menuHelp);menuBar.add(menuAbout);
 		//将JMenu添加进Fram
 		setJMenuBar(menuBar);
+		
+		
 		//初始化多窗体面板
 		selectDesktop = new MDIDesktopPane();
 		planDesktop = new MDIDesktopPane();
@@ -103,6 +106,8 @@ public class ProducePlanFrame extends JFrame implements ActionListener{
 		tabbedPane.addTab("库存管理", warehousePane);
 		//初始化为选择selectPane
 		tabbedPane.setSelectedIndex(0);
+		
+		
 		//向selectPane和planPane中添加scrollPane
 		selectPane.add(selectScrollPane,BorderLayout.CENTER);
 		planPane.add(planScrollPane,BorderLayout.CENTER);
@@ -111,6 +116,8 @@ public class ProducePlanFrame extends JFrame implements ActionListener{
 		//向scrollPane中添加多窗体;
 		selectScrollPane.getViewport().add(selectDesktop);
 		planScrollPane.getViewport().add(planDesktop);
+		
+		
 		//初始化button
 		selectPickUp_btn = new JButton("查询提货单");
 		selectWarehouse_btn = new JButton("查询库存");
@@ -123,6 +130,8 @@ public class ProducePlanFrame extends JFrame implements ActionListener{
 		selectProducePlan_btn.addActionListener(this);
 		insertPlan_btn.addActionListener(this);
 		alterPlan_btn.addActionListener(this);
+		
+		
 		//初始化toolbar
 		toolbar = new JToolBar();
 		toolbar_plan = new JToolBar();
@@ -156,16 +165,28 @@ public class ProducePlanFrame extends JFrame implements ActionListener{
 		}
 		else if(btn_name.equals("查询生产计划")){
 			selectDesktop.add(new SelectProducePlan());
+			
 		}
 		else if(btn_name.equals("创建生产计划")){
 			planDesktop.add(new InsertProducePlan());
 		}
+		else if(btn_name.equals("修改生产计划")){
+			planDesktop.add(new SelectProducePlan());
+		}
 		JInternalFrame sf = selectDesktop.getSelectedFrame();
 		try {
 			//将当前窗口最大化
-			sf.setMaximum(true);
+			sf.setMaximum(true);			
 		}
 		catch(Exception e){		}
+		JInternalFrame sf2 = planDesktop.getSelectedFrame();
+		try {
+			//将当前窗口最大化
+			if(!(sf2 instanceof InsertProducePlan))
+				sf2.setMaximum(true);			
+		}
+		catch(Exception e){		}
+	
 	}
 
 }

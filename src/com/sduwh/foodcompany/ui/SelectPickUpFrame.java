@@ -16,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseWheelEvent;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Enumeration;
 
@@ -128,7 +129,11 @@ public class SelectPickUpFrame extends JInternalFrame implements ActionListener{
 	  	    	   
 	    //初始化table
 	    tableModel = new DefaultTableModel(table_title,17);
-	    table = new JTable(tableModel);
+	    table = new JTable(tableModel){
+	    	public boolean isCellEditable(int row, int column) {
+	    		return false;
+	    	};
+	    };
 	    table.setRowHeight(50);	  
 	    //初始化scrollPane
 	    //将table放入scrollPane
@@ -230,6 +235,8 @@ public class SelectPickUpFrame extends JInternalFrame implements ActionListener{
 	}
 	
 	private void select_btn_avtion(){
+		
+		
 		
 		int pick_up_state = PickUp.state_toInt(pick_up_state_combobox.getSelectedItem().toString());
 		Object [] args ={"pick_up_id",pick_up_id_field.getText().equals("")?null:pick_up_id_field.getText(),"pick_up_state",pick_up_state==-1?null:pick_up_state};

@@ -53,4 +53,5 @@ public class NameToEntity {
 		Map<String, Object> map = MapBuilder.buildMap(args);
 		return dao.findPickUp(map);
 	}
+	
 }

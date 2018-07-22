@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -25,9 +27,12 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import com.sduwh.foodcompany.bill.SelectProducePlanBill;
 import com.sduwh.foodcompany.entity.Administrators;
+import com.sduwh.foodcompany.entity.PickUp;
+import com.sduwh.foodcompany.entity.ProducePlan;
 
-public class SelectProducePlan extends JInternalFrame {
+public class SelectProducePlan extends JInternalFrame implements ActionListener {
 
 
 	
@@ -55,6 +60,10 @@ public class SelectProducePlan extends JInternalFrame {
 	private JCheckBox only_me_checkbox;
 	//弹出菜单
 	private JPopupMenu m_popupMenu;
+	
+	 //字符串
+    private String [] good_state ={"<-请选择->","未确认","已投入生产","入库","取消"};
+    private String [] table_title = {"生产计划号","商品号","商品数量","需要日期","计划状态","生产计划科操作人员"};
 	/**
 	 * Create the frame.
 	 */
@@ -72,9 +81,7 @@ public class SelectProducePlan extends JInternalFrame {
 	    selectPane = new JPanel();
 	    viewPane = new JPanel();
 	   
-	    //字符串
-	    String [] good_state ={"未确认","已投入生产","入库","取消"};
-	    String [] table_title = {"生产计划号","商品号","商品数量","需要日期","计划状态","生产计划科操作人员"};
+	   
 	    
 	    //初始化splitPane
 	    splitPane = new JSplitPane();
@@ -111,6 +118,7 @@ public class SelectProducePlan extends JInternalFrame {
 	    //初始化select_btn
 	    select_btn = new JButton("查询");
 	    select_btn.setPreferredSize(new Dimension(500, 30));
+	    select_btn.addActionListener(this);
 	    //将label,combobox,textfield放入selectPane
 	    selectPane.add(plan_id_label);
 	    selectPane.add(plan_id_field);
@@ -138,9 +146,45 @@ public class SelectProducePlan extends JInternalFrame {
 	    viewPane.add(scrollPane);
 	    this.setVisible(true);
 	    
-	    
-
-	    
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		String btn_name = e.getActionCommand();
+		if(btn_name.equals("查询")){
+			//调用查询函数
+			select_btn_action();
+		}
+		
+	}
+	
+	public void select_btn_action() {
+		
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		int plan_state_int = ProducePlan.plan_state_toInt(plan_state_combobox.getSelectedItem().toString());
+		String [] select_key = {
+				"plan_id",plan_id_field.getText().equals("")?null:plan_id_field.getText().toString(),
+				"good_id",good_id_field.getText().equals("")?null:good_id_field.getText().toString(),
+				"planer_user_id",planer_user_id_field.getText().equals("")?null:planer_user_id_field.getText().toString(),
+				"plan_state",plan_state_int == -1?null:plan_state_int+""
+				};
+		ArrayList<ProducePlan> planArr = SelectProducePlanBill.select_ProducePlan(select_key);
+		DefaultTableModel defaultTableModel = new DefaultTableModel();
+		defaultTableModel.setColumnIdentifiers(table_title);
+		for(int i =0;i<planArr.size();i++){
+			ProducePlan plan = planArr.get(i);
+			defaultTableModel.addRow(new String[]{
+					plan.getPlan_id(),
+					plan.getGood_id(),
+					plan.getGood_num()+"",
+					simpleDateFormat.format(plan.getDeadline()),
+					ProducePlan.plan_state_toString(plan.getPlan_state()),
+					plan.getPlaner_user_id()
+			});			
+		}
+		
+		table.setModel(defaultTableModel);
+		
 	}
 	
 	

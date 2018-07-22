@@ -85,4 +85,52 @@ public class ProducePlan implements Serializable{
 			return false;
 		}
 	}
+	
+	/*
+	 * 数字转字符串
+	 */
+	public static String plan_state_toString(int plan_state_int){
+		String plan_state_str = "";
+		switch (plan_state_int) {
+		case ProducePlan.HAVE_NOT_CONFIRM:
+			plan_state_str = "未确认";
+			break;
+		case ProducePlan.HAVE_PUT_INTO_PRODUCE:
+			plan_state_str = "已投入生产";
+			break;
+		case ProducePlan.HAVE_FINISHED:
+			plan_state_str = "入库";
+			break;
+		case ProducePlan.HAVE_CANCELED:
+			plan_state_str = "取消";
+			break;
+		default: plan_state_str =null;
+			break;
+		}
+		return plan_state_str;
+	}
+	
+	/*
+	 * 字符串转数字
+	 */
+	public static int plan_state_toInt(String plan_state_str){
+		int plan_state_int = 0;
+		switch (plan_state_str) {
+		case "未确认":
+			plan_state_int = ProducePlan.HAVE_NOT_CONFIRM;
+			break;
+		case "已投入生产":
+			plan_state_int = ProducePlan.HAVE_PUT_INTO_PRODUCE;
+			break;
+		case "入库":
+			plan_state_int = ProducePlan.HAVE_FINISHED;
+			break;
+		case "取消":
+			plan_state_int = ProducePlan.HAVE_CANCELED;
+			break;
+		default: plan_state_int = -1;
+			break;
+		}
+		return plan_state_int;
+	}
 }

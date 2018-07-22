@@ -20,7 +20,7 @@
  			<if test="plan_id!=null">plan_id = #{plan_id}</if>
  			<if test="good_id!=null">good_id = #{good_id}</if>
  			<if test="deadline!=null">deadline = #{deadline}</if>
- 			<if test="plan_state!=-1">plan_state = #{plan_state}</if>
+ 			<if test="plan_state!=null">plan_state = #{plan_state}</if>
  			<if test="planer_user_id!=null">planer_user_id = #{planer_user_id}</if>
  		</where>
  	</select>
@@ -30,7 +30,7 @@
  		update 	ProducePlan
  		<set>
  			<if test="deadline!=null">deadline = #{deadline}</if>
- 			<if test="plan_state!=-1">plan_state = #{plan_state}</if>
+ 			<if test="plan_state!=null">plan_state = #{plan_state}</if>
  		</set>
  		where plan_id = #{plan_id}
  	</update>

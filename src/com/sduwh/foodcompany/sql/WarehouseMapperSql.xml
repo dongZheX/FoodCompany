@@ -23,7 +23,7 @@
  			<if test="good_GP!=null">and good_GP=#{good_GP}</if>
  			<if test="warehouse_user_id!=null">and warehouse_user_id=#{warehouse_user_id}</if>
  			<if test="workshop_user_id!=null">and workshop_user_id=#{workshop_user_id}</if>
- 			<if test="good_state!=-1">and good_state = #{good_state}</if>
+ 			<if test="good_state!=null">and good_state = #{good_state}</if>
  		</where>
  		order by good_PD DESC
  	</select>

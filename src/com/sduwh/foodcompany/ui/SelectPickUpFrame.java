@@ -74,7 +74,7 @@ public class SelectPickUpFrame extends JInternalFrame implements ActionListener{
 	
 	
 	//字符串
-    private String [] pick_up_state ={"","未提货","已提货","退货销毁"};
+    private String [] pick_up_state ={"<--请选择-->","未提货","已提货","退货销毁"};
     private String [] table_title = {"提货单编号","提货单状态","操作人编号"};
 	/**
 	 * Create the frame.
@@ -229,7 +229,7 @@ public class SelectPickUpFrame extends JInternalFrame implements ActionListener{
 	private void select_btn_avtion(){
 		
 		int pick_up_state = PickUp.state_toInt(pick_up_state_combobox.getSelectedItem().toString());
-		Object [] args ={"pick_up_id",pick_up_id_field.getText(),"pick_up_state",pick_up_state};
+		Object [] args ={"pick_up_id",pick_up_id_field.getText().equals("")?null:pick_up_id_field.getText(),"pick_up_state",pick_up_state==-1?null:pick_up_state};
 		
 		ArrayList<PickUp> pick_up_arr = NameToEntity.PickUp_select(args);
 		String[][] datas = new String[3][pick_up_arr.size()];

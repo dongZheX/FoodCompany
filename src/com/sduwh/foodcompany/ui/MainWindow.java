@@ -161,7 +161,7 @@ public class MainWindow {
 		JComboBox<String>comboBox = new JComboBox();
 		comboBox.setBounds(212, 115, 138, 21);
 		panel.add(comboBox);
-		String[] combobox_item = {"系统管理员", "成品库管理员","会计","出纳","生产车间管理员","生产计划管理员"};
+		String[] combobox_item = {"系统管理员", "成品库管理员","会计","出纳","生产车间管理员","生产计划管理员","销售"};
 		int combobox_num = combobox_item.length;
 		for(int i = 0; i < combobox_num; i++)
 			comboBox.addItem(combobox_item[i]);

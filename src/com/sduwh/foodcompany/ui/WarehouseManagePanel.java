@@ -3,8 +3,10 @@ package com.sduwh.foodcompany.ui;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
@@ -13,9 +15,14 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import org.jdesktop.swingx.plaf.windows.WindowsClassicLookAndFeelAddons;
+
+import com.sduwh.foodcompany.comm.CheckUnit;
 import com.sduwh.foodcompany.entity.Administrators;
 import com.sun.swingset3.demos.spinner.JSpinnerPanel;
 
@@ -25,6 +32,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -59,6 +68,7 @@ public class WarehouseManagePanel extends JPanel implements ActionListener{
 	//Button
 	private JButton btn_select = new JButton("查询");
 	private JButton btn_select_out = new JButton("查询快过期的商品");
+	private WarehouseManagePanel sManagePanel = this;
 	//弹出菜单
 	private JPopupMenu m_popupMenu;
 	public WarehouseManagePanel(Administrators user) {
@@ -108,9 +118,26 @@ public class WarehouseManagePanel extends JPanel implements ActionListener{
 		defaultTableModel = new DefaultTableModel();
 		defaultTableModel.setColumnIdentifiers(new String[] {"批次号","商品名","商品数量","生产日期","有效期","成品库管理员","计划科管理员"});
 		defaultTableModel.setRowCount(100);//暂时
-		
-		jTable = new JTable(defaultTableModel);
+		defaultTableModel.addTableModelListener(new TableModelListener() {
+			
+			@Override
+			public void tableChanged(TableModelEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		jTable = new JTable(defaultTableModel) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+		};
+		jTable.setValueAt("1", 1, 2);
+		jTable.setValueAt("sdasd", 1, 1);
+		jTable.setValueAt("sadsa", 1, 0);
 		jTable.setMaximumSize(new Dimension(20, 20));
+		
 		//设置剧中
 		DefaultTableCellRenderer r = new DefaultTableCellRenderer();
 		r.setHorizontalAlignment(JLabel.CENTER);
@@ -185,31 +212,84 @@ public class WarehouseManagePanel extends JPanel implements ActionListener{
 	
 	//创建弹出按钮
 	private void createPopupMenu() {
+
+		//获取屏幕
+		Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
+		int width = (int)screensize.getWidth();
+	    int height = (int)screensize.getHeight();
         m_popupMenu = new JPopupMenu();
-        
-//        JMenuItem delMenItem_change = new JMenuItem();
-//        delMenItem_change.setText("修改  ");
-        //此处修改交给提货单
-        JMenuItem delMenItem_add = new JMenuItem();
-        delMenItem_add.setText("添加  ");
-        delMenItem_add.addActionListener(new java.awt.event.ActionListener() {
+        //弹出菜单设置
+        JMenuItem MenItem_change = new JMenuItem();
+        MenItem_change.setText("提货  ");
+      
+        JMenuItem MenItem_add = new JMenuItem();
+        MenItem_add.setText("添加  ");
+        JMenuItem MenItem_copy = new JMenuItem();
+        MenItem_copy.setText("复制  ");
+        //添加监听器
+        MenItem_add.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 //该操作需要做的事
             	AddWarehouseDialog addWarehouseDialog = new AddWarehouseDialog();
-        		Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
-        		int width = (int)screensize.getWidth();
-        	    int height = (int)screensize.getHeight();
         	    addWarehouseDialog.setLocation(new Point(width*1/4, height*1/5));
         		addWarehouseDialog.setAlwaysOnTop(true);
         		addWarehouseDialog.show();
             }
         });
-//        delMenItem_add.addActionListener(new java.awt.event.ActionListener() {
-//            public void actionPerformed(java.awt.event.ActionEvent evt) {
-//                //该操作需要做的事
-//            }
-//        });
-//        m_popupMenu.add(delMenItem_change);
-        m_popupMenu.add(delMenItem_add);
+        //提货监听器
+        MenItem_change.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+				//PickUpDialog pickUpDialog = new PickUpDialog();
+				//获取选中行的信息
+				String batch_id ,good_id,good_num_temp;
+				int good_num;
+				try {
+					int y = jTable.getSelectedRow();
+					batch_id = jTable.getModel().getValueAt(y,0).toString();
+					good_id = jTable.getModel().getValueAt(y,1).toString();
+					good_num_temp = jTable.getModel().getValueAt(y,2).toString();
+					good_num = Integer.parseInt(good_num_temp);
+					PickUpDialog pickUpDialog = new PickUpDialog(good_id, good_id, good_num);					
+	        	    pickUpDialog.setLocation(new Point(width*1/4, height*1/5));
+	        	    pickUpDialog.setLocationRelativeTo(null);
+	        	    pickUpDialog.setAlwaysOnTop(true);
+//	        	    CheckUnit.print("sda");
+	        	    pickUpDialog.setVisible(true);
+	        	    pickUpDialog.show();
+				}catch (Exception e5) {
+					// TODO: handle exception
+					JOptionPane.showMessageDialog(sManagePanel, "出错003");
+				}
+				
+			}
+		});
+        MenItem_copy.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				int x = jTable.getSelectedColumn();
+				int y = jTable.getSelectedRow();
+				String content = null;
+				try {
+					content = jTable.getModel().getValueAt(y, x).toString();
+					StringSelection ss = new StringSelection(content);
+					Clipboard clipboard =getToolkit().getSystemClipboard();
+					clipboard.setContents(ss, null);
+				}catch (Exception e3) {
+					// TODO: handle exception
+					JOptionPane.showMessageDialog(sManagePanel, "请您选中");
+				}
+				
+				
+			}
+		});
+        m_popupMenu.add(MenItem_change);
+        m_popupMenu.add(MenItem_add);
+        m_popupMenu.add(MenItem_copy);
 	}
 }

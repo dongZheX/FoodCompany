@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @date 2018/7/20
  * 映射数据库中的Ordered表，实现toString，实现equals
  */
-import java.util.Date;
+import java.sql.Date;
 public class Ordered implements Serializable{
 	//现货（先付）
 	public static final int XIAN_HUO_BEF = 1;

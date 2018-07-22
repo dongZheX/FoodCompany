@@ -27,12 +27,12 @@ import javax.swing.table.DefaultTableModel;
 
 import com.sduwh.foodcompany.entity.Administrators;
 
-public class SelectProducePlan extends JInternalFrame {
+public class ChangePSelectPlan extends JInternalFrame {
 
 
 	
 
-	private SelectProducePlan selectProducePlan = this;
+	private ChangePSelectPlan selectProducePlan = this;
 	
 	//JSplitPane
 	private JSplitPane splitPane;
@@ -55,13 +55,14 @@ public class SelectProducePlan extends JInternalFrame {
 	private JCheckBox only_me_checkbox;
 	//弹出菜单
 	private JPopupMenu m_popupMenu;
+	private Administrators muser;
 	/**
 	 * Create the frame.
 	 */
-	public SelectProducePlan(Administrators user) {
+	public ChangePSelectPlan(Administrators user) {
 		setBounds(100, 100, 450, 300);
-		setTitle("查询库存信息窗口");
-		
+		setTitle("修改库存信息窗口");
+		muser = user; 
 		//this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	    setMaximizable(true);	//标题栏有最大化按钮
 	    setIconifiable(true);	//标题栏有最小化按钮
@@ -139,10 +140,120 @@ public class SelectProducePlan extends JInternalFrame {
 	    this.setVisible(true);
 	    
 	    
-
+	    createPopupMenu();
 	    
+	    table.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				if (e.getButton() == java.awt.event.MouseEvent.BUTTON3) {
+		            //通过点击位置找到点击为表格中的行
+		            int focusedRowIndex = table.rowAtPoint(e.getPoint());
+		            if (focusedRowIndex == -1) {
+		                return;
+		            }
+		            //将表格所选项设为当前右键点击的行
+		            table.setRowSelectionInterval(focusedRowIndex, focusedRowIndex);
+		            //弹出菜单
+		            m_popupMenu.show(table, e.getX(), e.getY());
+		        }
+				
+			}
+		});
 	}
-	
-	
-	 
+	  //创建弹出按钮
+		private void createPopupMenu() {
+	        m_popupMenu = new JPopupMenu();
+	        if(muser.getAdm_power()==7) {
+	        	JMenuItem planMenItem_alter = new JMenuItem();
+	        	planMenItem_alter.setText("修改");
+	        	planMenItem_alter.addActionListener(new java.awt.event.ActionListener() {
+	        		public void actionPerformed(java.awt.event.ActionEvent evt) {
+	        			//该操作需要做的事
+	        			AlterPlanDialog alterPlanDialog = new AlterPlanDialog();
+	        			Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
+	        			int width = (int)screensize.getWidth();
+	        			int height = (int)screensize.getHeight();
+	        			alterPlanDialog.setLocation(new Point(width*1/4, height*1/3));
+	        			alterPlanDialog.setAlwaysOnTop(true);
+	        	    	alterPlanDialog.show();
+	        	    	
+	        		}
+	        	});
+	        
+	        	JMenuItem planMenuItem_del = new JMenuItem("删除");
+	        	planMenuItem_del.addActionListener(new ActionListener() {
+				
+	        		@Override
+	        		public void actionPerformed(ActionEvent e) {
+	        			// TODO Auto-generated method stub
+	        			new JOptionPane().showMessageDialog(selectProducePlan, "确定删除?");
+					
+	        		}
+	        	});
+	        	m_popupMenu.add(planMenItem_alter);
+	        	m_popupMenu.add(planMenuItem_del);
+	        }else if(muser.getAdm_power()==6) {
+	        	
+	        	JMenuItem planMenItem_confirm = new JMenuItem();
+	        	planMenItem_confirm.setText("确认");
+	        	planMenItem_confirm.addActionListener(new java.awt.event.ActionListener() {
+	        		public void actionPerformed(java.awt.event.ActionEvent evt) {
+	        			//该操作需要做的事
+	        			
+	        			int result = new JOptionPane().showConfirmDialog(selectProducePlan, "您确定要确定吗？");
+	        			if(result == JOptionPane.YES_OPTION) {
+	        				
+	        			}else {
+	        				
+	        			}
+	        		}
+	        	});
+	        
+	        	JMenuItem planMenuItem_cancel = new JMenuItem("取消");
+	        	planMenuItem_cancel.addActionListener(new ActionListener() {
+				
+	        		@Override
+	        		public void actionPerformed(ActionEvent e) {
+	        			// TODO Auto-generated method stub
+	        			int result = new JOptionPane().showConfirmDialog(selectProducePlan, "您确定要取消吗？");
+	        			if(result == JOptionPane.YES_OPTION) {
+	        				
+	        			}else {
+	        				
+	        			}
+	        			
+	        		}
+	        	});
+	        	m_popupMenu.add(planMenItem_confirm);
+	        	m_popupMenu.add(planMenuItem_cancel);
+	        }
+	      
+		}
+
 }

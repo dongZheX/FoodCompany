@@ -1,7 +1,8 @@
 package com.sduwh.foodcompany.entity;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.security.Timestamp;
+import java.sql.Date;
 /*
  * @author ¶­†´
  * @date 2018/7/21
@@ -56,6 +57,7 @@ public class Warehouse implements Serializable{
 		return good_PD;
 	}
 	public void setGood_PD(Date good_PD) {
+		
 		this.good_PD = good_PD;
 	}
 	public Date getGood_GP() {

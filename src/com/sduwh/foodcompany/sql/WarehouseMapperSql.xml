@@ -25,6 +25,7 @@
  			<if test="workshop_user_id!=null">and workshop_user_id=#{workshop_user_id}</if>
  			<if test="good_state!=null">and good_state = #{good_state}</if>
  		</where>
+ 		order by good_PD DESC
  	</select>
  	<update id="updateWarehouse" parameterType="Map">
  		update Warehouse set good_state = #{good_state} 

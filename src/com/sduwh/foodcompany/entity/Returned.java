@@ -1,6 +1,6 @@
 package com.sduwh.foodcompany.entity;
 
-import java.util.Date;
+import java.sql.Date;
 /*
  * @author ¶­†´
  * @date 2018/7/20

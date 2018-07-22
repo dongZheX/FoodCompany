@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.SwingConstants;
 
 public class AddWarehouseDialog extends JDialog implements ActionListener{
 
@@ -40,11 +41,11 @@ public class AddWarehouseDialog extends JDialog implements ActionListener{
 		 */
 		setBounds(100, 100, 465, 481);
 		getContentPane().setLayout(null);
-		setBackground(Color.white);
 		contentPanel.setBounds(0, 0, 0, 0);
 		contentPanel.setLayout(new FlowLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel);
+		setBackground(Color.WHITE);
 		/*
 		 * 设置日期选择器
 		 */
@@ -58,7 +59,8 @@ public class AddWarehouseDialog extends JDialog implements ActionListener{
 		getContentPane().add(dateChooser_2);
 		/*设置输入控件*/
 		textField_good_id = new JTextField();
-		textField_good_id.setBounds(220, 37, 151, 25);
+		textField_good_id.setHorizontalAlignment(SwingConstants.CENTER);
+		textField_good_id.setBounds(220, 49, 151, 25);
 		getContentPane().add(textField_good_id);
 		textField_good_id.setColumns(10);
 		
@@ -77,9 +79,9 @@ public class AddWarehouseDialog extends JDialog implements ActionListener{
 		label_2.setBounds(73, 235, 104, 25);
 		getContentPane().add(label_2);
 		
-		JLabel label_3 = new JLabel("\u5546\u54C1\u7F16\u53F7\uFF1A");
+		JLabel label_3 = new JLabel("\u5546\u54C1\u540D\uFF1A");
 		label_3.setFont(new Font("黑体", Font.PLAIN, 14));
-		label_3.setBounds(84, 37, 70, 25);
+		label_3.setBounds(95, 49, 70, 25);
 		getContentPane().add(label_3);
 		
 		JLabel label_4 = new JLabel("\u751F\u4EA7\u8F66\u95F4\u7BA1\u7406\u5458\uFF1A");
@@ -88,11 +90,13 @@ public class AddWarehouseDialog extends JDialog implements ActionListener{
 		getContentPane().add(label_4);
 		
 		textField_workshop_id = new JTextField();
+		textField_workshop_id.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_workshop_id.setColumns(10);
 		textField_workshop_id.setBounds(220, 281, 151, 25);
 		getContentPane().add(textField_workshop_id);
 		
 		textField_warehouse_id = new JTextField();
+		textField_warehouse_id.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_warehouse_id.setColumns(10);
 		textField_warehouse_id.setBounds(220, 235, 151, 25);
 		getContentPane().add(textField_warehouse_id);
@@ -103,6 +107,7 @@ public class AddWarehouseDialog extends JDialog implements ActionListener{
 		getContentPane().add(label_5);
 		
 		textFied_good_num = new JTextField();
+		textFied_good_num.setHorizontalAlignment(SwingConstants.CENTER);
 		textFied_good_num.setColumns(10);
 		textFied_good_num.setBounds(220, 92, 151, 25);
 		getContentPane().add(textFied_good_num);

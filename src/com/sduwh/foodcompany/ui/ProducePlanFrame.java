@@ -2,28 +2,37 @@ package com.sduwh.foodcompany.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Point;
 import java.awt.ScrollPane;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
+import java.util.ArrayList;
 
+import javax.mail.Message;
+import javax.print.attribute.standard.MediaSize.Other;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
+import com.sduwh.foodcompany.comm.MD5;
 import com.sduwh.foodcompany.comm.MDIDesktopPane;
 import com.sduwh.foodcompany.entity.Administrators;
 
 import javax.swing.JTabbedPane;
 import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
+import javax.swing.SwingConstants;
 
 public class ProducePlanFrame extends JFrame implements ActionListener{
 
@@ -33,7 +42,7 @@ public class ProducePlanFrame extends JFrame implements ActionListener{
 	//JMenuBar
 	private JMenuBar menuBar;
 	//JMenu
-	private JMenu menuHelp,menuAbout,menuWindow;
+	private JMenu menuHelp,menuAbout,menuWindow,menuOtherFunc;
 	//JMenuItem
 	
 	//多窗体面板
@@ -55,7 +64,8 @@ public class ProducePlanFrame extends JFrame implements ActionListener{
 	private JButton selectPickUp_btn,selectWarehouse_btn,selectProducePlan_btn;
 	private JButton insertPlan_btn,alterPlan_btn;
 	private Administrators user;
-
+	//
+	private ProducePlanFrame prethis = this;
 
 
 	/**
@@ -71,20 +81,8 @@ public class ProducePlanFrame extends JFrame implements ActionListener{
 		setContentPane(contentPane);
 		setResizable(false);
 		//获取用户
-		Administrators user = adm;
-		
-		//初始化JMenuBar
-		menuBar = new JMenuBar();
-		//初始化JMenu
-		menuHelp = new JMenu("帮助");
-		menuAbout = new JMenu("关于");
-		menuWindow = new JMenu("窗口 ");
-		//向JMenuBar中添加JMenu
-		menuBar.add(menuWindow);menuBar.add(menuHelp);menuBar.add(menuAbout);
-		//将JMenu添加进Fram
-		setJMenuBar(menuBar);
-		
-		
+		Administrators user = adm;	
+		setMenu();
 		//初始化多窗体面板
 		selectDesktop = new MDIDesktopPane();
 		planDesktop = new MDIDesktopPane();
@@ -188,6 +186,101 @@ public class ProducePlanFrame extends JFrame implements ActionListener{
 		}
 		catch(Exception e){		}
 	
+	}
+	private void setMenu() {
+		//初始化JMenuBar
+		menuBar = new JMenuBar();
+		//初始化JMenu
+		menuHelp = new JMenu("帮助  |");
+		menuAbout = new JMenu("关于");
+		menuWindow = new JMenu("窗口   |");
+		menuOtherFunc = new JMenu("其他功能  |");
+		//向JMenuBar中添加JMenu
+		menuBar.add(menuWindow);
+		
+		menuBar.add(menuOtherFunc);
+		menuBar.add(menuHelp);
+		menuBar.add(menuAbout);
+		//menu中加入item
+		/*
+		 * 退出登录
+		 */
+		JMenuItem exit_item = new JMenuItem("注销");
+		exit_item.setHorizontalAlignment(SwingConstants.CENTER);
+		exit_item.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//退出登录
+				try
+			    {
+			        org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper.launchBeautyEyeLNF();
+			    }
+			    catch(Exception e4)
+			    {
+			        //TODO exception
+			    }
+				MainWindow mains = new MainWindow();
+				mains.frame.setVisible(true);				
+				prethis.dispose();
+								
+			}
+		});
+		menuWindow.add(exit_item);
+		menuWindow.addSeparator();
+		/*
+		 * 关闭
+		 */
+		JMenuItem close_item = new JMenuItem("关闭");
+		close_item.setAlignmentX(CENTER_ALIGNMENT);
+		close_item.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//退出
+				prethis.dispose();				
+			}
+		});
+		menuWindow.add(close_item);
+		/*
+		 * 员工通讯录
+		 */
+		JMenuItem call_item = new JMenuItem("员工通讯录");
+		call_item.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
+				int width = (int)screensize.getWidth();
+			    int height = (int)screensize.getHeight();
+			    //获取员工信息
+				CallInnfoDialog callInnfoDialog = new CallInnfoDialog(null);
+				callInnfoDialog.setLocation(new Point(width*1/4, height*1/5));
+				callInnfoDialog.setAlwaysOnTop(true);
+				callInnfoDialog.show();
+			}
+		});
+		menuOtherFunc.add(call_item);
+		/*
+		 * Table
+		 */
+		JMenuItem item_help = new JMenuItem("寻求帮助");
+		menuHelp.add(item_help);
+		/*
+		 * 联系我们
+		 */
+		JMenuItem item_contact_up = new JMenuItem("联系我们");
+		item_contact_up.addActionListener(new ActionListener() {
+				
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				JOptionPane.showMessageDialog(prethis, "email:sduwh.whspc@126.com");
+			}
+		});
+		menuAbout.add(item_contact_up);
+		//将JMenu添加进Frame
+		setJMenuBar(menuBar);
+				
 	}
 
 }

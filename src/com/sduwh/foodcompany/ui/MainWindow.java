@@ -43,7 +43,7 @@ import javax.swing.JComboBox;
 
 public class MainWindow {
 
-	private JFrame frame;
+	public JFrame frame;
 	private JTextField textField;
 	private JPasswordField  textField_1;
 
@@ -130,18 +130,19 @@ public class MainWindow {
 		label.setForeground(UIManager.getColor("Button.disabledForeground"));
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setFont(new Font("»ªÎÄÐÂÎº", Font.PLAIN, 18));
-		label.setIcon(new ImageIcon("C:\\Users\\student\\Desktop\\interesting.jpg"));
+		String path_interesting = absolute_path + "\\src\\com\\sduwh\\foodcompany\\ui\\interesting.jpg"; 
+		label.setIcon(new ImageIcon(path_interesting));
 		label.setBounds(10, 12, 154, 59);
 		panel.add(label);
 		
 		JLabel label_1 = new JLabel("\u8D26\u53F7\uFF1A");
 		label_1.setForeground(UIManager.getColor("Button.darkShadow"));
-		label_1.setBounds(168, 149, 42, 15);
+		label_1.setBounds(151, 149, 59, 15);
 		panel.add(label_1);
 		
 		JLabel label_2 = new JLabel("\u5BC6\u7801\uFF1A");
 		label_2.setForeground(UIManager.getColor("Button.darkShadow"));
-		label_2.setBounds(168, 180, 42, 15);
+		label_2.setBounds(151, 180, 59, 15);
 		panel.add(label_2);
 		
 		textField = new JTextField();
@@ -168,7 +169,7 @@ public class MainWindow {
 		
 		JLabel label_3 = new JLabel("\u8EAB\u4EFD\u7C7B\u578B\uFF1A");
 		label_3.setForeground(UIManager.getColor("Button.darkShadow"));
-		label_3.setBounds(142, 115, 60, 21);
+		label_3.setBounds(131, 115, 71, 21);
 		panel.add(label_3);
 		frame.getContentPane().setLayout(groupLayout);
 		

@@ -54,7 +54,7 @@ public class ProducePlanFrame extends JFrame implements ActionListener{
 	//button
 	private JButton selectPickUp_btn,selectWarehouse_btn,selectProducePlan_btn;
 	private JButton insertPlan_btn,alterPlan_btn;
-	
+	private Administrators user;
 
 
 
@@ -62,6 +62,7 @@ public class ProducePlanFrame extends JFrame implements ActionListener{
 	 * Create the frame.
 	 */
 	public ProducePlanFrame(Administrators adm) {
+		user = adm;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 750);
 		contentPane = new JPanel();
@@ -158,20 +159,20 @@ public class ProducePlanFrame extends JFrame implements ActionListener{
 		String btn_name = ae.getActionCommand();
 		
 		if(btn_name.equals("查询提货单")){
-			selectDesktop.add(new SelectPickUpFrame());
+			selectDesktop.add(new SelectPickUpFrame(user));
 		}
 		else if(btn_name.equals("查询库存")){
 			selectDesktop.add(new SelectWarehouse());
 		}
 		else if(btn_name.equals("查询生产计划")){
-			selectDesktop.add(new SelectProducePlan());
+			selectDesktop.add(new SelectProducePlan(user));
 			
 		}
 		else if(btn_name.equals("创建生产计划")){
 			planDesktop.add(new InsertProducePlan());
 		}
 		else if(btn_name.equals("修改生产计划")){
-			planDesktop.add(new SelectProducePlan());
+			planDesktop.add(new ChangePSelectPlan(user));
 		}
 		JInternalFrame sf = selectDesktop.getSelectedFrame();
 		try {

@@ -8,9 +8,13 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Label;
+import java.awt.Point;
 import java.awt.ScrollPane;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseWheelEvent;
 import java.util.Enumeration;
 
@@ -20,7 +24,10 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
@@ -30,6 +37,8 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
+
+import com.sduwh.foodcompany.entity.Administrators;
 
 public class SelectPickUpFrame extends JInternalFrame implements ActionListener{
 
@@ -53,14 +62,18 @@ public class SelectPickUpFrame extends JInternalFrame implements ActionListener{
 	private DefaultTableModel tableModel;
 	//scrollPane
 	private JScrollPane scrollPane;
-	
+	//弹出
+	JPopupMenu m_popupMenu;
+	//Adm
+	private Administrators administrators ;
+	private SelectPickUpFrame pickthis = this;
 	/**
 	 * Create the frame.
 	 */
-	public SelectPickUpFrame() {
+	public SelectPickUpFrame(Administrators user) {
 		setBounds(100, 100, 450, 300);
 		setTitle("查询提货单信息窗口");
-		
+		administrators = user;
 		//this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	    setMaximizable(true);	//标题栏有最大化按钮
 	    setIconifiable(true);	//标题栏有最小化按钮
@@ -118,13 +131,84 @@ public class SelectPickUpFrame extends JInternalFrame implements ActionListener{
 	    scrollPane.setPreferredSize(new Dimension(900,400));
 	    //将滚动面板加入viewPane
 	    viewPane.add(scrollPane);
+	    //弹出框实现
+	    createPopupMenu();
+	    table.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				if (e.getButton() == java.awt.event.MouseEvent.BUTTON3) {
+		            //通过点击位置找到点击为表格中的行
+		            int focusedRowIndex = table.rowAtPoint(e.getPoint());
+		            if (focusedRowIndex == -1) {
+		                return;
+		            }
+		            //将表格所选项设为当前右键点击的行
+		            table.setRowSelectionInterval(focusedRowIndex, focusedRowIndex);
+		            //弹出菜单
+		            m_popupMenu.show(table, e.getX(), e.getY());
+		        }
+				
+			}
+		});
 	    this.setVisible(true);
+	    
 	}
 
-@Override
-public void actionPerformed(ActionEvent e) {
+	@Override
+	public void actionPerformed(ActionEvent e) {
 	// TODO Auto-generated method stub
 	
-}
+	}
+	//创建弹出按钮
+			private void createPopupMenu() {
+		        m_popupMenu = new JPopupMenu();
+		        
+		        	JMenuItem planMenItem_look = new JMenuItem();
+		        	planMenItem_look.setText("查看详情");
+		        	planMenItem_look.addActionListener(new java.awt.event.ActionListener() {
+		        		public void actionPerformed(java.awt.event.ActionEvent evt) {
+		        			//该操作需要做的事
+		        			LookOrderByPickUpDialog lookOrderByPickUpDialog = new LookOrderByPickUpDialog();
+		        			Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
+		        			int width = (int)screensize.getWidth();
+		        			int height = (int)screensize.getHeight();
+		        			lookOrderByPickUpDialog.setLocation(new Point(width*1/4, height*1/3));
+		        			lookOrderByPickUpDialog.setAlwaysOnTop(true);
+
+		        		}
+		        	});
+		        
+		        
+		        	m_popupMenu.add(planMenItem_look);
+		        	
+		        
+		      
+			}
 
 }

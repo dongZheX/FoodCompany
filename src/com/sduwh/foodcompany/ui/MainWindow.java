@@ -214,18 +214,19 @@ public class MainWindow {
 						JOptionPane.showMessageDialog(null, "账号不存在或密码错误", "【出错啦】", JOptionPane.ERROR_MESSAGE);
 					else{
 						//生产相关
-						if(comboBox.getSelectedIndex() == 1 || comboBox.getSelectedIndex() == 4 || comboBox.getSelectedIndex() == 5)
+						if(comboBox.getSelectedIndex() == 1 || comboBox.getSelectedIndex() == 4 || comboBox.getSelectedIndex() == 5 || comboBox.getSelectedIndex() == 6)
 						{
 							//传实体
 							new ProducePlanFrame(dao.findAdministrators(map).get(0));
 							frame.setVisible(false);
 						}
 						//财务销售相关
-						/*else if(comboBox.getSelectedIndex()== 0 || comboBox.getSelectedIndex()== 1 || comboBox.getSelectedIndex()== 2)
+						else if(comboBox.getSelectedIndex()== 0 || comboBox.getSelectedIndex()== 1 || comboBox.getSelectedIndex()== 2)
 						{
-							new xxxx (id);
+							new TellerFrame(dao.findAdministrators(map).get(0));
+							frame.setVisible(false);
 						}
-						*/
+						
 					}
 				}
 				
@@ -233,7 +234,7 @@ public class MainWindow {
 			}
 		});
 		
-		String path_bqb = absolute_path + "\\src\\com\\sduwh\\foodcompany\\ui\\interesting.png";
+		String path_bqb = absolute_path + "\\src\\com\\sduwh\\foodcompany\\ui\\interesting.jpg";
 		btnNewButton.setIcon(new ImageIcon(path_bqb));
 		btnNewButton.setBounds(335, 225, 71, 72);
 		panel.add(btnNewButton);

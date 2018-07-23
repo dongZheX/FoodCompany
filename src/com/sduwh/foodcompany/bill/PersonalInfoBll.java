@@ -1,5 +1,8 @@
 package com.sduwh.foodcompany.bill;
 
+import java.util.ArrayList;
+
+import javax.mail.Session;
 import javax.net.ssl.SSLContext;
 
 import org.apache.ibatis.session.SqlSession;
@@ -53,5 +56,13 @@ public class PersonalInfoBll {
 				return false;
 			}
 		}		
+	}
+	/*
+	 * 获取通讯录
+	 */
+	public static ArrayList getAdminList() {
+		SqlSession sqlSession = MybatisUtil.getSession();
+		AdministratorsDao dao  = sqlSession.getMapper(AdministratorsDao.class);
+		return dao.findAdministrators(MapBuilder.buildMap("",""));
 	}
 }

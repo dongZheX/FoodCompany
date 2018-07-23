@@ -10,7 +10,7 @@
          #{good_num,mode=IN,jdbcType=INTEGER},
          #{warehouse_user_id,mode=IN,jdbcType=VARCHAR},
          #{workshop_user_id,mode=IN,jdbcType=VARCHAR},
-         #{good_state,mode=IN,jdbcType=INTEGER},
+         #{good_state,mode=IN,jdbcType=INTEGER}
          
  	</update>
  	<!-- select语句 -->
@@ -33,7 +33,11 @@
  	</select>
  	
  	<update id="updateWarehouse" parameterType="Map">
- 		update Warehouse set good_state = #{good_state} 
+ 		update Warehouse 
+ 		<set>
+ 			<if test="good_num!=null">good_num=#{good_num},</if>
+ 			<if test="good_state!=null">good_state=#{good_state}</if>
+ 		</set>
  		where batch_id=#{batch_id}
  	</update>
  	<!-- 过期检测 -->

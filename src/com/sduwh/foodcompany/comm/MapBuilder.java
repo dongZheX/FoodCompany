@@ -8,6 +8,7 @@ import javax.print.attribute.ResolutionSyntax;
 public class MapBuilder {
 	private static Map map = new HashMap<>();
 	public static Map buildMap(Object...args){
+		map.clear();
 		if(args.length%2!=0) return null;
 		int temp = args.length / 2;
 		map.clear();

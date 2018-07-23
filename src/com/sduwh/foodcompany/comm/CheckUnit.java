@@ -81,7 +81,7 @@ public class CheckUnit {
 		  * 打印函数
 		  */
 	  public static void print(Object o) {
-		  System.out.print(o);
+		  System.out.println(o);
 	  }
 	  /*
 	   * 通过权限号得知管理员身份

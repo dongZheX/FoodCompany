@@ -11,6 +11,7 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import com.sduwh.foodcompany.bill.PersonalInfoBll;
 import com.sduwh.foodcompany.comm.CheckUnit;
 import com.sduwh.foodcompany.entity.Administrators;
 
@@ -34,7 +35,6 @@ public class CallInnfoDialog extends JDialog{
 			this.setSize(800, 500);
 			
 			users = administrators;
-			CheckUnit.print(users);
 			initTable();
 			
 		}
@@ -54,10 +54,7 @@ public class CallInnfoDialog extends JDialog{
 			}
 			table = new JTable(defaultTableModel);
 			table.setRowHeight(50);
-			DefaultTableCellRenderer tcr = new DefaultTableCellRenderer();// 设置table内容居中
 			// tcr.setHorizontalAlignment(JLabel.CENTER);
-			tcr.setHorizontalAlignment(SwingConstants.CENTER);// 这句和上句作用一样
-			table.setDefaultRenderer(Object.class, tcr);
 			jScrollPane = new JScrollPane(table);
 			jScrollPane.setPreferredSize(new Dimension(500, 400));
 			jScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);

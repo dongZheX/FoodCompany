@@ -4,6 +4,7 @@ import java.io.Console;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Map;
 import java.util.jar.Attributes.Name;
 
 import javax.swing.table.DefaultTableCellRenderer;
@@ -30,14 +31,23 @@ public class WarehouseService {
 	 */
 	private static SqlSession session = MybatisUtil.getSession();
 	/*
+	 * 添加一条库存记录
+	 */
+	public static void insertWarehouse(Object...args){
+		//ArrayList<Warehouse> aList = new ArrayList<>();
+		WarehouseDao dao = session.getMapper(WarehouseDao.class);
+		Map<String,Object> map = MapBuilder.buildMap(args);
+		dao.insertWarehouse(map);
+	}
+	/*
 	 * 通过一系列参数获得一个库存记录列表
 	 */
-	public ArrayList<Warehouse> getWarehouseList(Object...args){
-		ArrayList<Warehouse> aList;
+	public static ArrayList<Warehouse> getWarehouseList(Object...args){
+		//ArrayList<Warehouse> aList = new ArrayList<>();
+		OutOfDateRefresh();
 		WarehouseDao dao = session.getMapper(WarehouseDao.class);
-		aList = dao.findWareHouse(MapBuilder.buildMap(args));
-		CheckUnit.print(aList);
-		return aList;
+		Map<String,Object> map = MapBuilder.buildMap(args);
+		return dao.findWareHouse(map);
 	}
 	/*
 	 * @param name 商品名称
@@ -46,8 +56,24 @@ public class WarehouseService {
 		String id;
 		GoodsDao dao = session.getMapper(GoodsDao.class);
 		ArrayList<Goods> goods = dao.findGoods(MapBuilder.buildMap("good_name",name));
-		id = goods.get(0).getGood_id();
+		if(goods.size()==0)
+			return "";
+		else
+			id = goods.get(0).getGood_id();
 		return id;
+	}
+	/*
+	 * @param name 商品名称
+	 */
+	public static String findNameByGoodId(String id) {
+		String name;
+		GoodsDao dao = session.getMapper(GoodsDao.class);
+		ArrayList<Goods> goods = dao.findGoods(MapBuilder.buildMap("good_id",id));
+		if(goods.size()==0)
+			return "";
+		else
+			name = goods.get(0).getGood_name();
+		return name;
 	}
 	/*
 	 * @param id 用户编号
@@ -55,9 +81,25 @@ public class WarehouseService {
 	public static String findNameByAdminId(String id) {
 		String name;
 		AdministratorsDao dao = session.getMapper(AdministratorsDao.class);
-		ArrayList<Administrators> administrators = dao.findAdministrators(MapBuilder.buildMap("User_id",id));
-		name = administrators.get(0).getUser_name();
+		ArrayList<Administrators> administrators = dao.findAdministrators(MapBuilder.buildMap("user_id",id));
+		if(administrators.size()==0)
+			return "";
+		else
+			name = administrators.get(0).getUser_name();
 		return name;
+	}
+	/*
+	 * @param name 人名
+	 */
+	public static String findIdByAdminName(String name) {
+		String id;
+		AdministratorsDao dao = session.getMapper(AdministratorsDao.class);
+		ArrayList<Administrators> administrators = dao.findAdministrators(MapBuilder.buildMap("user_name",name));
+		if(administrators.size()==0)
+			return "";
+		else
+			id = administrators.get(0).getUser_id();
+		return id;
 	}
 	/*
 	 * 提货
@@ -84,11 +126,11 @@ public class WarehouseService {
 	/*
 	 * 查询快过期商品
 	 */
-	public static  ArrayList<Warehouse> getWarehouseOutOfDateList(Object...args){
+	public static  ArrayList<Warehouse> findWareHouseOutOfDateAllMore(){
+		OutOfDateRefresh();
 		ArrayList<Warehouse> aList;
 		WarehouseDao dao = session.getMapper(WarehouseDao.class);
 		aList = dao.findWareHouseOutOfDateAllMore();
-		CheckUnit.print(aList);
 		return aList;
 	}
 	/*
@@ -106,15 +148,10 @@ public class WarehouseService {
 	 */
 	public static boolean destoryWarehouse(String batch_id) {
 		WarehouseDao warehouseDao = session.getMapper(WarehouseDao.class);
-		ArrayList<Warehouse> warehouses = warehouseDao.findWareHouse(MapBuilder.buildMap("batch_id",batch_id));
-		Date date = warehouses.get(0).getGood_GP();
-		if(CheckUnit.dateDiff("day", date, new Date())>0) {
-			warehouseDao.updateWarehouse(MapBuilder.buildMap("batch_id",batch_id,"good_state",4));
-			session.commit();
-			return true;
-		}else {
-			return false;
-		}
+		warehouseDao.updateWarehouse(MapBuilder.buildMap("batch_id",batch_id,"good_state",4));
+		session.commit();
+		return true;
+		
 	
 	}
 	/*
@@ -126,16 +163,28 @@ public class WarehouseService {
 		defaultTableModel.setColumnIdentifiers(objects);
 		for(int i = 0;i<warehouses.size();i++) {
 			Warehouse warehouse = warehouses.get(i);
-			String good_name = findIdByGoodName(warehouse.getGood_id());
+			String good_name = findNameByGoodId(warehouse.getGood_id());
 			String warehouse_user = findNameByAdminId(warehouse.getWarehouse_user_id());
 			String workshop_user = findNameByAdminId(warehouse.getWorkshop_user_id());
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			String good_PD = simpleDateFormat.format(warehouse.getGood_PD());
 			String good_GP = simpleDateFormat.format(warehouse.getGood_GP());
 			String state = Warehouse.numToState(warehouse.getGood_state());
-			String data[] = {warehouse.getBatch_id(),good_name,warehouse.getGood_num()+"",good_PD,good_GP,state};
+			String data[] = {warehouse.getBatch_id(),good_name,warehouse.getGood_num()+"",good_PD,good_GP,warehouse_user,workshop_user,state};
+			defaultTableModel.addRow(data);
 		}
-		return defaultTableModel;
-		
+		if(warehouses.size()==0)
+			defaultTableModel.setRowCount(22);
+		return defaultTableModel;		
+	}
+	/*
+	 * @param nothing
+	 * 查询过期商品
+	 */
+	public static ArrayList<Warehouse> getOutofDateWarehouse(){
+		OutOfDateRefresh();
+		WarehouseDao warehouseDao = session.getMapper(WarehouseDao.class);
+		ArrayList<Warehouse> warehouses = warehouseDao.findWareHouse(MapBuilder.buildMap("good_state","3"));
+		return warehouses;
 	}
 }

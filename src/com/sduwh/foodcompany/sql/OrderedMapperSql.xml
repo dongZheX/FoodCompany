@@ -51,9 +51,9 @@
  	<update id="updateOrdered" parameterType="Map">
  		update Ordered
  		<set>
- 			<if test="pick_up_time_start!=null">and pick_up_time_start = #{pick_up_time_start}</if>
- 			<if test="pick_up_time_end!=null">and pick_up_time_end = #{pick_up_time_end}</if>
- 			<if test="order_state!=null">and order_state = #{order_state}</if>
+ 			<if test="pick_up_time_start!=null">and pick_up_time_start = #{pick_up_time_start},</if>
+ 			<if test="pick_up_time_end!=null">and pick_up_time_end = #{pick_up_time_end},</if>
+ 			<if test="order_state!=null">and order_state = #{order_state},</if>
  		</set>
  		where order_id = #{order_id}
  	</update>

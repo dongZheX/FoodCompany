@@ -105,8 +105,8 @@ public class AlterPlanDialog extends JDialog implements ActionListener{
 		/*
 		 * 将查到的元素初始化进textfield
 		 */
-		textField_1.setText(myPlan.getGood_id());
-		textField.setText(myPlan.getGood_num()+"");
+		textField.setText(myPlan.getGood_id());
+		textField_1.setText(myPlan.getGood_num()+"");
 		Date mydate = myPlan.getDeadline();
 
 		/*
@@ -135,18 +135,25 @@ public void actionPerformed(ActionEvent e) {
 
 public void com_btn_action(){
 	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-	String [] select_key = {
-			"plan_id",plan_id,
-			//"good_id",textField.getText().equals("")?null:textField.getText(),
-			//"deadline",simpleDateFormat.format(dateChooser.getDate()),
-			//"plan_state",null,
-			//"good_num",textField_1.getText().equals("")?null:textField_1.getText(),
-		};
-	//String [] alter_key = {
-			
-	}
-	if(SelectProducePlanBill.alter_plan(alter_key)){
-		JOptionPane.showMessageDialog(this,"修改成功!");
+	
+	String [] alter_key = {
+			"good_num",textField_1.getText().toString(),
+			"deadline",simpleDateFormat.format(dateChooser.getDate()),
+			"plan_state",null,
+			"plan_id",plan_id
+	};
+	System.out.print(1);
+	System.out.print(simpleDateFormat.format(dateChooser.getDate()));
+	System.out.print(2);
+	if(SelectProducePlanBill.select_state(plan_id)){
+		if(SelectProducePlanBill.alter_plan(alter_key)){
+			JOptionPane.showMessageDialog(this,"修改成功!");
+			this.dispose();
+		}
+		
+		else{
+			JOptionPane.showMessageDialog(this,"修改失败,请联系管理员!");
+		}
 	}
 	else
 		JOptionPane.showMessageDialog(this, "修改失败,该生产计划非未确认状态!");

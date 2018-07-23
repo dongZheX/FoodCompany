@@ -33,10 +33,10 @@
  	<update id="updateCustomer" parameterType="Map">
  		update Customer
  		<set>
- 			<if test="user_tel!=null">user_tel = #{user_tel}</if>
- 			<if test="user_psw!=null">user_psw = #{user_psw}</if>
- 			<if test="cus_rank!=null">cus_rank = #{cus_rank}</if>
- 			<if test="cus_score!=null">cus_score = #{cus_score}</if>
+ 			<if test="user_tel!=null">user_tel = #{user_tel},</if>
+ 			<if test="user_psw!=null">user_psw = #{user_psw},</if>
+ 			<if test="cus_rank!=null">cus_rank = #{cus_rank},</if>
+ 			<if test="cus_score!=null">cus_score = #{cus_score},</if>
  			<if test="cus_address!=null">cus_address = #{cus_address}</if>
  		</set>
  		where user_id = #{user_id}

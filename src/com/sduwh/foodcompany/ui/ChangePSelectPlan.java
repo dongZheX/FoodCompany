@@ -35,7 +35,7 @@ public class ChangePSelectPlan extends JInternalFrame implements ActionListener 
 
 
 	
-
+	
 	private ChangePSelectPlan selectProducePlan = this;
 	
 	//JSplitPane
@@ -215,13 +215,29 @@ public class ChangePSelectPlan extends JInternalFrame implements ActionListener 
 	        		}
 	        	});
 	        
-	        	JMenuItem planMenuItem_del = new JMenuItem("删除");
+	        	JMenuItem planMenuItem_del = new JMenuItem("取消");
 	        	planMenuItem_del.addActionListener(new ActionListener() {
 				
 	        		@Override
 	        		public void actionPerformed(ActionEvent e) {
 	        			// TODO Auto-generated method stub
-	        			new JOptionPane().showMessageDialog(selectProducePlan, "确定删除?");
+	        			int row = table.getSelectedRow();
+	        			String plan_id = table.getModel().getValueAt(row, 0).toString();
+//	        			new JOptionPane().showMessageDialog(selectProducePlan, "确定取消?");
+	        			JOptionPane sure_dialog;
+	        			sure_dialog = new JOptionPane();
+	        			int i = sure_dialog.showConfirmDialog(selectProducePlan, "确定取消?","提示",JOptionPane.YES_NO_OPTION);
+	        			if(i == 0){
+	        				if(SelectProducePlanBill.select_state(plan_id)){
+	        					if(SelectProducePlanBill.cancel_plan(plan_id)){
+	        						JOptionPane.showMessageDialog(selectProducePlan,"取消成功!");
+	        					}
+	        					else
+	        						JOptionPane.showMessageDialog(selectProducePlan,"取消失败,请联系管理员!");	
+	        				}
+	        				else 
+	        					JOptionPane.showMessageDialog(selectProducePlan,"取消失败,该生产计划为不可取消状态!");
+	        			}
 					
 	        		}
 	        	});

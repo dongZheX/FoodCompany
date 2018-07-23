@@ -35,20 +35,39 @@ public class SelectProducePlanBill {
 	}
 	
 	/*
+	 * 查询生产计划的state是否接受修改
+	 */
+	public static boolean select_state(String plan_id){
+		ProducePlanDao dao = session.getMapper(ProducePlanDao.class);
+		Map map = MapBuilder.buildMap("plan_id",plan_id);
+		int plan_state = dao.findProducePlan(map).get(0).getPlan_state();
+		if(plan_state == ProducePlan.HAVE_NOT_CONFIRM){
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	/*
 	 * 修改生产计划
 	 */
 	public static boolean alter_plan(Object...args){
 		ProducePlanDao dao = session.getMapper(ProducePlanDao.class);
 		Map map = MapBuilder.buildMap(args);
-		System.out.println(dao.findProducePlan(map));
-		int state = dao.findProducePlan(map).get(0).getPlan_state();
-		if(!(state == ProducePlan.HAVE_NOT_CONFIRM)){
-			return false;
-		}
-		else{
-			dao.updateProducePlan(map);
-			return true;
-		}
-		
+		dao.updateProducePlan(map);
+		session.commit();
+		return true;
+	}
+	
+	
+	/*
+	 * 取消生产计划
+	 */
+	public static boolean cancel_plan(String plan_id){
+		ProducePlanDao dao = session.getMapper(ProducePlanDao.class);
+		Map map = MapBuilder.buildMap("good_num",null,"deadline",null,"plan_state",ProducePlan.HAVE_CANCELED);
+		dao.updateProducePlan(map);
+		session.commit();
+		return true;
 	}
 }

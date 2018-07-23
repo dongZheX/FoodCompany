@@ -286,6 +286,7 @@ public class WarehouseManagePanel extends JPanel implements ActionListener{
         		addWarehouseDialog.setAlwaysOnTop(true);
         		addWarehouseDialog.show();
         		
+        		
             }
         });
         /*
@@ -305,8 +306,8 @@ public class WarehouseManagePanel extends JPanel implements ActionListener{
 					//获取选中行的信息
 					int y = jTable.getSelectedRow();
 					//过期体或限制
-					if(jTable.getModel().getValueAt(y,7).toString().equals("已过期")||jTable.getModel().getValueAt(y,7).toString().equals("售空")) {
-						JOptionPane.showMessageDialog(sManagePanel, "已过期或者售空不能提货");
+					if(!jTable.getModel().getValueAt(y,7).toString().equals("正常")) {
+						JOptionPane.showMessageDialog(sManagePanel, "已过期或者售空或销毁不能提货");
 						return;
 					}
 					batch_id = jTable.getModel().getValueAt(y,0).toString();

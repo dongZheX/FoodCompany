@@ -139,9 +139,9 @@ public class PersonInfoPanel extends JPanel implements ActionListener{
 		button_save.setEnabled(false);
 		add(button_save);
 		
-		label = new JLabel("\u5A01 \u6D77 \u98DF \u54C1 \u5382");
+		label = new JLabel("\u4E2A \u4EBA \u4FE1 \u606F");
 		label.setFont(new Font("隶书", Font.BOLD, 45));
-		label.setBounds(288, 81, 398, 40);
+		label.setBounds(323, 79, 398, 40);
 		add(label);
 		/*
 		 * 添加标签 并添加点击事件

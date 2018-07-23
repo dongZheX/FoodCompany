@@ -3,7 +3,9 @@ package com.sduwh.foodcompany.ui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.function.Predicate;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -39,7 +41,8 @@ public class AddWarehouseDialog extends JDialog implements ActionListener{
 	private JTextField textFied_good_num;
 	JButton button;
 	private String good_name,good_num,good_PD,good_GP,warehouse_user_id,workshop_user_id;
-	private DateChooser dateChooser_1,dateChooser_2;
+	private DateChooser dateChooser_1;
+	private static Calendar calendar = Calendar.getInstance();
 	/**
 	 * Create the dialog.
 	 */
@@ -59,13 +62,9 @@ public class AddWarehouseDialog extends JDialog implements ActionListener{
 		 * 设置日期选择器
 		 */
 		dateChooser_1 = new DateChooser("yyyy-MM-dd");
-		dateChooser_1.setLocation(220, 135);
+		dateChooser_1.setLocation(220, 145);
 		dateChooser_1.setSize(151,25);
 		getContentPane().add(dateChooser_1);
-		
-		dateChooser_2 = new DateChooser("yyyy-MM-dd");
-		dateChooser_2.setBounds(220, 185, 151, 25);
-		getContentPane().add(dateChooser_2);
 		/*设置输入控件*/
 		textField_good_name = new JTextField();
 		textField_good_name.setHorizontalAlignment(SwingConstants.CENTER);
@@ -75,17 +74,12 @@ public class AddWarehouseDialog extends JDialog implements ActionListener{
 		
 		JLabel label = new JLabel("\u751F\u4EA7\u65E5\u671F\uFF1A");
 		label.setFont(new Font("黑体", Font.PLAIN, 14));
-		label.setBounds(84, 135, 70, 25);
+		label.setBounds(84, 145, 70, 25);
 		getContentPane().add(label);
-		
-		JLabel label_1 = new JLabel("\u6709\u6548\u671F\uFF1A");
-		label_1.setFont(new Font("黑体", Font.PLAIN, 14));
-		label_1.setBounds(84, 185, 70, 25);
-		getContentPane().add(label_1);
 		
 		JLabel label_2 = new JLabel("\u6210\u54C1\u5E93\u7BA1\u7406\u5458\uFF1A");
 		label_2.setFont(new Font("黑体", Font.PLAIN, 14));
-		label_2.setBounds(73, 235, 104, 25);
+		label_2.setBounds(64, 189, 104, 25);
 		getContentPane().add(label_2);
 		
 		JLabel label_3 = new JLabel("\u5546\u54C1\u540D\uFF1A");
@@ -95,19 +89,19 @@ public class AddWarehouseDialog extends JDialog implements ActionListener{
 		
 		JLabel label_4 = new JLabel("\u751F\u4EA7\u8F66\u95F4\u7BA1\u7406\u5458\uFF1A");
 		label_4.setFont(new Font("黑体", Font.PLAIN, 14));
-		label_4.setBounds(64, 281, 113, 25);
+		label_4.setBounds(64, 237, 113, 25);
 		getContentPane().add(label_4);
 		
 		textField_workshop_id = new JTextField();
 		textField_workshop_id.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_workshop_id.setColumns(10);
-		textField_workshop_id.setBounds(220, 281, 151, 25);
+		textField_workshop_id.setBounds(220, 237, 151, 25);
 		getContentPane().add(textField_workshop_id);
 		
 		textField_warehouse_id = new JTextField();
 		textField_warehouse_id.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_warehouse_id.setColumns(10);
-		textField_warehouse_id.setBounds(220, 235, 151, 25);
+		textField_warehouse_id.setBounds(220, 189, 151, 25);
 		getContentPane().add(textField_warehouse_id);
 		
 		JLabel label_5 = new JLabel("\u5546\u54C1\u6570\u91CF\uFF1A");
@@ -124,7 +118,7 @@ public class AddWarehouseDialog extends JDialog implements ActionListener{
 		 * 设置按钮
 		 */
 		button = new JButton("\u6DFB\u52A0");
-		button.setBounds(168, 337, 93, 34);
+		button.setBounds(153, 287, 93, 34);
 		getContentPane().add(button);
 		button.addActionListener(this);
 	}
@@ -169,8 +163,10 @@ public class AddWarehouseDialog extends JDialog implements ActionListener{
 		 */
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		good_PD = simpleDateFormat.format(dateChooser_1.getDate());
-		good_GP = simpleDateFormat.format(dateChooser_2.getDate());
-		if(CheckUnit.dateDiff("day", dateChooser_1.getDate(), dateChooser_2.getDate())>0||CheckUnit.dateDiff("day", dateChooser_1.getDate(), new Date())<0) {
+		calendar.add(Calendar.DATE, WarehouseService.findYXByGoodId(good_id));
+		Date good_GP_d = calendar.getTime();		
+		good_GP = simpleDateFormat.format(good_GP_d);
+		if(CheckUnit.dateDiff("day", dateChooser_1.getDate(), new Date())>0) {
 			JOptionPane.showMessageDialog(this, "输入日期不合法");
 			return;
 		}
@@ -194,5 +190,6 @@ public class AddWarehouseDialog extends JDialog implements ActionListener{
 					"good_state","1"
 				);
 		JOptionPane.showMessageDialog(this, "添加成功,刷新查看");
+		this.dispose();
 	}
 }

@@ -76,6 +76,19 @@ public class WarehouseService {
 		return name;
 	}
 	/*
+	 * @param name 商品有效期
+	 */
+	public static int findYXByGoodId(String id) {
+		int day;
+		GoodsDao dao = session.getMapper(GoodsDao.class);
+		ArrayList<Goods> goods = dao.findGoods(MapBuilder.buildMap("good_id",id));
+		if(goods.size()==0)
+			return 0;
+		else
+			day = goods.get(0).getGood_expiration_date();
+		return day;
+	}
+	/*
 	 * @param id 用户编号
 	 */
 	public static String findNameByAdminId(String id) {

@@ -13,7 +13,7 @@ import com.sduwh.foodcompany.dao.WarehouseDao;
 import com.sduwh.foodcompany.entity.ProducePlan;
 import com.sduwh.foodcompany.entity.Warehouse;
 
-public class SelectProducePlanBill {
+public class SelectProducePlanBll {
 	
 	private static SqlSession session = MybatisUtil.getSession();
 	
@@ -68,7 +68,17 @@ public class SelectProducePlanBill {
 	 */
 	public static boolean cancel_plan(String plan_id){
 		ProducePlanDao dao = session.getMapper(ProducePlanDao.class);
-		Map map = MapBuilder.buildMap("good_num",null,"deadline",null,"plan_state",ProducePlan.HAVE_CANCELED,"plan_id",plan_id);
+		Map map = MapBuilder.buildMap("plan_state",ProducePlan.HAVE_CANCELED,"plan_id",plan_id);
+		dao.updateProducePlan(map);
+		session.commit();
+		return true;
+	}
+	/*
+	 * 确认生产计划
+	 */
+	public static boolean confirm_plan(String plan_id){
+		ProducePlanDao dao = session.getMapper(ProducePlanDao.class);
+		Map map = MapBuilder.buildMap("plan_state",ProducePlan.HAVE_PUT_INTO_PRODUCE,"plan_id",plan_id);
 		dao.updateProducePlan(map);
 		session.commit();
 		return true;

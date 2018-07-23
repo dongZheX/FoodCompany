@@ -29,7 +29,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import com.sduwh.foodcompany.bill.IdToName;
-import com.sduwh.foodcompany.bill.SelectProducePlanBill;
+import com.sduwh.foodcompany.bill.SelectProducePlanBll;
 import com.sduwh.foodcompany.entity.Administrators;
 import com.sduwh.foodcompany.entity.PickUp;
 import com.sduwh.foodcompany.entity.ProducePlan;
@@ -152,7 +152,9 @@ public class SelectProducePlan extends JInternalFrame implements ActionListener 
 	    	        int row=table.rowAtPoint(e.getPoint());  
 	    	        int col=table.columnAtPoint(e.getPoint());  
 	    	        if(row>-1 && col>-1){  
-	    	            Object value= IdToName.Administrators_Select(table.getValueAt(row, col).toString());
+	    	        	Object object = table.getValueAt(row, col);
+	    	        	if(object==null)return;
+	    	            Object value= IdToName.Administrators_Select(object.toString());
 	    	            if(null!=value && !"".equals(value))  
 	    	                table.setToolTipText(value.toString());//悬浮显示单元格内容  
 	    	            else  
@@ -186,7 +188,7 @@ public class SelectProducePlan extends JInternalFrame implements ActionListener 
 				"planer_user_id",planer_user_id_field.getText().equals("")?null:planer_user_id_field.getText().toString(),
 				"plan_state",plan_state_int == -1?null:plan_state_int+""
 				};
-		ArrayList<ProducePlan> planArr = SelectProducePlanBill.select_ProducePlan(select_key);
+		ArrayList<ProducePlan> planArr = SelectProducePlanBll.select_ProducePlan(select_key);
 		DefaultTableModel defaultTableModel = new DefaultTableModel();
 		defaultTableModel.setColumnIdentifiers(table_title);
 		for(int i =0;i<planArr.size();i++){

@@ -11,6 +11,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -27,7 +29,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import com.sduwh.foodcompany.bill.SelectProducePlanBill;
+import com.sduwh.foodcompany.bill.SelectProducePlanBll;
 import com.sduwh.foodcompany.entity.Administrators;
 import com.sduwh.foodcompany.entity.ProducePlan;
 
@@ -233,8 +235,8 @@ public class ChangePSelectPlan extends JInternalFrame implements ActionListener 
 	        			sure_dialog = new JOptionPane();
 	        			int i = sure_dialog.showConfirmDialog(selectProducePlan, "确定取消?","提示",JOptionPane.YES_NO_OPTION);
 	        			if(i == 0){
-	        				if(SelectProducePlanBill.select_state(plan_id)){
-	        					if(SelectProducePlanBill.cancel_plan(plan_id)){
+	        				if(SelectProducePlanBll.select_state(plan_id)){
+	        					if(SelectProducePlanBll.cancel_plan(plan_id)){
 	        						JOptionPane.showMessageDialog(selectProducePlan,"取消成功!");
 	        						/*
 	        						 * 再执行一次查询
@@ -259,13 +261,22 @@ public class ChangePSelectPlan extends JInternalFrame implements ActionListener 
 	        	planMenItem_confirm.addActionListener(new java.awt.event.ActionListener() {
 	        		public void actionPerformed(java.awt.event.ActionEvent evt) {
 	        			//该操作需要做的事
-	        			
-	        			int result = new JOptionPane().showConfirmDialog(selectProducePlan, "您确定要确定吗？");
-	        			if(result == JOptionPane.YES_OPTION) {
-	        				
-	        			}else {
-	        				
-	        			}
+	        			int row = table.getSelectedRow();
+        				int result = new JOptionPane().showConfirmDialog(selectProducePlan, "您确定要确定吗？");
+        				if(result == JOptionPane.YES_OPTION) {
+        					Object object = table.getModel().getValueAt(row, 4);
+        					if(object==null)
+        						return;
+        					String state = object.toString();
+        					if(!state.equals("未确认")) {
+        						JOptionPane.showMessageDialog(selectProducePlan,"此订单已经确认过");
+        					}
+        					else {
+        						SelectProducePlanBll.cancel_plan(table.getModel().getValueAt(row, 0).toString());
+        						JOptionPane.showMessageDialog(selectProducePlan,"确认成功");
+        						table.getModel().setValueAt("已投入生产", row, 4);
+        					}
+        				}
 	        		}
 	        	});
 	        
@@ -275,13 +286,30 @@ public class ChangePSelectPlan extends JInternalFrame implements ActionListener 
 	        		@Override
 	        		public void actionPerformed(ActionEvent e) {
 	        			// TODO Auto-generated method stub
-	        			int result = new JOptionPane().showConfirmDialog(selectProducePlan, "您确定要取消吗？");
-	        			if(result == JOptionPane.YES_OPTION) {
-	        				
-	        			}else {
-	        				
-	        			}
-	        			
+	        			try {
+	        				int row = table.getSelectedRow();
+	        				int result = new JOptionPane().showConfirmDialog(selectProducePlan, "您确定要取消吗？");
+	        				if(result == JOptionPane.YES_OPTION) {
+	        					Object object = table.getModel().getValueAt(row, 4);
+	        					if(object==null)
+	        						return;
+	        					String state = object.toString();
+	        					if(state.equals("入库")||state.equals("取消")) {
+	        						JOptionPane.showMessageDialog(selectProducePlan,"此订单已经不能取消");
+	        					}
+	        					else {
+	        						SelectProducePlanBll.cancel_plan(table.getModel().getValueAt(row, 0).toString());
+	        						JOptionPane.showMessageDialog(selectProducePlan,"取消成功");
+	        						table.getModel().setValueAt("取消", row, 4);
+	        					}
+	        					
+	        				}else {
+	        					
+	        				}
+	        			}catch (Exception e5) {
+							// TODO: handle exception
+	        				JOptionPane.showMessageDialog(selectProducePlan,"不要空操作!");
+						}
 	        		}
 	        	});
 	        	m_popupMenu.add(planMenItem_confirm);
@@ -320,7 +348,7 @@ public class ChangePSelectPlan extends JInternalFrame implements ActionListener 
 				"planer_user_id",planer_user_id_field.getText().equals("")?null:planer_user_id_field.getText().toString(),
 				"plan_state",plan_state_int == -1?null:plan_state_int+""
 				};
-		ArrayList<ProducePlan> planArr = SelectProducePlanBill.select_ProducePlan(select_key);
+		ArrayList<ProducePlan> planArr = SelectProducePlanBll.select_ProducePlan(select_key);
 		DefaultTableModel defaultTableModel = new DefaultTableModel();
 		defaultTableModel.setColumnIdentifiers(table_title);
 		for(int i =0;i<planArr.size();i++){

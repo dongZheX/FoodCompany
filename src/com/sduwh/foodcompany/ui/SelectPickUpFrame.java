@@ -152,10 +152,12 @@ public class SelectPickUpFrame extends JInternalFrame implements ActionListener{
 	    //tip
 	    table.addMouseMotionListener(new MouseAdapter() {
 	    	 public void mouseMoved(MouseEvent e) {  
-	    	        int row=table.rowAtPoint(e.getPoint());  
+	    		 int row=table.rowAtPoint(e.getPoint());  
 	    	        int col=table.columnAtPoint(e.getPoint());  
 	    	        if(row>-1 && col>-1){  
-	    	            Object value= IdToName.Administrators_Select(table.getValueAt(row, col).toString());
+	    	        	Object object = table.getValueAt(row, col);
+	    	        	if(object==null)return;
+	    	            Object value= IdToName.Administrators_Select(object.toString());
 	    	            if(null!=value && !"".equals(value))  
 	    	                table.setToolTipText(value.toString());//悬浮显示单元格内容  
 	    	            else  

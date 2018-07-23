@@ -13,7 +13,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import com.sduwh.foodcompany.bill.SelectProducePlanBill;
+import com.sduwh.foodcompany.bill.SelectProducePlanBll;
 import com.sduwh.foodcompany.entity.ProducePlan;
 
 import javax.swing.JLabel;
@@ -99,7 +99,7 @@ public class AlterPlanDialog extends JDialog implements ActionListener{
 		}
 		
 		String [] key = {"plan_id",plan_id};
-		ArrayList<ProducePlan> plan_arr = SelectProducePlanBill.select_ProducePlan(key);
+		ArrayList<ProducePlan> plan_arr = SelectProducePlanBll.select_ProducePlan(key);
 		ProducePlan myPlan = plan_arr.get(0);
 		
 		/*
@@ -145,8 +145,8 @@ public void com_btn_action(){
 	System.out.print(1);
 	System.out.print(simpleDateFormat.format(dateChooser.getDate()));
 	System.out.print(2);
-	if(SelectProducePlanBill.select_state(plan_id)){
-		if(SelectProducePlanBill.alter_plan(alter_key)){
+	if(SelectProducePlanBll.select_state(plan_id)){
+		if(SelectProducePlanBll.alter_plan(alter_key)){
 			JOptionPane.showMessageDialog(this,"ÐÞ¸Ä³É¹¦!");
 			this.dispose();
 		}

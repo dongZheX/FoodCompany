@@ -10,7 +10,7 @@ import com.sduwh.foodcompany.comm.MybatisUtil;
 import com.sduwh.foodcompany.dao.PickUpDao;
 import com.sduwh.foodcompany.entity.PickUp;
 
-public class SelectPickUpBill {
+public class SelectPickUpBll {
 	
 	/*
 	 * 可通过pick_up_id,pick_up_date,accountant_user_id查询提货单信息

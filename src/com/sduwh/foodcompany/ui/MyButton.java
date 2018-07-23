@@ -108,8 +108,12 @@ public class MyButton extends JButton {
 		// 不判定的话会越界，在组件之外也会激发这个方法
 		if (!super.contains(x, y))
 			return false;
- 
-		int alpha = (pixels[(buttonWidth * y + x)] >> 24) & 0xff;
+		int alpha = 0;
+		try{
+		    alpha = (pixels[(buttonWidth * y + x)] >> 24) & 0xff;
+		}
+		catch(Exception e)
+		{}
  
 		repaint();
 		if (alpha == 0) {

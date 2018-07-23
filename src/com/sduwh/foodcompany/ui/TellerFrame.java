@@ -93,7 +93,7 @@ public class TellerFrame  extends JFrame{
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		
 		/*Frame*/
-		frame.setBounds(100, 100, 1000, 700);
+		frame.setBounds(200, 50, 1200, 800);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
@@ -131,6 +131,8 @@ public class TellerFrame  extends JFrame{
 		
 		/*销售tabbedPane*/
 		SalePane();
+		
+		AdministorsPane();
 	}
 	
 	/*出纳的tabbedPane*/
@@ -241,7 +243,7 @@ public class TellerFrame  extends JFrame{
 		salepanel.setLayout(null);
 
 		//scrollpane
-		selectScrollPane.setBounds(0, 0, 911, 547);
+		selectScrollPane.setBounds(0, 0, 1100, 600);
 		salepanel.add(selectScrollPane);
 		
 		JToolBar toolBar = new JToolBar();
@@ -296,8 +298,78 @@ public class TellerFrame  extends JFrame{
 		
 		/*tabbedPane中加入销售部Pane*/
 		tabbedPane.addTab("\u9500\u552E\u7BA1\u7406", null, salepanel, null);
+		
 	}
+	
+	private void AdministorsPane()
+	{
+		JPanel Manage_panel =  new JPanel();
+		tabbedPane.addTab("系统管理", null, Manage_panel, null);
 
+		//panel.add(salepanel);
+		JScrollPane selectScrollPane = new JScrollPane();
+		MDIDesktopPane MDIDesktop = new MDIDesktopPane();
+		
+		//salepanel
+		Manage_panel.setToolTipText("");
+		Manage_panel.setLayout(null);
+
+		//scrollpane
+		selectScrollPane.setBounds(0, 0, 1100, 600);
+		Manage_panel.add(selectScrollPane);
+		
+		JToolBar toolBar = new JToolBar();
+		selectScrollPane.setColumnHeaderView(toolBar);
+		selectScrollPane.setViewportView(MDIDesktop);
+		
+		
+		JButton button_create = new JButton("\u521B\u5EFA\u7BA1\u7406\u5458");
+		button_create.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MDIDesktop.add(new MDICreateUser());
+				JInternalFrame sf = MDIDesktop.getSelectedFrame();
+				try {
+					//将当前窗口最大化
+					sf.setMaximum(true);			
+				}
+				catch(Exception e1){		}
+				
+				JInternalFrame sf2 = MDIDesktop.getSelectedFrame();
+				try {
+					//将当前窗口最大化
+					if(!(sf2 instanceof MDICreateUser))
+						sf2.setMaximum(true);			
+				}
+				catch(Exception e2){		}
+				
+			}
+		});
+		toolBar.add(button_create);
+		
+		JButton button_update = new JButton("\u4FEE\u6539\u7BA1\u7406\u5458");
+		button_update.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MDIDesktop.add(new AlterAdminInfo());
+				JInternalFrame sf = MDIDesktop.getSelectedFrame();
+				try {
+					//将当前窗口最大化
+					sf.setMaximum(true);			
+				}
+				catch(Exception e1){		}
+				JInternalFrame sf2 = MDIDesktop.getSelectedFrame();
+				try {
+					//将当前窗口最大化
+					if(!(sf2 instanceof AlterAdminInfo))
+						sf2.setMaximum(true);			
+				}
+				catch(Exception e2){		}
+			}
+				
+		});
+		toolBar.add(button_update);
+		
+		
+	}
 	
 	/**
 	 * 单击bill按钮后触发此方法，开具账单，并且判断是否需要开具提货单

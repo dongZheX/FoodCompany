@@ -213,7 +213,7 @@ public class WarehouseManagePanel extends JPanel implements ActionListener{
 		//短暂测试
 		// TODO Auto-generated method stub
 		/*
-		 * 获取输入框内容
+		 * 获取输入框内容 
 		 */
 		String command = arg0.getActionCommand();
 		batch_id = jTextField[0].getText();
@@ -373,14 +373,19 @@ public class WarehouseManagePanel extends JPanel implements ActionListener{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				int y = jTable.getSelectedRow();
 				int result = JOptionPane.showConfirmDialog(sManagePanel, "您确定要销毁吗");
 				if(result==JOptionPane.YES_OPTION) {
-					int y = jTable.getSelectedRow();
-					//过期体或限制
-					String batch_id = jTable.getModel().getValueAt(y,0).toString();
-					if(WarehouseService.destoryWarehouse(batch_id)) {
-						JOptionPane.showMessageDialog(sManagePanel, "销毁成功");
-						jTable.getModel().setValueAt("已销毁", y, 7);
+					try {
+						// 过期体或限制
+						String batch_id = jTable.getModel().getValueAt(y, 0).toString();
+						if (WarehouseService.destoryWarehouse(batch_id)) {
+							JOptionPane.showMessageDialog(sManagePanel, "销毁成功");
+							jTable.getModel().setValueAt("已销毁", y, 7);
+						}
+					} catch (NullPointerException e6) {
+						// TODO: handle exception
+						JOptionPane.showMessageDialog(sManagePanel, "别对空行操作，乖");
 					}
 				}
 				

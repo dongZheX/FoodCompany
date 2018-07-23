@@ -7,6 +7,7 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.SimpleDateFormat;
@@ -27,6 +28,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import com.sduwh.foodcompany.bill.IdToName;
 import com.sduwh.foodcompany.bill.SelectProducePlanBill;
 import com.sduwh.foodcompany.entity.Administrators;
 import com.sduwh.foodcompany.entity.PickUp;
@@ -144,6 +146,22 @@ public class SelectProducePlan extends JInternalFrame implements ActionListener 
 	    scrollPane.setPreferredSize(new Dimension(900,350));
 	    //将滚动面板加入viewPane
 	    viewPane.add(scrollPane);
+	    //tip
+	    table.addMouseMotionListener(new MouseAdapter() {
+	    	 public void mouseMoved(MouseEvent e) {  
+	    	        int row=table.rowAtPoint(e.getPoint());  
+	    	        int col=table.columnAtPoint(e.getPoint());  
+	    	        if(row>-1 && col>-1){  
+	    	            Object value= IdToName.Administrators_Select(table.getValueAt(row, col).toString());
+	    	            if(null!=value && !"".equals(value))  
+	    	                table.setToolTipText(value.toString());//悬浮显示单元格内容  
+	    	            else  
+	    	                table.setToolTipText(null);//关闭提示  
+	    	        }  
+	    	    }  
+
+		});
+	    
 	    this.setVisible(true);
 	    
 	}

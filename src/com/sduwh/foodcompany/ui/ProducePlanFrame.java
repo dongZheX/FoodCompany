@@ -102,8 +102,8 @@ public class ProducePlanFrame extends JFrame implements ActionListener{
 		//向JTabbedPane中添加tab
 		tabbedPane.addTab("查询", selectPane);
 		tabbedPane.addTab("生产计划", planPane);
-		tabbedPane.addTab("个人信息", personInfoPane);
 		tabbedPane.addTab("库存管理", warehousePane);
+		tabbedPane.addTab("个人信息", personInfoPane);
 		//初始化为选择selectPane
 		tabbedPane.setSelectedIndex(0);
 		
@@ -149,6 +149,9 @@ public class ProducePlanFrame extends JFrame implements ActionListener{
 		//向selectPane中添加toolbar
 		selectPane.add(toolbar, BorderLayout.NORTH);
 		planPane.add(toolbar_plan, BorderLayout.NORTH);
+		//权限初始化
+		power_init();
+		
 		setVisible(true);
 		
 	}
@@ -288,6 +291,25 @@ public class ProducePlanFrame extends JFrame implements ActionListener{
 		//将JMenu添加进Frame
 		setJMenuBar(menuBar);
 				
+	}
+	
+	//权限设置
+	public void power_init(){
+		int adm_power = user.getAdm_power();
+		switch (adm_power) {
+		case Administrators.PRODUCE_ADMIN_NUM:
+			tabbedPane.setEnabledAt(2, false);
+			insertPlan_btn.setEnabled(false);
+			break;
+		case Administrators.PRODUCE_PLAN_ADMIN_NUM:
+			tabbedPane.setEnabledAt(2, false);
+			break;
+		case Administrators.WAREHOUSE_ADMIN_NUM:
+			tabbedPane.setEnabledAt(1, false);
+			break;
+		default:
+			break;
+		}
 	}
 
 }

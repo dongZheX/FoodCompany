@@ -11,6 +11,7 @@ import com.sduwh.foodcompany.dao.GoodsDao;
 import com.sduwh.foodcompany.dao.ProducePlanDao;
 import com.sduwh.foodcompany.dao.WarehouseDao;
 import com.sduwh.foodcompany.entity.ProducePlan;
+import com.sduwh.foodcompany.entity.Warehouse;
 
 public class SelectProducePlanBill {
 	
@@ -31,7 +32,9 @@ public class SelectProducePlanBill {
 	public static int select_Good_num(String good_id){
 		WarehouseDao dao = session.getMapper(WarehouseDao.class);
 		Map map = MapBuilder.buildMap("good_id",good_id);
-		return dao.findWareHouse(map).get(0).getGood_num();
+		ArrayList<Warehouse> warehouse_list= dao.findWareHouse(map);
+		if(warehouse_list.size() == 0) return -1;
+		else return warehouse_list.get(0).getGood_num();
 	}
 	
 	/*

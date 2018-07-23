@@ -1,5 +1,6 @@
 package com.sduwh.foodcompany.bill;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,6 +10,9 @@ import com.sduwh.foodcompany.comm.MybatisUtil;
 import com.sduwh.foodcompany.dao.AdministratorsDao;
 import com.sduwh.foodcompany.dao.CustomerDao;
 import com.sduwh.foodcompany.dao.GoodsDao;
+import com.sduwh.foodcompany.entity.Administrators;
+import com.sduwh.foodcompany.entity.Customer;
+import com.sduwh.foodcompany.entity.Goods;
 
 public class IdToName {
 	
@@ -22,7 +26,9 @@ public class IdToName {
 		AdministratorsDao dao = session.getMapper(AdministratorsDao.class);
 		Map<String, Object> map = new HashMap<>();
 		map.put("user_id", adm_user_id);
-		return dao.findAdministrators(map).get(0).getUser_name();
+		ArrayList<Administrators> adm_list = dao.findAdministrators(map);
+		if(adm_list.size() == 0) return "";
+		else return adm_list.get(0).getUser_name();
 	}
 	/*
 	 * 通过客户id返回客户姓名
@@ -32,7 +38,9 @@ public class IdToName {
 		CustomerDao dao = session.getMapper(CustomerDao.class);
 		Map<String, Object> map = new HashMap<>();
 		map.put("user_id", cus_user_id);
-		return dao.findCustomer(map).get(0).getUser_name();
+		ArrayList<Customer> cus_list = dao.findCustomer(map);
+		if(cus_list.size() == 0) return "";
+		else return cus_list.get(0).getUser_name();
 	}
 	/*
 	 * 通过商品id返回商品名
@@ -42,6 +50,8 @@ public class IdToName {
 		GoodsDao dao = session.getMapper(GoodsDao.class);
 		Map<String, Object> map = new HashMap<>();
 		map.put("good_id", good_id);
-		return dao.findGoods(map).get(0).getGood_name();
+		ArrayList<Goods> good_list = dao.findGoods(map);
+		if(good_list.size() == 0) return "";
+		else return good_list.get(0).getGood_name();
 	}
 }

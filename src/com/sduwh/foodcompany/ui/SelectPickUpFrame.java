@@ -13,6 +13,7 @@ import java.awt.ScrollPane;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseWheelEvent;
@@ -40,7 +41,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
+import com.sduwh.foodcompany.bill.IdToName;
 import com.sduwh.foodcompany.bill.NameToEntity;
+import com.sduwh.foodcompany.bill.WarehouseService;
 import com.sduwh.foodcompany.entity.Administrators;
 import com.sduwh.foodcompany.entity.PickUp;
 import com.sduwh.foodcompany.entity.User;
@@ -146,6 +149,22 @@ public class SelectPickUpFrame extends JInternalFrame implements ActionListener{
 	    viewPane.add(scrollPane);
 	    //弹出框实现
 	    createPopupMenu();
+	    //tip
+	    table.addMouseMotionListener(new MouseAdapter() {
+	    	 public void mouseMoved(MouseEvent e) {  
+	    	        int row=table.rowAtPoint(e.getPoint());  
+	    	        int col=table.columnAtPoint(e.getPoint());  
+	    	        if(row>-1 && col>-1){  
+	    	            Object value= IdToName.Administrators_Select(table.getValueAt(row, col).toString());
+	    	            if(null!=value && !"".equals(value))  
+	    	                table.setToolTipText(value.toString());//悬浮显示单元格内容  
+	    	            else  
+	    	                table.setToolTipText(null);//关闭提示  
+	    	        }  
+	    	    }  
+
+		});
+
 	    table.addMouseListener(new MouseListener() {
 			
 			@Override
@@ -163,13 +182,11 @@ public class SelectPickUpFrame extends JInternalFrame implements ActionListener{
 			@Override
 			public void mouseExited(MouseEvent arg0) {
 				// TODO Auto-generated method stub
-				
 			}
 			
 			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
+			public void mouseEntered(MouseEvent e) {
+
 			}
 			
 			@Override

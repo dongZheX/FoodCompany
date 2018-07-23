@@ -31,6 +31,7 @@ import com.sduwh.foodcompany.comm.DefaultTableModelIsEditable;
 import com.sduwh.foodcompany.entity.Administrators;
 import com.sduwh.foodcompany.entity.Goods;
 
+import javax.mail.search.IntegerComparisonTerm;
 import javax.swing.JButton;
 
 public class InsertProducePlan extends JInternalFrame implements ActionListener {
@@ -189,6 +190,8 @@ public class InsertProducePlan extends JInternalFrame implements ActionListener 
 			String deadline = table.getModel().getValueAt(2, 1).toString();
 			if(good_id.equals("") || good_num.equals("") || deadline.equals("") )
 				JOptionPane.showMessageDialog(this, "请完善生产计划信息!");
+			else if(Integer.parseInt(good_num) < 0)
+				JOptionPane.showMessageDialog(this, "商品数量不合法");
 			else {
 				InsertProducePlanBill.add_plan(
 						"good_id",good_id,

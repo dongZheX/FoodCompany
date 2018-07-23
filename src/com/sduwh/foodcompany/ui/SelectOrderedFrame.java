@@ -138,7 +138,13 @@ public class SelectOrderedFrame extends JInternalFrame implements ActionListener
 	  	    	   
 	    //初始化table
 	    tableModel = new DefaultTableModel(table_title,17);
-	    table = new JTable(tableModel);
+	    table = new JTable(tableModel) {
+	    	@Override
+	    	public boolean isCellEditable(int row, int column) {
+	    		// TODO Auto-generated method stub
+	    		return false;
+	    	}
+	    };
 	    table.setRowHeight(30);	  
 	    //初始化scrollPane
 	    //将table放入scrollPane

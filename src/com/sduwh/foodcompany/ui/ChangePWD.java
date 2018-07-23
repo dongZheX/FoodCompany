@@ -36,7 +36,7 @@ public class ChangePWD extends JDialog implements ActionListener{
 	/**
 	 * Create the dialog.
 	 */
-	public ChangePWD() {
+	public ChangePWD(String user_id) {
 		setTitle("\u4FEE\u6539\u5BC6\u7801");
 		/*
 		 * ¿Ø¼þ³õÊ¼»¯
@@ -53,6 +53,7 @@ public class ChangePWD extends JDialog implements ActionListener{
 		contentPanel.add(label_c_id);
 		
 		textField_id_c = new JTextField();
+		textField_id_c.setText(user_id);
 		textField_id_c.setBounds(166, 52, 169, 28);
 		contentPanel.add(textField_id_c);
 		textField_id_c.setColumns(10);

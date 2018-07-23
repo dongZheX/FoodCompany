@@ -112,7 +112,13 @@ public class AlterCusInfo extends JInternalFrame implements ActionListener{
 	    selectPane.add(select_btn);
 	  	    	   
 	    //初始化table
-	    tableModel = new DefaultTableModel(table_title,17);
+	    tableModel = new DefaultTableModel(table_title,17) {
+	    	@Override
+	    	public boolean isCellEditable(int row, int column) {
+	    		// TODO Auto-generated method stub
+	    		return false;
+	    	}
+	    };
 	    table = new JTable(tableModel);
 	    table.setRowHeight(30);	  
 	    //初始化scrollPane

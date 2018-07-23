@@ -117,7 +117,13 @@ public class SelectWarehouse extends JInternalFrame implements ActionListener {
 		
 		// 初始化table
 		tableModel = new DefaultTableModel(table_title, 17);
-		table = new JTable(tableModel);
+		table = new JTable(tableModel) {
+	    	@Override
+	    	public boolean isCellEditable(int row, int column) {
+	    		// TODO Auto-generated method stub
+	    		return false;
+	    	}
+	    };
 		table.setRowHeight(50);
 		// 初始化scrollPane
 		// 将table放入scrollPane

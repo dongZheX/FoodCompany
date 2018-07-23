@@ -12,6 +12,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.xml.ws.handler.MessageContext;
 import com.sduwh.foodcompany.bill.PersonalInfoBll;
 import com.sduwh.foodcompany.comm.CheckUnit;
+import com.sduwh.foodcompany.comm.MyListener;
 import com.sduwh.foodcompany.entity.Administrators;
 import com.sduwh.foodcompany.entity.User;
 import javax.swing.JButton;
@@ -52,6 +53,8 @@ public class PersonInfoPanel extends JPanel implements ActionListener{
 	JButton button_save;
 	//Âß¼­
 	private String user_id;
+	private PersonInfoPanel panel =this;
+	
 	/**
 	 * Create the panel.
 	 */
@@ -163,7 +166,7 @@ public class PersonInfoPanel extends JPanel implements ActionListener{
 			@Override
 			public void mousePressed(MouseEvent e) {
 				
-				ChangePWD changePWD = new ChangePWD();
+				ChangePWD changePWD = new ChangePWD(user_id);
 				Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
 				int width = (int)screensize.getWidth();
 			    int height = (int)screensize.getHeight();

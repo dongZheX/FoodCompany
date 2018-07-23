@@ -23,6 +23,7 @@ import javax.swing.border.TitledBorder;
 import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
 
 import com.sduwh.foodcompany.comm.CheckUnit;
+import com.sduwh.foodcompany.comm.MD5;
 import com.sduwh.foodcompany.comm.MapBuilder;
 import com.sduwh.foodcompany.dao.AdministratorsDao;
 import com.sduwh.foodcompany.dao.CustomerDao;
@@ -207,10 +208,11 @@ public class MainWindow {
 					Map map = MapBuilder.buildMap("user_id",id);
 					AdministratorsDao dao = (AdministratorsDao)DaoFactory.createDao(DaoFactory.DAO_ADMINISTRATORS);
 					String correct = dao.findAdministrators(map).get(0).getUser_psw();
-					int correct_power = dao.findAdministrators(map).get(0).getAdm_power();
-					
-					
-					if(!correct.equals(psw) ||comboBox.getSelectedIndex()+2 != correct_power )
+					CheckUnit.print(correct);
+					CheckUnit.print(MD5.getMD5(psw));
+					CheckUnit.print(correct.equals(MD5.getMD5(psw)));
+					int correct_power = dao.findAdministrators(map).get(0).getAdm_power();					
+					if(!correct.equals(MD5.getMD5(psw)) ||comboBox.getSelectedIndex()+2 != correct_power )
 						JOptionPane.showMessageDialog(null, "账号不存在或密码错误", "【出错啦】", JOptionPane.ERROR_MESSAGE);
 					else{
 						//生产相关
@@ -238,7 +240,7 @@ public class MainWindow {
 		btnNewButton.setIcon(new ImageIcon(path_bqb));
 		btnNewButton.setBounds(335, 225, 71, 72);
 		panel.add(btnNewButton);
-		
+	
 		//显示密码
 		JButton btnNewButton_1 = new JButton("\u67E5\u770B");
 		btnNewButton_1.setBackground(UIManager.getColor("Button.darkShadow"));

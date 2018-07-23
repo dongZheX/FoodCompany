@@ -25,6 +25,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
+import com.sduwh.foodcompany.bill.PersonalInfoBll;
 import com.sduwh.foodcompany.comm.MD5;
 import com.sduwh.foodcompany.comm.MDIDesktopPane;
 import com.sduwh.foodcompany.entity.Administrators;
@@ -167,7 +168,7 @@ public class ProducePlanFrame extends JFrame implements ActionListener{
 			
 		}
 		else if(btn_name.equals("创建生产计划")){
-			planDesktop.add(new InsertProducePlan());
+			planDesktop.add(new InsertProducePlan(user));
 		}
 		else if(btn_name.equals("修改生产计划")){
 			planDesktop.add(new ChangePSelectPlan(user));
@@ -253,7 +254,7 @@ public class ProducePlanFrame extends JFrame implements ActionListener{
 				int width = (int)screensize.getWidth();
 			    int height = (int)screensize.getHeight();
 			    //获取员工信息
-				CallInnfoDialog callInnfoDialog = new CallInnfoDialog(null);
+				CallInnfoDialog callInnfoDialog = new CallInnfoDialog(PersonalInfoBll.getAdminList());
 				callInnfoDialog.setLocation(new Point(width*1/4, height*1/5));
 				callInnfoDialog.setAlwaysOnTop(true);
 				callInnfoDialog.show();

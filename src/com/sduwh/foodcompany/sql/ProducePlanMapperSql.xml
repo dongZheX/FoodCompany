@@ -19,7 +19,7 @@
  		<where>
  			<if test="plan_id!=null">plan_id = #{plan_id}</if>
  			<if test="good_id!=null">and good_id = #{good_id}</if>
- 			<if test="good_num!=null">and good)num = #{good_num}</if>
+ 			<if test="good_num!=null">and good_num = #{good_num}</if>
  			<if test="deadline!=null">and deadline = #{deadline}</if>
  			<if test="plan_state!=null">and plan_state = #{plan_state}</if>
  			<if test="planer_user_id!=null">and planer_user_id = #{planer_user_id}</if>

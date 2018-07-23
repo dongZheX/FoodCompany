@@ -28,7 +28,7 @@ public class LookOrderByPickUpDialog extends JDialog{
 	//当前this
 	private LookOrderByPickUpDialog lookOrderByPickUpDialog = this;
 	//表头
-	private String[] columnDefine = {"商品编号","商品名称","商品数量","最早提货日期","最晚提货日期","客户号"};
+	private String[] columnDefine = {"商品编号","商品名称","商品数量","客户号","最早提货日期","最晚提货日期"};
 	
 	public LookOrderByPickUpDialog(String pick_up_id) {
 		/*

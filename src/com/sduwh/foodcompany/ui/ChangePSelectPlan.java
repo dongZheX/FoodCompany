@@ -34,7 +34,7 @@ import com.sduwh.foodcompany.entity.ProducePlan;
 public class ChangePSelectPlan extends JInternalFrame implements ActionListener {
 
 
-	
+	private Administrators user;
 	
 	private ChangePSelectPlan selectProducePlan = this;
 	
@@ -62,12 +62,13 @@ public class ChangePSelectPlan extends JInternalFrame implements ActionListener 
 	private Administrators muser;
 	
 	//字符串
-    private String [] good_state ={"未确认","已投入生产","入库","取消"};
+    private String [] good_state ={"<-请选择->","未确认","已投入生产","入库","取消"};
     private String [] table_title = {"生产计划号","商品号","商品数量","需要日期","计划状态","生产计划科操作人员"};
 	/**
 	 * Create the frame.
 	 */
 	public ChangePSelectPlan(Administrators user) {
+		this.user = user;
 		setBounds(100, 100, 450, 300);
 		setTitle("修改库存信息窗口");
 		muser = user; 
@@ -99,7 +100,7 @@ public class ChangePSelectPlan extends JInternalFrame implements ActionListener 
 	    
 	    //初始化only_me_checkbox
 	    only_me_checkbox = new JCheckBox("只看我的");
-	    
+	    only_me_checkbox.addActionListener(this);
 	    //初始化textfield
 	    plan_id_field = new JTextField();
 	    plan_id_field.setColumns(25);
@@ -211,6 +212,10 @@ public class ChangePSelectPlan extends JInternalFrame implements ActionListener 
 	        			alterPlanDialog.setLocation(new Point(width*1/4, height*1/3));
 	        			alterPlanDialog.setAlwaysOnTop(true);
 	        	    	alterPlanDialog.show();
+	        	    	/*
+						 * 再执行一次查询
+						 */
+						select_btn_action();
 	        	    	
 	        		}
 	        	});
@@ -231,12 +236,16 @@ public class ChangePSelectPlan extends JInternalFrame implements ActionListener 
 	        				if(SelectProducePlanBill.select_state(plan_id)){
 	        					if(SelectProducePlanBill.cancel_plan(plan_id)){
 	        						JOptionPane.showMessageDialog(selectProducePlan,"取消成功!");
+	        						/*
+	        						 * 再执行一次查询
+	        						 */
+	        						select_btn_action();
 	        					}
 	        					else
 	        						JOptionPane.showMessageDialog(selectProducePlan,"取消失败,请联系管理员!");	
 	        				}
 	        				else 
-	        					JOptionPane.showMessageDialog(selectProducePlan,"取消失败,该生产计划为不可取消状态!");
+	        					JOptionPane.showMessageDialog(selectProducePlan,"取消失败,该生产计划为不可取消状态或已为取消状态!");
 	        			}
 					
 	        		}
@@ -287,6 +296,16 @@ public class ChangePSelectPlan extends JInternalFrame implements ActionListener 
 		String btn_name = e.getActionCommand();
 		if(btn_name.equals("查询")){
 			select_btn_action();
+		}
+		else if(btn_name.equals("只看我的")){
+			if(only_me_checkbox.isSelected()){
+				planer_user_id_field.setEditable(false);
+				planer_user_id_field.setText(user.getUser_id());
+			}
+			else{
+				planer_user_id_field.setEditable(true);
+				planer_user_id_field.setText("");
+			}
 		}
 		
 	}

@@ -65,7 +65,7 @@ public class SelectProducePlanBill {
 	 */
 	public static boolean cancel_plan(String plan_id){
 		ProducePlanDao dao = session.getMapper(ProducePlanDao.class);
-		Map map = MapBuilder.buildMap("good_num",null,"deadline",null,"plan_state",ProducePlan.HAVE_CANCELED);
+		Map map = MapBuilder.buildMap("good_num",null,"deadline",null,"plan_state",ProducePlan.HAVE_CANCELED,"plan_id",plan_id);
 		dao.updateProducePlan(map);
 		session.commit();
 		return true;

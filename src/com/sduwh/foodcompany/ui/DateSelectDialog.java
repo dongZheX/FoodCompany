@@ -9,17 +9,29 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Date;
 import java.awt.Color;
 
-public class DateSelectDialog extends JDialog {
+public class DateSelectDialog extends JDialog implements ActionListener {
 	
 
 
+	private Date date;
+	
 
 	/**
 	 * Create the dialog.
 	 */
 	public DateSelectDialog() {
+		/*
+		 * 设置为阻塞状态
+		 */
+		this.setModal(true);
+		/*
+		 * 初始化Dialog
+		 */
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(null);
 		
@@ -38,8 +50,29 @@ public class DateSelectDialog extends JDialog {
 		getContentPane().add(label);
 		
 		JButton button = new JButton("\u786E\u5B9A");
+		button.addActionListener(this);
 		button.setBounds(149, 170, 124, 33);
 		getContentPane().add(button);
+		
+		/*
+		 * 获取date
+		 */
+		this.date = dateChooser.getDate();
+	}
+	
+	public Date get_date(){
+		return date;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+		
+		String btn_name = e.getActionCommand();
+		if(btn_name.equals("确定")){
+			this.dispose();
+		}
 	}
 
 }

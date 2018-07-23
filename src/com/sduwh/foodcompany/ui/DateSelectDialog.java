@@ -7,7 +7,12 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.sduwh.foodcompany.comm.CheckUnit;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,7 +23,7 @@ public class DateSelectDialog extends JDialog implements ActionListener {
 	
 
 
-	private Date date;
+	private DateChooser dateChooser;
 	
 
 	/**
@@ -34,19 +39,20 @@ public class DateSelectDialog extends JDialog implements ActionListener {
 		 */
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(null);
+		setBackground(Color.white);
 		
 		
 		/*
 		 * 设置日期选择器
 		 */
-		DateChooser dateChooser = new DateChooser("yyyy-MM-dd");
-		dateChooser.setLocation(203, 90);
-		dateChooser.setSize(157,33);
+		dateChooser = new DateChooser("yyyy-MM-dd");
+		dateChooser.setLocation(102, 97);
+		dateChooser.setSize(210,33);
 		getContentPane().add(dateChooser);
 		
 		JLabel label = new JLabel("\u9009\u62E9\u65E5\u671F\uFF1A");
 		label.setFont(new Font("宋体", Font.PLAIN, 14));
-		label.setBounds(59, 96, 91, 15);
+		label.setBounds(169, 54, 91, 15);
 		getContentPane().add(label);
 		
 		JButton button = new JButton("\u786E\u5B9A");
@@ -57,11 +63,15 @@ public class DateSelectDialog extends JDialog implements ActionListener {
 		/*
 		 * 获取date
 		 */
-		this.date = dateChooser.getDate();
+		
 	}
 	
 	public Date get_date(){
-		return date;
+		if(CheckUnit.dateDiff("day", dateChooser.getDate(), new Date()) < 0){
+			JOptionPane.showMessageDialog(this, "选择日期不合法");
+			return new Date();
+		}
+		return dateChooser.getDate();
 	}
 
 	@Override

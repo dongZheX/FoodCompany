@@ -5,6 +5,8 @@ import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -19,23 +21,15 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import com.sduwh.foodcompany.bill.IdToName;
+import com.sduwh.foodcompany.bill.NameToEntity;
+import com.sduwh.foodcompany.bill.SelectOrderedBll;
+import com.sduwh.foodcompany.bill.WarehouseService;
+import com.sduwh.foodcompany.entity.Administrators;
+import com.sduwh.foodcompany.entity.Ordered;
+
 public class SelectOrderedFrame extends JInternalFrame implements ActionListener {
 
-//	/**
-//	 * Launch the application.
-//	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					SelectOrderedFrame frame = new SelectOrderedFrame();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
 	
 	
 	private SelectOrderedFrame selectOrderedFrame = this;
@@ -57,26 +51,12 @@ public class SelectOrderedFrame extends JInternalFrame implements ActionListener
 	private DefaultTableModel tableModel;
 	//scrollPane
 	private JScrollPane scrollPane;
-	//checkbox
-	private JCheckBox only_me_checkbox;
 	//弹出菜单
 	private JPopupMenu m_popupMenu;
 	
 	 //字符串
-//    order_id
-//    good_id
-//    cus_user_id
-//    sale_user_id
-//    order_unit_price
-//    order_num
-//    order_type
-//    order_date
-//    pick_up_time_start
-//    pick_up_time_end
-//    order_state
-	
-    private String [] good_state ={"<-请选择->","未确认","已投入生产","入库","取消"};
-    //private String [] order_type = {"<-请选择->","现货(先付)","现货(后付)","预定(先付)","预定()"}
+    private String [] order_state ={"<-请选择->","未确认","已投入生产","入库","取消"};
+    private String [] order_type = {"<-请选择->","现货(先付)","现货(后付)","预定(先付)","预定()"};
     private String [] table_title = {"订货单号","商品编号","客户编号","销售人员编号","单价","数量","订单类型","订单日期","最早提货日期","最晚提货日期","订单状态"};
 
 	/**
@@ -114,29 +94,27 @@ public class SelectOrderedFrame extends JInternalFrame implements ActionListener
 	    //在this中添加splitPane
 	    this.add(splitPane);
 	    
-	    //初始化only_me_checkbox
-	    only_me_checkbox = new JCheckBox("只看我的");
 	    
 	    //初始化textfield
 	    
 
 	    
 	    order_id_field = new JTextField();
-	    order_id_field.setColumns(25);
+	    order_id_field.setColumns(20);
 	    good_id_field = new JTextField();
-	    good_id_field.setColumns(25);
+	    good_id_field.setColumns(20);
 	    cus_user_id_field = new JTextField();
-	    cus_user_id_field.setColumns(25);
+	    cus_user_id_field.setColumns(20);
 	    sale_user_id_field = new JTextField();
-	    sale_user_id_field.setColumns(25);
+	    sale_user_id_field.setColumns(20);
 	    //初始化combobox
-	    order_type_combobox = new JComboBox();
-	    order_state_combobox = new JComboBox ();
+	    order_type_combobox = new JComboBox(order_type);
+	    order_state_combobox = new JComboBox (order_state);
 	    //初始化label
 	    order_id_label = new JLabel("订货单号");
-	    good_id_label = new JLabel("商品编号");
+	    good_id_label = new JLabel("商品名");
 	    cus_user_id_label = new JLabel("客户编号");
-	    sale_user_id_label = new JLabel("销售人员编号");
+	    sale_user_id_label = new JLabel("销售人员名");
 	    order_type_label = new JLabel("订单类型");
 	    order_state_label = new JLabel("订单状态");
 	    //初始化select_btn
@@ -156,7 +134,6 @@ public class SelectOrderedFrame extends JInternalFrame implements ActionListener
 	    selectPane.add(order_type_combobox);
 	    selectPane.add(order_state_label);
 	    selectPane.add(order_state_combobox);
-	    selectPane.add(only_me_checkbox);
 	    selectPane.add(select_btn);
 	  	    	   
 	    //初始化table
@@ -178,6 +155,53 @@ public class SelectOrderedFrame extends JInternalFrame implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		
+		String btn_name = e.getActionCommand();
+		if(btn_name.equals("查询")){
+			btn_select_action();
+		}
+	}
+	
+	public void btn_select_action(){
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String order_id = order_id_field.getText();
+		String good_id = WarehouseService.findIdByGoodName(good_id_field.getText());
+		System.out.println("good_id+"+good_id);
+		String cus_user_id = cus_user_id_field.getText();
+		String sale_user_id = WarehouseService.findIdByAdminName(sale_user_id_field.getText());
+		String order_type_str = order_type_combobox.getSelectedItem().toString();
+		String order_state_str = order_state_combobox.getSelectedItem().toString();
+		int order_type_int = Ordered.order_type_toInt(order_type_str);
+		int order_state_int = Ordered.order_state_toInt(order_state_str);
+		String [] key = {
+				"order_id",order_id.equals("")?null:order_id,
+				"good_id",good_id.equals("")?null:good_id,
+				"cus_user_id",cus_user_id.equals("")?null:cus_user_id,
+				"sale_user_id",sale_user_id.equals("")?null:sale_user_id,
+				"order_type",order_type_int == -1?null:order_type_int+"",
+				"order_state",order_state_int == -1?null:order_state_int+""
+				};
+		ArrayList<Ordered> order_list = SelectOrderedBll.select_ordered(key);
+		DefaultTableModel defaultTableModel = new DefaultTableModel();
+		defaultTableModel.setColumnIdentifiers(table_title);
+		for (int i = 0; i < order_list.size(); i++){
+			Ordered ordered = order_list.get(i);
+			String []datas = {
+					ordered.getOrder_id(),
+					IdToName.Goods_select(ordered.getGood_id()),
+					ordered.getCus_user_id(),
+					ordered.getSale_user_id(),
+					ordered.getOrder_unit_price()+"",
+					ordered.getOrder_num()+"",
+					simpleDateFormat.format(ordered.getOrder_date()),
+					simpleDateFormat.format(ordered.getPick_up_time_start()),
+					simpleDateFormat.format(ordered.getPick_up_time_end()),
+					Ordered.order_type_toStr(ordered.getOrder_type()),
+					Ordered.order_state_toStr(ordered.getOrder_state())
+			};
+			defaultTableModel.addRow(datas);
+		}
+		table.setModel(defaultTableModel);
 		
 	}
 

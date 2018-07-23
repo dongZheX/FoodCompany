@@ -33,6 +33,7 @@ public class Ordered implements Serializable{
 	private float order_unit_price;
 	private int order_num;
 	private int order_type;
+	private Date order_date;
 	private Date pick_up_time_start;
 	private Date pick_up_time_end ;
 	private int order_state;
@@ -47,11 +48,21 @@ public class Ordered implements Serializable{
 		order_type = 0;
 		pick_up_time_end = null;
 		pick_up_time_start = null;
+		order_date = null;
 	}
 	//getters and setters
+	
 	public String getOrder_id() {
 		return order_id;
 	}
+	public Date getOrder_date() {
+		return order_date;
+	}
+
+	public void setOrder_date(Date order_date) {
+		this.order_date = order_date;
+	}
+
 	public void setOrder_id(String order_id) {
 		this.order_id = order_id;
 	}
@@ -113,8 +124,8 @@ public class Ordered implements Serializable{
 	public String toString() {
 		return "Ordered [order_id=" + order_id + ", good_id=" + good_id + ", cus_user_id=" + cus_user_id
 				+ ", sale_user_id=" + sale_user_id + ", order_unit_price=" + order_unit_price + ", order_num="
-				+ order_num + ", order_type=" + order_type + ", pick_up_time_start=" + pick_up_time_start
-				+ ", pick_up_time_end=" + pick_up_time_end + ", order_state=" + order_state + "]";
+				+ order_num + ", order_type=" + order_type + ", order_date=" + order_date + ", pick_up_time_start="
+				+ pick_up_time_start + ", pick_up_time_end=" + pick_up_time_end + ", order_state=" + order_state + "]";
 	}
 	public boolean equals(Ordered c) {
 		if(c instanceof Ordered) {
@@ -129,4 +140,85 @@ public class Ordered implements Serializable{
 		}
 	}
 	
+	/*
+	 * type_strToInt
+	 */
+	public static int order_type_toInt(String order_type_str){
+		int order_type_int = -1;
+		switch (order_type_str) {
+		case "现货(先付)":
+			order_type_int = Ordered.XIAN_HUO_BEF;
+			break;
+		case "现货(后付)":
+			order_type_int = Ordered.XIAN_HUO_AFT;
+			break;
+		case "预定(先付)":
+			order_type_int = Ordered.ORDER_HUO_BEF;
+			break;
+		case "预定(后付)":
+			order_type_int = Ordered.ORDER_HUO_AFT;
+			break;
+		default: order_type_int = -1;
+			break;
+		}
+		return order_type_int;
+	}
+	/*
+	 * state_strToInt
+	 */
+	public static int order_state_toInt(String order_state_str){
+		int order_state_int= -1;
+		switch (order_state_str) {
+		case "未付款":
+			order_state_int = Ordered.UMPAID;
+			break;
+		case "付定金":
+			order_state_int = Ordered.PAID_PART;
+			break;
+		case "付全款":
+			order_state_int = Ordered.PAID_ALL;
+			break;
+		case "取消":
+			order_state_int = Ordered.PAID_CANCEL;
+			break;
+		default: order_state_int = -1;
+			break;
+		}
+		return order_state_int;
+	}
+	/*
+	 * type_intToStr
+	 */
+	public static String order_type_toStr(int order_type_int){
+		switch(order_type_int) {
+		case Ordered.ORDER_HUO_AFT:	return "预约后付";
+		case Ordered.ORDER_HUO_BEF:	return "预约先付";
+		case Ordered.XIAN_HUO_AFT:	return "现货后付";
+		case Ordered.XIAN_HUO_BEF:	return "现货先付";
+		}
+		return null;
+	}
+	/*
+	 * state_intToStr
+	 */
+	public static String order_state_toStr(int order_state_int){
+		String order_state_str = "";
+		switch (order_state_int) {
+		case Ordered.PAID_ALL:
+			order_state_str = "付全款";
+			break;
+		case Ordered.PAID_CANCEL:
+			order_state_str = "取消";
+			break;
+		case Ordered.PAID_PART:
+			order_state_str = "付定金";
+			break;
+		case Ordered.UMPAID:
+			order_state_str = "未付款";
+			break;
+		default: order_state_str = null;
+			break;
+		}
+		return order_state_str;
+	}
 }

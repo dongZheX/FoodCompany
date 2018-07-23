@@ -47,14 +47,12 @@ public class PersonalInfoBll {
 		if(!MD5opass.equals(oldtruepass)) {
 			return false;
 		}else {
-			try {
+			
 				dao.updateAdministrators(MapBuilder.buildMap("user_id",id,"user_psw",MD5.getMD5(npass)));
 				sqlSession.commit();
 				sqlSession.close();
 				return true;
-			}catch (Exception e) {
-				return false;
-			}
+			
 		}		
 	}
 	/*

@@ -1,11 +1,8 @@
 package com.sduwh.foodcompany.bill;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.apache.ibatis.session.SqlSession;
-
 import com.sduwh.foodcompany.comm.MapBuilder;
 import com.sduwh.foodcompany.comm.MybatisUtil;
 import com.sduwh.foodcompany.dao.AdministratorsDao;

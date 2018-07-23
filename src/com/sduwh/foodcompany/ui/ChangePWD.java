@@ -101,10 +101,10 @@ public class ChangePWD extends JDialog implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
-		String user_id = textField_id_c.getText().toString();
-		String old_pass = textField_old_pass_c.getPassword().toString();
-		String new_pass = textField_new_pass_c.getPassword().toString();
-		String new_pass_con =textField_new_con_pass_c.getPassword().toString();
+		String user_id = textField_id_c.getText();
+		String old_pass = String.valueOf(textField_old_pass_c.getPassword());
+		String new_pass = String.valueOf(textField_new_pass_c.getPassword());
+		String new_pass_con =String.valueOf(textField_new_con_pass_c.getPassword());
 		/*
 		 * 判断用户输入是否有问题
 		 */
@@ -127,6 +127,8 @@ public class ChangePWD extends JDialog implements ActionListener{
 		/*
 		 * 判断用户输入的两次密码是否一致
 		 */
+		System.out.println("1"+new_pass);
+		System.out.println("2"+new_pass_con);
 		if(!new_pass.equals(new_pass_con)) {
 			JOptionPane.showMessageDialog(this, "请确保输入的两次密码一致");
 			return;

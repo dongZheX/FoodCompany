@@ -81,7 +81,7 @@ public class AlterCusInfo extends JInternalFrame implements ActionListener{
 	    //初始化splitPane
 	    splitPane = new JSplitPane();
 	    //设置分割线位置
-	    splitPane.setDividerLocation(100);
+	    splitPane.setDividerLocation(50);
 	    //向splitPane中添加面板
 	    splitPane.setLeftComponent(selectPane);
 	    splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);

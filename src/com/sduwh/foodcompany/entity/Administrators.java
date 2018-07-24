@@ -21,7 +21,8 @@ public class Administrators extends User implements Serializable{
 	public static final int PRODUCE_PLAN_ADMIN_NUM = 7;
 	//销售管理员
 	public static final int SALE_ADMIN_NUM = 8;
-	
+	//万能
+	public static final int BEST = 9;
 	private int adm_power;
 	//默认构造方法
 	public Administrators(){

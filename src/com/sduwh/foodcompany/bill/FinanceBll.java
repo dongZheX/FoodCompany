@@ -68,26 +68,31 @@ public class FinanceBll {
 	 * 根据收据Id找到收据
 	 */
 	public static ReceiptTableData searchReceiptByReceiptId(String receiptId) {
+		if(receiptId == "")	receiptId = null;
 		Map map = MapBuilder.buildMap("receipt_id", receiptId);
 		ReceiptDao receiptDao = (ReceiptDao)DaoFactory.createDao(DaoFactory.DAO_RECEIPT);
-		Receipt receipt = receiptDao.findReceipt(map).get(0);	//找到这个收据
+		ArrayList<Receipt> arrayList = receiptDao.findReceipt(map);
+		if(arrayList.size() == 0)	return null;	/*如果数据库中没有该订单，则返回null*/
+		Receipt receipt = arrayList.get(0);	//找到这个收据
 		
 		Ordered order = FinanceBll.getOrderById(receipt.getOrder_id());
 		Customer customer = FinanceBll.getCustomerById(order.getCus_user_id());
 		
-		return new ReceiptTableData(receipt.getReceipt_id(), order.getOrder_id(), customer.getUser_id(), customer.getUser_name(), receipt.getReceipt_money());	
+		return new ReceiptTableData(receipt.getReceipt_id(), order.getOrder_id(), customer.getUser_id(), customer.getUser_name(), receipt.getReceipt_money()); 
 	}
 	
 	/*
 	 * 根据订单Id找到收据
 	 */
 	public static ReceiptTableData searchReceiptByOrderId(String orderId) {
+		if(orderId == "")	orderId = null;
 		Ordered order = FinanceBll.getOrderById(orderId);
+		if(order == null)	return null;
 		int orderState = order.getOrder_state();
 		Map getReceipt = MapBuilder.buildMap("order_id", orderId);
 		ReceiptDao receiptDao = (ReceiptDao)DaoFactory.createDao(DaoFactory.DAO_RECEIPT);
 		ArrayList<Receipt> arrayList = (ArrayList)receiptDao.findReceipt(getReceipt);
-		
+		if(arrayList.size() == 0)	return null;
 		/*通过for循环找到收据*/
 		Receipt receipt = null;
 		for(int i = 0; i < arrayList.size(); ++i) {
@@ -100,13 +105,15 @@ public class FinanceBll {
 		/*找到用户*/
 		Customer customer = FinanceBll.getCustomerById(order.getCus_user_id());
 		
-		return new ReceiptTableData(receipt.getReceipt_id(), order.getOrder_id(), customer.getUser_id(), customer.getUser_name(), receipt.getReceipt_money());
+		return new ReceiptTableData(receipt.getReceipt_id(), order.getOrder_id(), customer.getUser_id(), customer.getUser_name(), receipt.getReceipt_money()); 
 	}
 	
 	/*根据客户ID找到收据*/
 	public static ReceiptTableData[] searchReceiptByCustomerId(String customerId) {
+		if(customerId == "")	customerId = null;
 		/*找到这个客户*/
 		Customer customer = FinanceBll.getCustomerById(customerId);
+		if(customer == null)	return null;
 		/*找到这个客户的所有订单*/
 		OrderedTableData[] orderTableData = FinanceBll.searchOrderByCustomerId(customerId);
 		ReceiptTableData[] receiptTableData = new ReceiptTableData[orderTableData.length];
@@ -117,7 +124,8 @@ public class FinanceBll {
 	}
 	
 	/*根据客户的姓名找到收据*/
-	public static ReceiptTableData[] seachReceiptByCustomerName(String customerName) {
+	public static ReceiptTableData[] searchReceiptByCustomerName(String customerName) {
+		if(customerName == "")	customerName = null;
 		Map<Integer, ReceiptTableData> ans = new HashMap<>();
 		int ansNumber = 0;
 		
@@ -125,6 +133,7 @@ public class FinanceBll {
 		CustomerDao customerDao = (CustomerDao)DaoFactory.createDao(DaoFactory.DAO_CUSTOMER);
 		ArrayList<Customer> arrayList = customerDao.findCustomer(map);
 		int arraySize = arrayList.size();
+		if(arraySize == 0)	return null;
 		for(int i = 0; i < arraySize; ++i) {
 			ReceiptTableData[] receiptTableData = FinanceBll.searchReceiptByCustomerId(arrayList.get(i).getUser_id());
 			for(int j = 0; j < receiptTableData.length; ++j)
@@ -163,7 +172,9 @@ public class FinanceBll {
 	 *OrderedTableData的属性有orderedId, customerId, customerName, type, sum
 	 */
 	public static OrderedTableData searchOrderByOrderId(String orderId) {
+		if(orderId == "")	orderId = null;
 		Ordered order = getOrderById(orderId);
+		if(order == null)	return null;
 		String customerId = order.getCus_user_id();
 		int type = order.getOrder_type();
 		int state = order.getOrder_state();
@@ -180,16 +191,21 @@ public class FinanceBll {
 		Map<String, Object> getCustomerName = new HashMap<>();
 		getCustomerName.put("user_id", customerId);
 		CustomerDao customerDao = (CustomerDao)DaoFactory.createDao(DaoFactory.DAO_CUSTOMER);
-		Customer customer = customerDao.findCustomer(getCustomerName).get(0);
+		ArrayList<Customer> arrayList = customerDao.findCustomer(getCustomerName);
+		if(arrayList.size() == 0)	return null;
+		Customer customer = arrayList.get(0);	/*如果没找到顾客就返回null*/
 		String customerName = customer.getUser_name();
-		//public OrderedTableData(String orderedId, String customerId, String customerName, int type, float sum) {
+
+		
 		return new OrderedTableData(orderId, customerId, customerName, type, state, sum);
+		
 	}
 	
 	/*
 	 * 根据客户的id查询订单
 	 */
 	public static OrderedTableData[] searchOrderByCustomerId(String cus_user_id) {
+		if(cus_user_id == "")	cus_user_id = null;
 		Map<String, Boolean> getOrderId = new HashMap<>();
 		Map<Integer, String> order = new HashMap<>();
 		int orderNum = 0;
@@ -198,6 +214,7 @@ public class FinanceBll {
 		getOrder.put("cus_user_id", cus_user_id);
 		ArrayList<Ordered> arrayList = orderDao.findOrdered(getOrder);
 		int listNum = arrayList.size();
+		if(listNum == 0)	return null;
 		for(int i = 0; i < listNum; ++i) {
 			if(getOrderId.get(arrayList.get(i).getOrder_id()) == false) {
 				getOrderId.put(arrayList.get(i).getOrder_id(), true);
@@ -215,10 +232,14 @@ public class FinanceBll {
 	 * 根据客户的姓名查找相应的订单
 	 */
 	public static OrderedTableData[] searchOrderByCustomerName(String userName) {
+		if(userName == "")	userName = null;
 		Map<String, Object> getCustomerId = new HashMap<>();
 		getCustomerId.put("user_name", userName);
 		CustomerDao customerDao = (CustomerDao)DaoFactory.createDao(DaoFactory.DAO_CUSTOMER);
-		int customerNumber = customerDao.findCustomer(getCustomerId).size();	//得到具有相同姓名的客户的数量
+		ArrayList list = customerDao.findCustomer(getCustomerId);
+		if(list.size() == 0)	return null;
+		int customerNumber = list.size();	//得到具有相同姓名的客户的数量
+		
 		
 		Map<String, Boolean> getOrderId = new HashMap<>();
 		Map<Integer, String> order = new HashMap<>();
@@ -251,19 +272,25 @@ public class FinanceBll {
 	private static Ordered getOrderById(String orderId) {
 		Map map = MapBuilder.buildMap("order_id", orderId);	//建立一个map
 		OrderedDao orderDao = (OrderedDao)DaoFactory.createDao(DaoFactory.DAO_ORDERED);
-		return orderDao.findOrdered(map).get(0);
+		ArrayList<Ordered> arrayList = orderDao.findOrdered(map);
+		if(arrayList.size() == 0)	return null;
+		return arrayList.get(0);
 	}
 	
 	private static Customer getCustomerById(String customerId) {
 		Map map = MapBuilder.buildMap("cus_user_id", customerId);
 		CustomerDao customerDao = (CustomerDao)DaoFactory.createDao(DaoFactory.DAO_CUSTOMER);
-		return customerDao.findCustomer(map).get(0);
+		ArrayList<Customer> arrayList = customerDao.findCustomer(map); 
+		if(arrayList.size() == 0)	return null;
+		return arrayList.get(0);
 	}
 	
 	private static Receipt getReceiptById(String receiptId) {
 		Map map = MapBuilder.buildMap("receipt_id", receiptId);
 		ReceiptDao receiptDao = (ReceiptDao)DaoFactory.createDao(DaoFactory.DAO_RECEIPT);
-		return receiptDao.findReceipt(map).get(0);
+		ArrayList<Receipt> arrayList = receiptDao.findReceipt(map);
+		if(arrayList.size() == 0)	return null;
+		return arrayList.get(0);
 	}
 	
 	private static String getDate() {

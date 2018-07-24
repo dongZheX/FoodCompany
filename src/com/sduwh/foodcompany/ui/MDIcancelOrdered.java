@@ -67,6 +67,8 @@ public class MDIcancelOrdered extends JInternalFrame implements ActionListener{
     private String [] order_state ={"<-请选择->","未确认","已投入生产","入库","取消"};
     private String [] order_type = {"<-请选择->","现货(先付)","现货(后付)","预定(先付)","预定()"};
     private String [] table_title = {"订货单号","商品编号","客户编号","销售人员编号","单价","数量","订单类型","订单日期","最早提货日期","最晚提货日期","订单状态"};
+    private JLabel label;
+    private JTextField textField;
 
 	/**
 	 * Create the frame.
@@ -74,7 +76,7 @@ public class MDIcancelOrdered extends JInternalFrame implements ActionListener{
 
 
 	public MDIcancelOrdered() {
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 1139, 449);
 		setTitle("查询订货单窗口");
 		
 		//this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -101,14 +103,14 @@ public class MDIcancelOrdered extends JInternalFrame implements ActionListener{
 	    
 	    
 	    //在this中添加splitPane
-	    this.add(splitPane);
+	    getContentPane().add(splitPane);
 	    
 	    
 	    //初始化textfield 
 	    order_id_field = new JTextField();
 	    order_id_field.setColumns(20);
 	    good_id_field = new JTextField();
-	    good_id_field.setColumns(20);
+	    good_id_field.setColumns(15);
 	    cus_user_id_field = new JTextField();
 	    cus_user_id_field.setColumns(20);
 	    sale_user_id_field = new JTextField();
@@ -120,8 +122,6 @@ public class MDIcancelOrdered extends JInternalFrame implements ActionListener{
 	    order_id_label = new JLabel("订货单号");
 	    good_id_label = new JLabel("商品名");
 	    cus_user_id_label = new JLabel("客户编号");
-	    sale_user_id_label = new JLabel("销售人员名");
-	    order_type_label = new JLabel("订单类型");
 	    order_state_label = new JLabel("订单状态");
 	    //初始化select_btn
 	    select_btn = new JButton("查询");
@@ -132,10 +132,19 @@ public class MDIcancelOrdered extends JInternalFrame implements ActionListener{
 	    selectPane.add(order_id_field);
 	    selectPane.add(good_id_label);
 	    selectPane.add(good_id_field);
+	    
+	    label = new JLabel("\u5BA2\u6237\u59D3\u540D");
+	    selectPane.add(label);
+	    
+	    textField = new JTextField();
+	    selectPane.add(textField);
+	    textField.setColumns(15);
 	    selectPane.add(cus_user_id_label);
 	    selectPane.add(cus_user_id_field);
+	    sale_user_id_label = new JLabel("销售人员名");
 	    selectPane.add(sale_user_id_label);
 	    selectPane.add(sale_user_id_field);
+	    order_type_label = new JLabel("订单类型");
 	    selectPane.add(order_type_label);
 	    selectPane.add(order_type_combobox);
 	    selectPane.add(order_state_label);

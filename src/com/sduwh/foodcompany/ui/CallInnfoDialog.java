@@ -62,7 +62,13 @@ public class CallInnfoDialog extends JDialog implements ActionListener{
 					});
 				}
 			}
-			table = new JTable(defaultTableModel);
+			table = new JTable(defaultTableModel){
+		    	@Override
+		    	public boolean isCellEditable(int row, int column) {
+		    		// TODO Auto-generated method stub
+		    		return false;
+		    	}
+		    };
 			table.setRowHeight(50);
 			// tcr.setHorizontalAlignment(JLabel.CENTER);
 			jScrollPane = new JScrollPane(table);

@@ -29,23 +29,23 @@ public class DaoFactory {
 			return session.getMapper(AdministratorsDao.class);
 		case DAO_BILL:
 			return session.getMapper(BillDao.class);
-		case "Customer":
+		case DAO_CUSTOMER:
 			return session.getMapper(CustomerDao.class);
-		case "Goods":
+		case DAO_GOODS:
 			return session.getMapper(GoodsDao.class);
-		case "Ordered":
+		case DAO_ORDERED:
 			return session.getMapper(OrderedDao.class);
-		case "PickUp":
+		case DAO_PICKUP:
 			return session.getMapper(PickUpDao.class);
-		case "ProducePlanDao":
+		case DAO_PRODUCEPLAN:
 			return session.getMapper(ProducePlanDao.class);
-		case "Receipt":
+		case DAO_RECEIPT:
 			return session.getMapper(ReceiptDao.class);
-		case "Returned":
+		case DAO_RETURNED:
 			return session.getMapper(ReturnedDao.class);
-		case "Returning":
+		case DAO_RETURNING:
 			return session.getMapper(ReturningDao.class);
-		case "Warehouse":
+		case DAO_WAREHOUSE:
 			return session.getMapper(WarehouseDao.class);
 		default:
 			return null;

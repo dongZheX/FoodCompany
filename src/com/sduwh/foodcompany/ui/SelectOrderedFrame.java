@@ -5,6 +5,8 @@ import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -155,6 +157,24 @@ public class SelectOrderedFrame extends JInternalFrame implements ActionListener
 	    scrollPane.setPreferredSize(new Dimension(900,350));
 	    //将滚动面板加入viewPane
 	    viewPane.add(scrollPane);
+	    //tip
+	    table.addMouseMotionListener(new MouseAdapter() {
+	    	 public void mouseMoved(MouseEvent e) {  
+	    		 int row=table.rowAtPoint(e.getPoint());  
+	    	        int col=table.columnAtPoint(e.getPoint());  
+	    	        if(row>-1 && col>-1){  
+	    	        	Object object = table.getValueAt(row, col);
+	    	        	if(object==null)return;
+	    	            Object value= IdToName.Administrators_Select(object.toString());
+	    	            if(null!=value && !"".equals(value))  
+	    	                table.setToolTipText(value.toString());//悬浮显示单元格内容  
+	    	            else  
+	    	                table.setToolTipText(null);//关闭提示  
+	    	        }  
+	    	    }  
+
+		});
+	    
 	    this.setVisible(true);
 	}
 

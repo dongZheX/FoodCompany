@@ -34,4 +34,5 @@ public class CustomerTableData {
 	public float getCusScore() {
 		return this.cusScore;
 	}
+	
 }

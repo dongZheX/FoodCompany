@@ -46,6 +46,10 @@ public class AlterPlanDialog extends JDialog implements ActionListener{
 	 * Create the dialog.
 	 */
 	public AlterPlanDialog(String plan_id) {
+		/*
+		 * ×èÈû
+		 */
+		this.setModal(true);
 		this.plan_id = plan_id;
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(null);

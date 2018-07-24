@@ -69,6 +69,7 @@ public class CallInnfoDialog extends JDialog implements ActionListener{
 		    		return false;
 		    	}
 		    };
+		    
 			table.setRowHeight(50);
 			// tcr.setHorizontalAlignment(JLabel.CENTER);
 			jScrollPane = new JScrollPane(table);

@@ -72,14 +72,12 @@ public class MDISaleFrame extends JInternalFrame implements ActionListener{
 	    setResizable(true);		//可以改变大小
 		panel.setLayout(null);
 		
-<<<<<<< HEAD
+
 		JLabel lblNewLabel = new JLabel("\u5BA2\u6237\u540D\u79F0\u6216ID");
 		lblNewLabel.setBounds(34, 9, 111, 15);
-=======
-		JLabel lblNewLabel = new JLabel("\u5BA2\u6237\u59D3\u540D\u6216ID\uFF1A");
-		lblNewLabel.setBounds(10, 9, 111, 15);
->>>>>>> 01ff217766b7646fef9beaf02ab4a569f5509e4e
-		panel.add(lblNewLabel);
+		JLabel lblNewLabel1 = new JLabel("\u5BA2\u6237\u59D3\u540D\u6216ID\uFF1A");
+		lblNewLabel1.setBounds(10, 9, 111, 15);
+		panel.add(lblNewLabel1);
 		id_name_textField = new JTextField();
 		id_name_textField.setBounds(104, 6, 124, 21);
 		panel.add(id_name_textField);
@@ -132,7 +130,6 @@ public class MDISaleFrame extends JInternalFrame implements ActionListener{
 		panel.add(rbutton_3);
 		
 		//JButton预定后付
-<<<<<<< HEAD
 		JRadioButton rbutton_4 = new JRadioButton("预定(后付)");
 		rbutton_4.setBackground(Color.WHITE);
 		rbutton_4.setBounds(813, 5, 97, 23);
@@ -142,17 +139,12 @@ public class MDISaleFrame extends JInternalFrame implements ActionListener{
 		//查询商品
 		JButton button_search = new JButton("显示商品");
 		button_search.setBounds(940, 5, 124, 23);
-=======
 		JRadioButton r_button4 = new JRadioButton("\u9884\u5B9A\uFF08\u540E\u4ED8\uFF09");
 		r_button4.setBackground(Color.WHITE);
 		r_button4.setBounds(776, 5, 97, 23);
-		panel.add(r_button4);
-		bg_sale2.add(r_button4);
+	
 		
 		//查询商品
-		JButton button_search = new JButton("\u663E\u793A\u5546\u54C1");
-		button_search.setBounds(914, 5, 124, 23);
->>>>>>> 01ff217766b7646fef9beaf02ab4a569f5509e4e
 		button_search.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String s = id_name.getText();

@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 
 import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
 
+import com.sduwh.foodcompany.bill.FinanceBll;
 import com.sduwh.foodcompany.comm.MDIDesktopPane;
 import com.sduwh.foodcompany.entity.Administrators;
 
@@ -59,6 +60,8 @@ public class TellerFrame  extends JFrame{
 	JTabbedPane tabbedPane;
 	Administrators admin;
 	JPanel panel;
+	
+	JTextField searchJTF;/*搜索框*/
 		
 	/**
 	 * Launch the application.
@@ -155,6 +158,9 @@ public class TellerFrame  extends JFrame{
 		JButton orderIDButton = new JButton("按订单ID搜索");
 		JButton customerNameButton = new JButton("按客户姓名搜索");
 		JButton customerIDButton = new JButton("按客户ID搜索");
+		orderIDButton.addActionListener((ActionListener)EventHandler.create(ActionListener.class, this, "searchOrderByOrderId"));
+		customerIDButton.addActionListener((ActionListener)EventHandler.create(ActionListener.class, this, "searchOrderByCustomerID"));
+		customerNameButton.addActionListener((ActionListener)EventHandler.create(ActionListener.class, this, "searchOrderByCustomerName"));
 		
 		searchPane.add(searchJTF);
 		searchPane.add(orderIDButton);
@@ -194,7 +200,7 @@ public class TellerFrame  extends JFrame{
 		JPanel searchPane = new JPanel();			//搜索Panel
 		searchPane.setLayout(new FlowLayout());		//flowlayout类型
 		searchPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		JTextField searchJTF = new JTextField();	//输入框，输入搜索内容
+		searchJTF = new JTextField();	//输入框，输入搜索内容
 		searchJTF.setColumns(40);
 		JButton receiptIDButton = new JButton("按收据ID搜索");
 		JButton orderIDButton = new JButton("按订单ID搜索");
@@ -300,6 +306,28 @@ public class TellerFrame  extends JFrame{
 		});
 		toolBar.add(button_customer);
 		
+		JButton button_cancel = new JButton("\u9000\u8D27");
+		button_cancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MDIDesktop.add(new MDIcancelOrdered());
+				JInternalFrame sf = MDIDesktop.getSelectedFrame();
+				try {
+					//将当前窗口最大化
+					sf.setMaximum(true);			
+				}
+				catch(Exception e1){		}
+				JInternalFrame sf2 = MDIDesktop.getSelectedFrame();
+				try {
+					//将当前窗口最大化
+					if(!(sf2 instanceof MDIcancelOrdered))
+						sf2.setMaximum(true);			
+				}
+				catch(Exception e2){		}
+			}
+				
+		});
+		toolBar.add(button_cancel);
+		
 		/*tabbedPane中加入销售部Pane*/
 		tabbedPane.addTab("\u9500\u552E\u7BA1\u7406", null, salepanel, null);
 		
@@ -376,7 +404,23 @@ public class TellerFrame  extends JFrame{
 	/**
 	 * 单击bill按钮后触发此方法，开具账单，并且判断是否需要开具提货单
 	 */
-	public void issueBill() {
+	private void issueBill() {
 		
+	}
+	
+	/*orderIDButton.addActionListener((ActionListener)EventHandler.create(ActionListener.class, this, "searchOrderByOrderId"));
+		customerIDButton.addActionListener((ActionListener)EventHandler.create(ActionListener.class, this, "searchOrderByCustomerID"));
+		customerNameButton.addActionListener((ActionListener)EventHandler.create(ActionListener.class, this, "searchOrderByCustomerID"));*/
+	/*单击“按订单ID查找”后触发此方法*/
+	private void searchOrderByOrderId() {
+		FinanceBll.searchOrderByOrderId(this.searchJTF.getText());
+	}
+	
+	private void searchOrderByCustomerID() {
+		FinanceBll.searchOrderByCustomerId(this.searchJTF.getText());
+	}
+	
+	private void searchOrderByCustomerName() {
+		FinanceBll.searchOrderByCustomerName(this.searchJTF.getText());
 	}
 }

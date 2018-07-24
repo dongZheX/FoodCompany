@@ -68,6 +68,7 @@ public class FinanceBll {
 	 * 根据收据Id找到收据
 	 */
 	public static ReceiptTableData searchReceiptByReceiptId(String receiptId) {
+		if(receiptId == "")	receiptId = null;
 		Map map = MapBuilder.buildMap("receipt_id", receiptId);
 		ReceiptDao receiptDao = (ReceiptDao)DaoFactory.createDao(DaoFactory.DAO_RECEIPT);
 		ArrayList<Receipt> arrayList = receiptDao.findReceipt(map);
@@ -84,6 +85,7 @@ public class FinanceBll {
 	 * 根据订单Id找到收据
 	 */
 	public static ReceiptTableData searchReceiptByOrderId(String orderId) {
+		if(orderId == "")	orderId = null;
 		Ordered order = FinanceBll.getOrderById(orderId);
 		if(order == null)	return null;
 		int orderState = order.getOrder_state();
@@ -108,6 +110,7 @@ public class FinanceBll {
 	
 	/*根据客户ID找到收据*/
 	public static ReceiptTableData[] searchReceiptByCustomerId(String customerId) {
+		if(customerId == "")	customerId = null;
 		/*找到这个客户*/
 		Customer customer = FinanceBll.getCustomerById(customerId);
 		if(customer == null)	return null;
@@ -122,6 +125,7 @@ public class FinanceBll {
 	
 	/*根据客户的姓名找到收据*/
 	public static ReceiptTableData[] searchReceiptByCustomerName(String customerName) {
+		if(customerName == "")	customerName = null;
 		Map<Integer, ReceiptTableData> ans = new HashMap<>();
 		int ansNumber = 0;
 		
@@ -168,6 +172,7 @@ public class FinanceBll {
 	 *OrderedTableData的属性有orderedId, customerId, customerName, type, sum
 	 */
 	public static OrderedTableData searchOrderByOrderId(String orderId) {
+		if(orderId == "")	orderId = null;
 		Ordered order = getOrderById(orderId);
 		if(order == null)	return null;
 		String customerId = order.getCus_user_id();
@@ -200,6 +205,7 @@ public class FinanceBll {
 	 * 根据客户的id查询订单
 	 */
 	public static OrderedTableData[] searchOrderByCustomerId(String cus_user_id) {
+		if(cus_user_id == "")	cus_user_id = null;
 		Map<String, Boolean> getOrderId = new HashMap<>();
 		Map<Integer, String> order = new HashMap<>();
 		int orderNum = 0;
@@ -226,6 +232,7 @@ public class FinanceBll {
 	 * 根据客户的姓名查找相应的订单
 	 */
 	public static OrderedTableData[] searchOrderByCustomerName(String userName) {
+		if(userName == "")	userName = null;
 		Map<String, Object> getCustomerId = new HashMap<>();
 		getCustomerId.put("user_name", userName);
 		CustomerDao customerDao = (CustomerDao)DaoFactory.createDao(DaoFactory.DAO_CUSTOMER);

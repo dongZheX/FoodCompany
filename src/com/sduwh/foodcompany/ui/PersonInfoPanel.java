@@ -52,7 +52,7 @@ public class PersonInfoPanel extends JPanel implements ActionListener{
 	JButton btn_edit;
 	JButton button_save;
 	//逻辑
-	private String user_id;
+	private String user_id,user_tel;
 	private PersonInfoPanel panel =this;
 	
 	/**
@@ -63,6 +63,7 @@ public class PersonInfoPanel extends JPanel implements ActionListener{
 		setSize(800,700);
 		setLayout(null);
 		user_id = user.getUser_id();
+		user_tel = user.getUser_tel();
 		/*
 		 * 标签和输入框的样式设置
 		 */
@@ -212,7 +213,15 @@ public class PersonInfoPanel extends JPanel implements ActionListener{
 			textField_tel.setEnabled(true);
 			textField_tel.setEditable(true);
 			button_save.setEnabled(true);
-			btn_edit.setEnabled(false);		
+			btn_edit.setText("取消");;		
+			
+		}
+		if(name.equals("取消")) {
+			textField_tel.setEnabled(false);
+			textField_tel.setEditable(false);
+			textField_tel.setText(user_tel);
+			button_save.setEnabled(false);
+			btn_edit.setText("编辑");	
 			
 		}
 		if(name.equals("保存")) {
@@ -231,6 +240,7 @@ public class PersonInfoPanel extends JPanel implements ActionListener{
 					button_save.setEnabled(false);
 					textField_tel.setEnabled(false);
 					textField_tel.setEditable(false);
+					btn_edit.setText("编辑");
 				}else {
 					JOptionPane.showMessageDialog(this, "修改失败，异常002");
 					

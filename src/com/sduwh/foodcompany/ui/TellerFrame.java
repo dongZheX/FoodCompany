@@ -537,10 +537,10 @@ public class TellerFrame  extends JFrame{
 		for(int i =0;i<l.size();i++){
 			Ordered plan = l.get(i);
 			
-				if(id.equals(plan.getOrder_id()))
+				/*if(id.equals(plan.getOrder_id()))
 					continue;
 				else 
-					id = plan.getOrder_id();
+					id = plan.getOrder_id();*/
 			
 			
 			//´«²ÎÊý

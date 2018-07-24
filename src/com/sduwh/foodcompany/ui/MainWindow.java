@@ -222,17 +222,17 @@ public class MainWindow {
 					//信息正确
 					else{
 						//生产相关
-						if(power == 1 || power == 4 || power == 5)
+						if(power == 3 || power == 6 || power == 7)
 							new ProducePlanFrame(a);//传实体
 						
 						//财务销售相关
-						else if(power == 0 || power == 2 || power == 3|| power == 6)
+						else if(power == 2 || power == 4 || power == 5|| power == 8)
 							new TellerFrame(a);
 						
-						else if(power == 7)
+						else if(power == 9)
 						{
 							new ProducePlanFrame(a);				
-							new ProducePlanFrame(a);	
+							new TellerFrame(a);	
 						}
 						frame.setVisible(false);
 					}

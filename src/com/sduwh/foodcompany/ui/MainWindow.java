@@ -162,10 +162,11 @@ public class MainWindow {
 		JComboBox<String>comboBox = new JComboBox();
 		comboBox.setBounds(212, 115, 138, 21);
 		panel.add(comboBox);
-		String[] combobox_item = {"系统管理员", "成品库管理员","会计","出纳","生产车间管理员","生产计划管理员","销售"};
+		String[] combobox_item = {"系统管理员", "成品库管理员","会计","出纳","生产车间管理员","生产计划管理员","销售","万能账号"};
 		int combobox_num = combobox_item.length;
 		for(int i = 0; i < combobox_num; i++)
 			comboBox.addItem(combobox_item[i]);
+		comboBox.setSelectedIndex(7);
 		
 		
 		JLabel label_3 = new JLabel("\u8EAB\u4EFD\u7C7B\u578B\uFF1A");
@@ -236,6 +237,14 @@ public class MainWindow {
 						{
 							new TellerFrame(dao.findAdministrators(map).get(0));
 							frame.setVisible(false);
+						}
+						else if(comboBox.getSelectedIndex() == 9)
+						{
+							new ProducePlanFrame(dao.findAdministrators(map).get(0));
+							frame.setVisible(false);
+							new ProducePlanFrame(dao.findAdministrators(map).get(0));
+							frame.setVisible(false);
+							
 						}
 						
 					}

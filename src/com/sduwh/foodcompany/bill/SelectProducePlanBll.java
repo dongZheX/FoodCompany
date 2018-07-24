@@ -83,4 +83,14 @@ public class SelectProducePlanBll {
 		session.commit();
 		return true;
 	}
+	/*
+	 * 入库生产计划
+	 */
+	public static boolean cometo_plan(String plan_id){
+		ProducePlanDao dao = session.getMapper(ProducePlanDao.class);
+		Map map = MapBuilder.buildMap("plan_state",ProducePlan.HAVE_FINISHED,"plan_id",plan_id);
+		dao.updateProducePlan(map);
+		session.commit();
+		return true;
+	}
 }

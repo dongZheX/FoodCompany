@@ -312,8 +312,44 @@ public class ChangePSelectPlan extends JInternalFrame implements ActionListener 
 						}
 	        		}
 	        	});
+	        	JMenuItem planMenuItem_cometo = new JMenuItem("入库");
+	        	planMenuItem_cometo.addActionListener(new ActionListener() {
+				
+	        		@Override
+	        		public void actionPerformed(ActionEvent e) {
+	        			// TODO Auto-generated method stub
+	        			try {
+	        				int row = table.getSelectedRow();
+	        				int result = new JOptionPane().showConfirmDialog(selectProducePlan, "您确定要入库吗？");
+	        				if(result == JOptionPane.YES_OPTION) {
+	        					Object object = table.getModel().getValueAt(row, 4);
+	        					if(object==null)
+	        						return;
+	        					String state = object.toString();
+	        					if(state.equals("取消")||state.equals("未确认")) {
+	        						JOptionPane.showMessageDialog(selectProducePlan,"此订单还不能入库");
+	        					}
+	        					else if(state.equals("入库")) {
+	        						JOptionPane.showMessageDialog(selectProducePlan,"此订单已入库");
+	        					}
+	        					else {
+	        						SelectProducePlanBll.cometo_plan(table.getModel().getValueAt(row, 0).toString());
+	        						JOptionPane.showMessageDialog(selectProducePlan,"入库成功");
+	        						table.getModel().setValueAt("入库", row, 3);
+	        					}
+	        					
+	        				}else {
+	        					
+	        				}
+	        			}catch (Exception e5) {
+							// TODO: handle exception
+	        				JOptionPane.showMessageDialog(selectProducePlan,"不要空操作!");
+						}
+	        		}
+	        	});
 	        	m_popupMenu.add(planMenItem_confirm);
 	        	m_popupMenu.add(planMenuItem_cancel);
+	        	m_popupMenu.add(planMenuItem_cometo);
 	        }
 	      
 		}

@@ -216,7 +216,7 @@ public class MainWindow {
 						JOptionPane.showMessageDialog(null, "账号不存在或密码错误", "【出错啦】", JOptionPane.ERROR_MESSAGE);
 					else{
 						//生产相关
-						if(comboBox.getSelectedIndex() == 1 || comboBox.getSelectedIndex() == 4 || comboBox.getSelectedIndex() == 5 )
+						if(comboBox.getSelectedIndex() == 1 || comboBox.getSelectedIndex() == 4 || comboBox.getSelectedIndex() == 5)
 						{
 							//传实体
 							new ProducePlanFrame(dao.findAdministrators(map).get(0));

@@ -12,8 +12,11 @@ import javax.swing.JOptionPane;
 import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
 
 import com.sduwh.foodcompany.bill.FinanceBll;
+import com.sduwh.foodcompany.bill.OrderedTableData;
+import com.sduwh.foodcompany.bill.ReceiptTableData;
 import com.sduwh.foodcompany.comm.MDIDesktopPane;
 import com.sduwh.foodcompany.entity.Administrators;
+import com.sduwh.foodcompany.entity.Ordered;
 
 import javax.swing.JMenu;
 import java.awt.BorderLayout;
@@ -62,7 +65,10 @@ public class TellerFrame  extends JFrame{
 	JPanel panel;
 	
 	JTextField searchJTF;/*搜索框*/
-		
+	DefaultTableModel   tellerTableModel;/*出纳的表格*/
+	DefaultTableModel accountantTableModel;/*会计的表格*/
+	JTable tellerTable;	/*出纳的table*/
+	JTable accountantTable;
 	/**
 	 * Launch the application.
 	 */
@@ -158,9 +164,21 @@ public class TellerFrame  extends JFrame{
 		JButton orderIDButton = new JButton("按订单ID搜索");
 		JButton customerNameButton = new JButton("按客户姓名搜索");
 		JButton customerIDButton = new JButton("按客户ID搜索");
-		orderIDButton.addActionListener((ActionListener)EventHandler.create(ActionListener.class, this, "searchOrderByOrderId"));
-		customerIDButton.addActionListener((ActionListener)EventHandler.create(ActionListener.class, this, "searchOrderByCustomerID"));
-		customerNameButton.addActionListener((ActionListener)EventHandler.create(ActionListener.class, this, "searchOrderByCustomerName"));
+		orderIDButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				searchOrderByOrderId();
+			}
+		});
+		customerIDButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				searchOrderByCustomerID();
+			}
+		});
+		customerNameButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				searchOrderByCustomerName();
+			}
+		});
 		
 		searchPane.add(searchJTF);
 		searchPane.add(orderIDButton);
@@ -174,20 +192,25 @@ public class TellerFrame  extends JFrame{
 		//JTable
 		/*订单号，客户号，客户姓名，订单类型，订单状态，需付款*/
 		String[] title = {"订单号", "客户ID", "客户姓名", "付款类型"," 付款状态", "应付金额"};
-		DefaultTableModel   tableModel = new DefaultTableModel(title, 20) {
+		tellerTableModel = new DefaultTableModel(title, 20) {
 			 public boolean isCellEditable(int row, int column) {
 				 return false;
 			 }
 		};
-		JTable table;
-		table = new JTable(tableModel);
-		table.setRowHeight(50);
+		
+		tellerTable = new JTable(tellerTableModel);
+		tellerTable.setRowHeight(50);
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setViewportView(table);
+		scrollPane.setViewportView(tellerTable);
 		receiptPane.add(scrollPane, BorderLayout.CENTER);
 		
 		//收款按钮
 		JButton yes = new JButton("确认收款");
+		yes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				issueReceipt();
+			}
+		});
 		receiptPane.add(yes, BorderLayout.SOUTH);
 	}
 	
@@ -206,6 +229,26 @@ public class TellerFrame  extends JFrame{
 		JButton orderIDButton = new JButton("按订单ID搜索");
 		JButton customerIDButton = new JButton("按客户ID搜索");
 		JButton customerNameButton = new JButton("按客户姓名搜索");
+		receiptIDButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				searchReceiptByReceiptId();
+			}
+		});
+		orderIDButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				searchReceiptByOrderId();
+			}
+		});
+		customerIDButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				searchReceiptByCumstomerId();
+			}
+		});
+		customerNameButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				searchReceiptByCustomerName();
+			}
+		});
 		
 		searchPane.add(searchJTF);
 		searchPane.add(receiptIDButton);
@@ -218,22 +261,26 @@ public class TellerFrame  extends JFrame{
 		//JTable
 		//收据id，订单id,客户id，客户姓名，收款金额
 		String[] title = {"收据ID", "订单ID", "客户ID", "客户姓名", "收款金额"};
-		DefaultTableModel tableModel = new DefaultTableModel(title, 20) {
+		accountantTableModel = new DefaultTableModel(title, 20) {
 			/*表格不可更改*/
 			 public boolean isCellEditable(int row, int column) {
 				 	return false;
 				  }
 		};
-		JTable table;
-		table = new JTable(tableModel);
-		table.setRowHeight(50);
+		
+		accountantTable = new JTable(accountantTableModel);
+		accountantTable.setRowHeight(50);
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setViewportView(table);
+		scrollPane.setViewportView(accountantTable);
 		accountingPane.add(scrollPane, BorderLayout.CENTER);
 		
 		//收款按钮
 		JButton bill = new JButton("开具账单");
-		bill.addActionListener((ActionListener)EventHandler.create(ActionListener.class, this, "issueBill"));
+		bill.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				issueBill();
+			}
+		});
 		accountingPane.add(bill, BorderLayout.SOUTH);
 		
 
@@ -400,27 +447,103 @@ public class TellerFrame  extends JFrame{
 		});
 		toolBar.add(button_update);
 	}
-	
+
+	/************************************************************有关响应的方法******************************************************************/
 	/**
 	 * 单击bill按钮后触发此方法，开具账单，并且判断是否需要开具提货单
 	 */
 	private void issueBill() {
-		
+		//收据id，订单id,客户id，客户姓名，收款金额
+		int row = this.accountantTable.getSelectedRow();
+		String receiptID = (String)this.accountantTable.getValueAt(row, 0);
+		String orderID = (String)this.accountantTable.getValueAt(row, 1);
+		String customerID = (String)this.accountantTable.getValueAt(row, 2)
+		String customerName = (String)this.accountantTable.getValueAt(row, 3);
+		float money = Float.parseFloat((String)this.accountantTable.getValueAt(row, 4));
+		ReceiptTableData receipt = new ReceiptTableData(receiptID, orderID, customerID, customerName, money);
+		FinanceBll.createBill(receiptTableData, this.admin.getUser_id());
 	}
 	
-	/*orderIDButton.addActionListener((ActionListener)EventHandler.create(ActionListener.class, this, "searchOrderByOrderId"));
-		customerIDButton.addActionListener((ActionListener)EventHandler.create(ActionListener.class, this, "searchOrderByCustomerID"));
-		customerNameButton.addActionListener((ActionListener)EventHandler.create(ActionListener.class, this, "searchOrderByCustomerID"));*/
+	/*单击yes按钮后触发此方法，开具收据*/
+	private void issueReceipt() {
+		/*"订单号", "客户ID", "客户姓名", "付款类型"," 付款状态", "应付金额"*/
+		int row = this.tellerTable.getSelectedRow();
+		String orderedId = (String) this.tellerTable.getValueAt(row, 0);
+		String customerId = (String) this.tellerTable.getValueAt(row, 1);
+		String customerName = (String)this.tellerTable.getValueAt(row, 2);
+		int type = Ordered.order_type_toInt((String)this.tellerTable.getValueAt(row, 3));
+		int state = Ordered.order_state_toInt((String)this.tellerTable.getValueAt(row, 4));
+		float sum = Float.parseFloat((String)this.tellerTable.getValueAt(row, 5));
+		OrderedTableData data = new OrderedTableData(orderedId, customerId, customerName, type, state, sum);
+		FinanceBll.createReceipt(data, this.admin.getUser_id());
+		JOptionPane.showMessageDialog(this, "生成收据成功", "Okay", JOptionPane.DEFAULT_OPTION);
+	}
+	
 	/*单击“按订单ID查找”后触发此方法*/
 	private void searchOrderByOrderId() {
-		FinanceBll.searchOrderByOrderId(this.searchJTF.getText());
+		OrderedTableData data = FinanceBll.searchOrderByOrderId(this.searchJTF.getText());
+		if(data == null) {
+			JOptionPane.showMessageDialog(this, "您要查找的订单不存在", "错误", JOptionPane.ERROR_MESSAGE);
+		}
+		else
+			this.tellerTableModel.addRow(data.toArray());
 	}
 	
+	/*单击“按客户ID查找后触发此方法”*/
 	private void searchOrderByCustomerID() {
-		FinanceBll.searchOrderByCustomerId(this.searchJTF.getText());
+		OrderedTableData[] data = FinanceBll.searchOrderByCustomerId(this.searchJTF.getText());
+		if(data == null) {
+			JOptionPane.showMessageDialog(this, "您要查找的客户不存在", "错误", JOptionPane.ERROR_MESSAGE);
+		}else
+			for(int i = 0; i < data.length; ++i)
+				this.tellerTableModel.addRow(data[i].toArray());
 	}
 	
+	/*单击“按客户姓名查找后触发此方法”*/
 	private void searchOrderByCustomerName() {
-		FinanceBll.searchOrderByCustomerName(this.searchJTF.getText());
+		OrderedTableData[] data = FinanceBll.searchOrderByCustomerName(this.searchJTF.getText());
+		if(data == null)
+			JOptionPane.showMessageDialog(this, "您要查找的客户不存在", "错误", JOptionPane.ERROR_MESSAGE);
+		else
+			for(int i = 0; i < data.length; ++i)
+				this.tellerTableModel.addRow(data[i].toArray());
+	}
+	
+	/*根据收据ID查找收据*/
+	private void searchReceiptByReceiptId() {
+		ReceiptTableData data =  FinanceBll.searchReceiptByReceiptId(this.searchJTF.getText());
+		if(data == null)
+			JOptionPane.showMessageDialog(this, "您要查找的收据不存在", "错误", JOptionPane.ERROR_MESSAGE);
+		else
+			this.accountantTableModel.addRow(data.toArray());
+	}
+	
+	/*根据订单ID查找收据*/
+	private void searchReceiptByOrderId() {
+		ReceiptTableData data = FinanceBll.searchReceiptByOrderId(this.searchJTF.getText());
+		if(data == null)
+			JOptionPane.showMessageDialog(this, "您查找的订单不存在", "错误", JOptionPane.ERROR_MESSAGE);
+		else
+			this.accountantTableModel.addRow(data.toArray());
+	}
+	
+	/*根据用户ID查找收据*/
+	private void searchReceiptByCumstomerId() {
+		ReceiptTableData[] data =  FinanceBll.searchReceiptByCustomerId(this.searchJTF.getText());
+		if(data == null)
+			JOptionPane.showMessageDialog(this, "您要查找的客户不存在", "错误", JOptionPane.ERROR_MESSAGE);
+		else
+			for(int i = 0; i < data.length; ++i)
+				this.accountantTableModel.addRow(data[i].toArray());
+	}
+	
+	/*根据用户姓名查找收据*/
+	private void searchReceiptByCustomerName() {
+		ReceiptTableData[] data =  FinanceBll.searchReceiptByCustomerName(this.searchJTF.getText());
+		if(data == null)
+			JOptionPane.showMessageDialog(this, "您要查找的客户不存在", "错误", JOptionPane.ERROR_MESSAGE);
+		else
+			for(int i = 0; i < data.length; ++i)
+				this.accountantTableModel.addRow(data[i].toArray());
 	}
 }

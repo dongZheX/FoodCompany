@@ -45,5 +45,11 @@ public class OrderedTableData {
 	public float getSum() {
 		return sum;
 	}
+	public String[] toArray() {
+		String[] ans = {
+				this.orderedId,this.customerId, this.customerName, this.getType(), this.getState(), String.format("%f", this.sum)
+		};
+		return ans;
+	}
 	
 }

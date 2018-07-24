@@ -37,4 +37,11 @@ public class ReceiptTableData {
 	public float getMoney() {
 		return this.money;
 	}
+	
+	public String[] toArray() {
+		String[] data = {
+				this.receiptId, this.orderId, this.customerId, this.customerName, String.format("%f", this.money)
+		};
+		return data;
+	}
 }

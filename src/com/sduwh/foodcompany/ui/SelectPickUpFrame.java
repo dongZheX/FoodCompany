@@ -53,6 +53,8 @@ import com.sduwh.foodcompany.entity.User;
 public class SelectPickUpFrame extends JInternalFrame implements ActionListener{
 
 
+	//scrollPane
+	private JScrollPane scrollPane_main;
 	//JSplitPane
 	private JSplitPane splitPane;
 	//selectPane和viewPane
@@ -99,15 +101,20 @@ public class SelectPickUpFrame extends JInternalFrame implements ActionListener{
 	    //初始化splitPane
 	    splitPane = new JSplitPane();
 	    
-	    //在this中添加splitPane
-	    this.add(splitPane);
+
 	    //向splitPane中添加面板
 	    splitPane.setLeftComponent(selectPane);
 	    splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 	    selectPane.setLayout(new FlowLayout(FlowLayout.LEFT, 25, 10));
 	    splitPane.setRightComponent(viewPane);
+	    splitPane.setPreferredSize(new Dimension(900, 400));
 	    //设置分割线位置
 	    splitPane.setLastDividerLocation(50);
+	    
+	    //初始化scrollPane
+	    scrollPane = new JScrollPane(splitPane);
+	    //在this中添加scrollPane
+	    this.add(scrollPane);
 	    
 	    //初始化textfield
 	    pick_up_id_field = new JTextField();
@@ -119,6 +126,7 @@ public class SelectPickUpFrame extends JInternalFrame implements ActionListener{
 	    pick_up_state_label = new JLabel("提货状态：");
 	    //初始化select_btn
 	    select_btn = new JButton("查询");
+	    select_btn.setPreferredSize(new Dimension(200, 30));
 	    select_btn.addActionListener(this);
 	    //将label,combobox,textfield放入selectPane
 	    selectPane.add(pick_up_id_lable);
@@ -141,7 +149,7 @@ public class SelectPickUpFrame extends JInternalFrame implements ActionListener{
 	    //设置滚动条一直显示
 	    scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 	    //设置滚动面板大小
-	    scrollPane.setPreferredSize(new Dimension(900,400));
+	    scrollPane.setPreferredSize(new Dimension(890,400));
 	    //将滚动面板加入viewPane
 	    viewPane.add(scrollPane);
 	    //弹出框实现

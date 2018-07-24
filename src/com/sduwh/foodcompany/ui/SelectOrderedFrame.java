@@ -62,8 +62,7 @@ public class SelectOrderedFrame extends JInternalFrame implements ActionListener
 	 //字符串
     private String [] order_state ={"<-请选择->","未付款","付定金","付全款","取消"};
     private String [] order_type = {"<-请选择->","现货(先付)","现货(后付)","预定(先付)","预定()"};
-    private String [] table_title = {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25",
-			"26","27","28","29","30","31"};
+    private String [] table_title = {"订货单号","商品编号","客户编号","销售人员编号","单价","数量","订单类型","订单日期","最早提货日期","最晚提货日期","订单状态"};
 
 	/**
 	 * Create the frame.

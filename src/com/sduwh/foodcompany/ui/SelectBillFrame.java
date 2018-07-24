@@ -73,14 +73,14 @@ public class SelectBillFrame extends JInternalFrame implements ActionListener{
 	private JScrollPane scrollPane;
 	private JScrollPane scrollPane_1;
 	//底部label
-	private JLabel in_label,out_label,total_label,tip_label;
+	private JLabel tip_label;
 	
 	 //字符串
     private String [] year ={"<-请选择->","2016","2017","2018"};
     private String [] month = {"<-请选择->","1", "2", "3", "4", "5","6", "7", "8", "9", "10","11","12"};
     private String [] day = {"<-请选择->","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25",
 			"26","27","28","29","30","31"};
-    private String table_title [] = {"账单编号","时间","金额","收据编号","会计编号"};
+    private String table_title [] = {"账单编号","时间","金额(元)","收据编号","会计编号"};
 	/**
 	 * Create the frame.
 	 */
@@ -157,9 +157,6 @@ public class SelectBillFrame extends JInternalFrame implements ActionListener{
 	    //将滚动面板加入viewPane
 	    viewPane.add(scrollPane_1);
 	    //初始化底部label
-	    in_label = new JLabel("今(年/月/日)入账：");
-	    out_label = new JLabel("出账：");
-	    total_label = new JLabel("余额：");
 	    tip_label = new JLabel("今日入账： 100 RMB,出账： 50 RMB,净赚： t50 RMB");
 	    tip_label.setFont(new Font("宋体", Font.PLAIN, 19));
 	    tip_label.setBounds(100, 368, 666, 35);

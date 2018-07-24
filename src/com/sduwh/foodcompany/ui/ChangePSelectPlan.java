@@ -72,7 +72,7 @@ public class ChangePSelectPlan extends JInternalFrame implements ActionListener 
 	public ChangePSelectPlan(Administrators user) {
 		this.user = user;
 		setBounds(100, 100, 450, 300);
-		setTitle("修改库存信息窗口");
+		setTitle("修改生产计划信息窗口");
 		muser = user; 
 		//this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	    setMaximizable(true);	//标题栏有最大化按钮

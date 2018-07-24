@@ -13,13 +13,14 @@ import com.sduwh.foodcompany.entity.Goods;
 
 public class SelectGoodBll {
 	
-	private static SqlSession session = MybatisUtil.getSession();
+	
 	
 	
 	/*
 	 * 通过good_id,good_name查询商品实体，返回arraylist<Goods>
 	 */
 	public static ArrayList<Goods> select_good(Object...args){
+		 SqlSession session = MybatisUtil.getSession();
 		GoodsDao dao = session.getMapper(GoodsDao.class);
 		Map map = MapBuilder.buildMap(args);
 		return dao.findGoods(map);

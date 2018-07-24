@@ -308,7 +308,7 @@ public class TellerFrame  extends JFrame{
 		salepanel.setLayout(null);
 
 		//scrollpane
-		selectScrollPane.setBounds(0, 0, 1100, 600);
+		selectScrollPane.setBounds(0, 0, 1200, 600);
 		salepanel.add(selectScrollPane);
 		
 		JToolBar toolBar = new JToolBar();

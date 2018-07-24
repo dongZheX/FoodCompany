@@ -168,7 +168,7 @@ public class MDIcancelOrdered extends JInternalFrame implements ActionListener{
 	    //设置滚动条一直显示
 	    scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 	    //设置滚动面板大小
-	    scrollPane.setPreferredSize(new Dimension(1000,350));
+	    scrollPane.setPreferredSize(new Dimension(1100,350));
 	    //将滚动面板加入viewPane
 	    viewPane.add(scrollPane);
 	    

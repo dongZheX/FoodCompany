@@ -72,11 +72,16 @@ public class MDISaleFrame extends JInternalFrame implements ActionListener{
 	    setResizable(true);		//可以改变大小
 		panel.setLayout(null);
 		
+<<<<<<< HEAD
 		JLabel lblNewLabel = new JLabel("\u5BA2\u6237\u540D\u79F0\u6216ID");
 		lblNewLabel.setBounds(34, 9, 111, 15);
+=======
+		JLabel lblNewLabel = new JLabel("\u5BA2\u6237\u59D3\u540D\u6216ID\uFF1A");
+		lblNewLabel.setBounds(10, 9, 111, 15);
+>>>>>>> 01ff217766b7646fef9beaf02ab4a569f5509e4e
 		panel.add(lblNewLabel);
 		id_name_textField = new JTextField();
-		id_name_textField.setBounds(132, 6, 136, 21);
+		id_name_textField.setBounds(104, 6, 124, 21);
 		panel.add(id_name_textField);
 		id_name_textField.setColumns(0);
 		
@@ -90,7 +95,7 @@ public class MDISaleFrame extends JInternalFrame implements ActionListener{
 		/*付款类型单选按钮*/
 		JRadioButton button_name = new JRadioButton("\u6309\u540D\u79F0\u641C\u7D22");
 		button_name.setBackground(Color.WHITE);
-		button_name.setBounds(290, 5, 111, 23);
+		button_name.setBounds(234, 5, 111, 23);
 		button_name.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
@@ -101,14 +106,14 @@ public class MDISaleFrame extends JInternalFrame implements ActionListener{
 		
 		JRadioButton rbutton_id = new JRadioButton("按ID搜索");
 		rbutton_id.setBackground(Color.WHITE);
-		rbutton_id.setBounds(403, 5, 103, 23);
+		rbutton_id.setBounds(353, 5, 103, 23);
 		panel.add(rbutton_id);
 		bg.add(rbutton_id);
 		
 		//JButton现货
 		JRadioButton rbutton_1 = new JRadioButton("现货(先付)");
 		rbutton_1.setBackground(Color.WHITE);
-		rbutton_1.setBounds(542, 5, 71, 23);
+		rbutton_1.setBounds(472, 5, 71, 23);
 		rbutton_1.setSelected(true);
 		panel.add(rbutton_1);
 		bg_sale2.add(rbutton_1);
@@ -116,17 +121,18 @@ public class MDISaleFrame extends JInternalFrame implements ActionListener{
 		//JButton现货后付
 		JRadioButton rbutton_2 = new JRadioButton("现货(后付)");
 		rbutton_2.setBackground(Color.WHITE);
-		rbutton_2.setBounds(615, 5, 97, 23);
+		rbutton_2.setBounds(554, 5, 97, 23);
 		panel.add(rbutton_2);
 		bg_sale2.add(rbutton_2);
 		
 		//JButton预定
 		JRadioButton rbutton_3 = new JRadioButton("预定(先付)");
 		rbutton_3.setBackground(Color.WHITE);
-		rbutton_3.setBounds(732, 5, 79, 23);
+		rbutton_3.setBounds(678, 5, 79, 23);
 		panel.add(rbutton_3);
 		
 		//JButton预定后付
+<<<<<<< HEAD
 		JRadioButton rbutton_4 = new JRadioButton("预定(后付)");
 		rbutton_4.setBackground(Color.WHITE);
 		rbutton_4.setBounds(813, 5, 97, 23);
@@ -136,6 +142,17 @@ public class MDISaleFrame extends JInternalFrame implements ActionListener{
 		//查询商品
 		JButton button_search = new JButton("显示商品");
 		button_search.setBounds(940, 5, 124, 23);
+=======
+		JRadioButton r_button4 = new JRadioButton("\u9884\u5B9A\uFF08\u540E\u4ED8\uFF09");
+		r_button4.setBackground(Color.WHITE);
+		r_button4.setBounds(776, 5, 97, 23);
+		panel.add(r_button4);
+		bg_sale2.add(r_button4);
+		
+		//查询商品
+		JButton button_search = new JButton("\u663E\u793A\u5546\u54C1");
+		button_search.setBounds(914, 5, 124, 23);
+>>>>>>> 01ff217766b7646fef9beaf02ab4a569f5509e4e
 		button_search.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String s = id_name.getText();
@@ -260,7 +277,7 @@ public class MDISaleFrame extends JInternalFrame implements ActionListener{
 		
 		
 		 //初始化table
-		String[] table_title = {"数量", "商品编号", "商品名称", "单价"};
+		String[] table_title = {"数量", "商品编号", "商品名称", "单价", "现货数量"};
 
 	    tableModel = new DefaultTableModel(table_title, 20) {
 			 public boolean isCellEditable(int row, int column) {
@@ -290,7 +307,7 @@ public class MDISaleFrame extends JInternalFrame implements ActionListener{
 		
 		JLabel label_5 = new JLabel("|");
 		label_5.setForeground(Color.BLACK);
-		label_5.setBounds(512, 9, 24, 15);
+		label_5.setBounds(462, 9, 24, 15);
 		panel.add(label_5);
 		
 		JLabel label_6 = new JLabel("最早提货日期");

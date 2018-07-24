@@ -37,7 +37,7 @@ public class OrderedTableData {
 		switch(this.state) {
 		case Ordered.UMPAID:		return "未付款";
 		case Ordered.PAID_PART:		return "已付定金";
-		case Ordered.PAID_ALL:		return "已付尾款";
+		case Ordered.PAID_ALL:		return "已付全款";
 		case Ordered.PAID_CANCEL:	return "已取消";
 		}
 		return null;

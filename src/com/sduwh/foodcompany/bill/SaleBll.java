@@ -2,10 +2,14 @@ package com.sduwh.foodcompany.bill;
 
 import java.util.*;
 
+import org.apache.ibatis.session.SqlSession;
+
 import com.sduwh.foodcompany.comm.MapBuilder;
+import com.sduwh.foodcompany.comm.MybatisUtil;
 import com.sduwh.foodcompany.dao.*;
 import com.sduwh.foodcompany.entity.Customer;
 import com.sduwh.foodcompany.entity.Goods;
+import com.sduwh.foodcompany.entity.Warehouse;
 
 public class SaleBll {
 	/*客户注册*/
@@ -48,6 +52,37 @@ public class SaleBll {
 		
 		CustomerDao customerDao = (CustomerDao)DaoFactory.createDao(DaoFactory.DAO_CUSTOMER);
 		customerDao.updateCustomer(map);
+	}
+	
+	/*显示所有的商品*/
+	public static GoodsTableData[] getGoods() {
+		/*private String good_id;
+	private String good_name;
+	private String good_standard;
+	private float good_cost;
+	private int good_expiration_date;*/
+		
+		ArrayList<Goods> goodsList = SelectGoodBll.select_good("good_id", null);
+		int size = goodsList.size();
+		GoodsTableData[] data = new GoodsTableData[size];
+		for(int i = 0; i < size; ++i) {
+			ArrayList<Warehouse> warehouseList = WarehouseService.getWarehouseList("good_id", goodsList.get(i).getGood_id());
+			int sum = 0;
+			for(int j = 0; j < warehouseList.size(); ++j)
+				sum += warehouseList.get(j).getGood_num();
+			data[i] = new GoodsTableData(0, sum, goodsList.get(i).getGood_id(), goodsList.get(i).getGood_name());
+		}
+		
+		return data;
+	}
+	//goodsData, cus_user_id, sale_user_id, order_type, order_date, pick_up_time_start, pick_up_time_end, order_state
+	public static void createOrder(GoodsTableData[] data, String cus_user_id, String sale_user_id, int order_type, String order_date, String pick_up_time_start,
+			String pick_up_time_end, int order_state) {
+		SqlSession session = MybatisUtil.getSession();
+		OrderedDao dao = session.getMapper(OrderedDao.class);
+		Map<String, Object> getID = new HashMap<>();
+		getID.put("order_id", "0");
+		
 	}
 	
 }

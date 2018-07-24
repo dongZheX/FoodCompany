@@ -299,4 +299,11 @@ public class FinanceBll {
 		return sdf.format(date);
 	}
 	
+	private static String getDateA() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+		Date date = new Date();
+		date.setDate(date.getDate() + 3);
+		return sdf.format(date);
+	}
+	
 }

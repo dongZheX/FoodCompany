@@ -33,6 +33,7 @@ public class MDISaleFrame extends JInternalFrame implements ActionListener{
 	private JFrame frame;
 	private  JPanel panel;
 	private  JTextField id_name ;
+	private JTextField id_name_textField;
 	private JTable table;
 	private DefaultTableModel tableModel;
 	/**
@@ -65,10 +66,10 @@ public class MDISaleFrame extends JInternalFrame implements ActionListener{
 		JLabel lblNewLabel = new JLabel("\u5BA2\u6237\u59D3\u540D\u6216ID\uFF1A");
 		lblNewLabel.setBounds(34, 9, 111, 15);
 		panel.add(lblNewLabel);
-		id_name = new JTextField();
-		id_name.setBounds(132, 6, 136, 21);
-		panel.add(id_name);
-		id_name.setColumns(0);
+		id_name_textField = new JTextField();
+		id_name_textField.setBounds(132, 6, 136, 21);
+		panel.add(id_name_textField);
+		id_name_textField.setColumns(0);
 		
 		/*ButtonGroup*/
 		ButtonGroup bg  = new ButtonGroup(); 
@@ -78,44 +79,55 @@ public class MDISaleFrame extends JInternalFrame implements ActionListener{
 		/*搜索方式单选按钮*/
 		
 		/*付款类型单选按钮*/
-		JRadioButton rdbtnNewRadioButton = new JRadioButton("\u6309\u59D3\u540D\u641C\u7D22");
-		rdbtnNewRadioButton.setBackground(Color.WHITE);
-		rdbtnNewRadioButton.setBounds(290, 5, 124, 23);
-		rdbtnNewRadioButton.addActionListener(new ActionListener() {
+		JRadioButton button_name = new JRadioButton("\u6309\u59D3\u540D\u641C\u7D22");
+		button_name.setBackground(Color.WHITE);
+		button_name.setBounds(290, 5, 111, 23);
+		button_name.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		panel.add(rdbtnNewRadioButton);
-		bg.add(rdbtnNewRadioButton);
-		rdbtnNewRadioButton.setSelected(true);
+		panel.add(button_name);
+		bg.add(button_name);
+		button_name.setSelected(true);
 		
-		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("\u6309ID\u641C\u7D22");
-		rdbtnNewRadioButton_1.setBackground(Color.WHITE);
-		rdbtnNewRadioButton_1.setBounds(415, 5, 124, 23);
-		panel.add(rdbtnNewRadioButton_1);
-		bg.add(rdbtnNewRadioButton_1);
-		JRadioButton radioButton = new JRadioButton("\u5168\u6B3E");
-		radioButton.setBackground(Color.WHITE);
-		radioButton.setBounds(573, 5, 87, 23);
-		radioButton.setSelected(true);
-		panel.add(radioButton);
-		bg_sale2.add(radioButton);
+		JRadioButton rbutton_id = new JRadioButton("\u6309ID\u641C\u7D22");
+		rbutton_id.setBackground(Color.WHITE);
+		rbutton_id.setBounds(403, 5, 103, 23);
+		panel.add(rbutton_id);
+		bg.add(rbutton_id);
 		
-		JRadioButton radioButton_1 = new JRadioButton("\u9884\u5B9A");
-		radioButton_1.setBackground(Color.WHITE);
-		radioButton_1.setBounds(664, 5, 73, 23);
-		panel.add(radioButton_1);
-		bg_sale2.add(radioButton_1);
+		//JButton现货
+		JRadioButton rbutton_1 = new JRadioButton("\u73B0\u8D27");
+		rbutton_1.setBackground(Color.WHITE);
+		rbutton_1.setBounds(542, 5, 71, 23);
+		rbutton_1.setSelected(true);
+		panel.add(rbutton_1);
+		bg_sale2.add(rbutton_1);
 		
-		JRadioButton rdbtnNewRadioButton_2 = new JRadioButton("\u8D27\u540E\u4ED8\u6B3E");
-		rdbtnNewRadioButton_2.setBackground(Color.WHITE);
-		rdbtnNewRadioButton_2.setBounds(762, 5, 111, 23);
-		panel.add(rdbtnNewRadioButton_2);
-		bg_sale2.add(rdbtnNewRadioButton_2);
+		//JButton现货后付
+		JRadioButton rbutton_2 = new JRadioButton("\u73B0\u8D27\uFF08\u540E\u4ED8\uFF09");
+		rbutton_2.setBackground(Color.WHITE);
+		rbutton_2.setBounds(615, 5, 97, 23);
+		panel.add(rbutton_2);
+		bg_sale2.add(rbutton_2);
 		
-		JButton button = new JButton("\u663E\u793A\u5546\u54C1");
-		button.setBounds(874, 5, 156, 23);
-		button.addActionListener(new ActionListener() {
+		//JButton预定
+		JRadioButton rbutton_3 = new JRadioButton("\u9884\u5B9A");
+		rbutton_3.setBackground(Color.WHITE);
+		rbutton_3.setBounds(732, 5, 79, 23);
+		panel.add(rbutton_3);
+		
+		//JButton预定后付
+		JRadioButton r_button4 = new JRadioButton("\u9884\u5B9A\uFF08\u540E\u4ED8\uFF09");
+		r_button4.setBackground(Color.WHITE);
+		r_button4.setBounds(813, 5, 97, 23);
+		panel.add(r_button4);
+		bg_sale2.add(r_button4);
+		
+		//查询商品
+		JButton button_search = new JButton("\u663E\u793A\u5546\u54C1");
+		button_search.setBounds(940, 5, 124, 23);
+		button_search.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String s = id_name.getText();
 				if(s.equals("")||s.equals(null))
@@ -126,7 +138,7 @@ public class MDISaleFrame extends JInternalFrame implements ActionListener{
 				}
 			}
 		});
-		panel.add(button);
+		panel.add(button_search);
 		
 	
 		JLabel label = new JLabel("\u8BA2\u5355\u603B\u91D1\u989D\uFF1A");
@@ -142,37 +154,38 @@ public class MDISaleFrame extends JInternalFrame implements ActionListener{
 		label_1.setBounds(353, 383, 47, 15);
 		panel.add(label_1);
 		
-		JButton button_1 = new JButton("\u751F\u6210\u63D0\u8D27\u5355");
-		button_1.addActionListener(new ActionListener() {
+		//生成提货单
+		JButton button_createOrdered = new JButton("\u751F\u6210\u63D0\u8D27\u5355");
+		button_createOrdered.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		button_1.setBounds(898, 373, 124, 35);
-		panel.add(button_1);
+		button_createOrdered.setBounds(898, 373, 124, 35);
+		panel.add(button_createOrdered);
 	
-		
+		//选择最早提货日期
 		String[] year = {"2018", "2019", "2020", "2021", "2022"};
 		String[] month = {"一月", "二月", "三月", "四月", "五月","六月", "七月", "八月", "九月", "十月","十一月","十二月"};
 		String[] day = {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25",
 				"26","27","28","29","30","31"};
 		
-		JComboBox <String>comboBox = new JComboBox<String>();
-		comboBox.setBounds(507, 380, 71, 21);
+		JComboBox <String>comboBox_year = new JComboBox<String>();
+		comboBox_year.setBounds(507, 380, 71, 21);
 		for(int i = 0 ;i < year.length;i++)
-			comboBox.addItem(year[i]);
-		panel.add(comboBox);
+			comboBox_year.addItem(year[i]);
+		panel.add(comboBox_year);
 		
-		JComboBox <String>comboBox_1 = new JComboBox<String>();
-		comboBox_1.setBounds(622, 380, 66, 21);
+		JComboBox <String>comboBox_month = new JComboBox<String>();
+		comboBox_month.setBounds(622, 380, 66, 21);
 		for(int i = 0 ;i < month.length;i++)
-			comboBox_1.addItem(month[i]);
-		panel.add(comboBox_1);
+			comboBox_month.addItem(month[i]);
+		panel.add(comboBox_month);
 		
-		JComboBox<String> comboBox_2 = new JComboBox<String>();
-		comboBox_2.setBounds(740, 380, 73, 21);
+		JComboBox<String> comboBox_day = new JComboBox<String>();
+		comboBox_day.setBounds(740, 380, 73, 21);
 		for(int i = 0 ;i < day.length;i++)
-			comboBox_2.addItem(day[i]);
-		panel.add(comboBox_2);
+			comboBox_day.addItem(day[i]);
+		panel.add(comboBox_day);
 		
 		JLabel label_2 = new JLabel("\u5E74");
 		label_2.setBounds(588, 383, 24, 15);
@@ -220,12 +233,14 @@ public class MDISaleFrame extends JInternalFrame implements ActionListener{
 		
 		JLabel label_5 = new JLabel("|");
 		label_5.setForeground(Color.BLACK);
-		label_5.setBounds(542, 9, 54, 15);
+		label_5.setBounds(512, 9, 24, 15);
 		panel.add(label_5);
 		
 		JLabel label_6 = new JLabel("\u6700\u65E9\u63D0\u8D27\u65E5\u671F");
 		label_6.setBounds(397, 383, 98, 15);
 		panel.add(label_6);
+		
+		
 	 
 	   
 		this.setVisible(true);

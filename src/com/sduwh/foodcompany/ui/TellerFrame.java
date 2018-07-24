@@ -492,14 +492,14 @@ public class TellerFrame  extends JFrame{
 			int type = Ordered.order_type_toInt((String)this.tellerTable.getValueAt(row, 3));
 			int state = Ordered.order_state_toInt((String)this.tellerTable.getValueAt(row, 4));
 			float sum = Float.parseFloat((String)this.tellerTable.getValueAt(row, 5));
+			System.out.println(state);
 		
-		
-			if(type != 3 && type != 4){
+			if(state != 3 && state != 4){
 				OrderedTableData data = new OrderedTableData(orderId, customerId , customerName, type, state, sum);
 				FinanceBll.createReceipt(data, this.admin.getUser_id());
 				JOptionPane.showMessageDialog(this, "生成收据成功", "Okay", JOptionPane.DEFAULT_OPTION);
 			}
-			else if(type == 3)
+			else if(state == 3)
 				JOptionPane.showMessageDialog(this, "该订单已付款！");
 			else 
 				JOptionPane.showMessageDialog(this, "该订单已取消！");
@@ -537,10 +537,10 @@ public class TellerFrame  extends JFrame{
 		for(int i =0;i<l.size();i++){
 			Ordered plan = l.get(i);
 			
-				/*if(id.equals(plan.getOrder_id()))
+				if(id.equals(plan.getOrder_id()))
 					continue;
 				else 
-					id = plan.getOrder_id();*/
+					id = plan.getOrder_id();
 			
 			
 			//传参数
@@ -571,6 +571,7 @@ public class TellerFrame  extends JFrame{
 			
 			//提交
 			session.commit();
+			
 			System.out.println(map.get("sum"));
 			defaultTableModel.addRow(new String[]{
 					plan.getOrder_id(),

@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.mail.Session;
 import javax.sql.rowset.CachedRowSet;
 
 import org.apache.ibatis.session.SqlSession;
@@ -182,6 +183,7 @@ public class FinanceBll {
 		
 		ReceiptDao dao = (ReceiptDao)DaoFactory.createDao(DaoFactory.DAO_RECEIPT);
 		dao.receiptByInsert(map);
+		
 	}
 	
 	/*

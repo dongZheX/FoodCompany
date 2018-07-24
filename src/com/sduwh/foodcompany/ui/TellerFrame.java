@@ -457,11 +457,11 @@ public class TellerFrame  extends JFrame{
 		int row = this.accountantTable.getSelectedRow();
 		String receiptID = (String)this.accountantTable.getValueAt(row, 0);
 		String orderID = (String)this.accountantTable.getValueAt(row, 1);
-		String customerID = (String)this.accountantTable.getValueAt(row, 2)
+		String customerID = (String)this.accountantTable.getValueAt(row, 2);
 		String customerName = (String)this.accountantTable.getValueAt(row, 3);
 		float money = Float.parseFloat((String)this.accountantTable.getValueAt(row, 4));
 		ReceiptTableData receipt = new ReceiptTableData(receiptID, orderID, customerID, customerName, money);
-		FinanceBll.createBill(receiptTableData, this.admin.getUser_id());
+		FinanceBll.createBill(receipt, this.admin.getUser_id());
 	}
 	
 	/*单击yes按钮后触发此方法，开具收据*/

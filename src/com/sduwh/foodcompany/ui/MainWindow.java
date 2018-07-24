@@ -182,6 +182,7 @@ public class MainWindow {
 		btnNewButton.setBackground(new Color(240, 255, 240));
 		
 		
+		//登录
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -191,27 +192,35 @@ public class MainWindow {
 				
 				id = textField.getText();
 				psw = String.valueOf(textField_1.getPassword());
+				System.out.println("输入密码：" + psw);
 				
-				System.out.println(psw);
+				
 				//信息不正确
 				if(id.equals("") || id.equals(null) || psw.equals("") || psw.equals(null))
-				{
 					JOptionPane.showMessageDialog(null, "登录信息不完整，请重试", "【出错啦】", JOptionPane.ERROR_MESSAGE);
-				}
+				
 				else if(id.length()!= 11)
-				{
 					JOptionPane.showMessageDialog(null, "账号长度有误，请重新输入", "【出错啦】", JOptionPane.ERROR_MESSAGE);
-				}
+				
+				
 				//信息正确
 				else{
-					//correct 是正确密码
 					Map map = MapBuilder.buildMap("user_id",id);
 					AdministratorsDao dao = (AdministratorsDao)DaoFactory.createDao(DaoFactory.DAO_ADMINISTRATORS);
 					String correct = dao.findAdministrators(map).get(0).getUser_psw();
+					
+					//correct 是正确密码
+					System.out.print("正确加密后密码：");
 					CheckUnit.print(correct);
+					
+					System.out.print("md5加密后密码：");
 					CheckUnit.print(MD5.getMD5(psw));
+					
+					System.out.print("密码是否相等：");
 					CheckUnit.print(correct.equals(MD5.getMD5(psw)));
-					int correct_power = dao.findAdministrators(map).get(0).getAdm_power();					
+					
+					int correct_power = dao.findAdministrators(map).get(0).getAdm_power();	
+					
 					if(!correct.equals(MD5.getMD5(psw)) ||comboBox.getSelectedIndex()+2 != correct_power )
 						JOptionPane.showMessageDialog(null, "账号不存在或密码错误", "【出错啦】", JOptionPane.ERROR_MESSAGE);
 					else{
@@ -223,7 +232,7 @@ public class MainWindow {
 							frame.setVisible(false);
 						}
 						//财务销售相关
-						else if(comboBox.getSelectedIndex()== 0 || comboBox.getSelectedIndex()== 1 || comboBox.getSelectedIndex()== 2|| comboBox.getSelectedIndex() == 6)
+						else if(comboBox.getSelectedIndex()== 0 || comboBox.getSelectedIndex()== 2 || comboBox.getSelectedIndex()== 3|| comboBox.getSelectedIndex() == 6)
 						{
 							new TellerFrame(dao.findAdministrators(map).get(0));
 							frame.setVisible(false);

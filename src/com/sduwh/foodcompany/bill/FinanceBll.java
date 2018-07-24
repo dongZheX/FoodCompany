@@ -62,9 +62,9 @@ public class FinanceBll {
 		CustomerDao dao = (CustomerDao)DaoFactory.createDao(DaoFactory.DAO_CUSTOMER);
 		float score = dao.findCustomer(map).get(0).getCus_score();
 		
-		if		(score >= 80 && (type.equals("现货后付")	 	|| type.equals("预约后付")) && state.equals("已付定金"))	return true;
-		else if	(score < 80  && (type.equals("现货后付") 	|| type.equals("预约后付")) && state.equals("已付尾款"))	return true;
-		else if ((type.equals("现货先付") 					|| type.equals("预约先付")) && state.equals("已付尾款"))	return true;
+		if		(score >= 80 && (type.equals("现货(后付)")	 	|| type.equals("预约(后付)")) && state.equals("已付定金"))	return true;
+		else if	(score < 80  && (type.equals("现货(后付)") 	|| type.equals("预约(后付)")) && state.equals("已付尾款"))	return true;
+		else if ((type.equals("现货(先付)") 					|| type.equals("预约(先付)")) && state.equals("已付尾款"))	return true;
 		return false;
 	}
 	
@@ -164,11 +164,12 @@ public class FinanceBll {
 		System.out.println("here");
 		System.out.println(data.getState());
 		switch(data.getState()){
-		case "未付款": if(data.getType().equals("预约先付") || data.getType().equals("现货先付"))
+		case "未付款": System.out.println(data.getType());if(data.getType().equals("预约(先付)") || data.getType().equals("现货(先付)"))
 			s = 'B'; System.out.println("ssss");break;
 		case "已付定金": s = 'A';System.out.println("ddd"); break;
 		}
 		
+		System.out.println(s);
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("order_id", data.getOrderedId());	

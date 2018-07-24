@@ -172,13 +172,13 @@ public class Ordered implements Serializable{
 		case "未付款":
 			order_state_int = Ordered.UMPAID;
 			break;
-		case "付定金":
+		case "已付定金":
 			order_state_int = Ordered.PAID_PART;
 			break;
-		case "付全款":
+		case "已付全款":
 			order_state_int = Ordered.PAID_ALL;
 			break;
-		case "取消":
+		case "已取消":
 			order_state_int = Ordered.PAID_CANCEL;
 			break;
 		default: order_state_int = -1;
@@ -191,10 +191,10 @@ public class Ordered implements Serializable{
 	 */
 	public static String order_type_toStr(int order_type_int){
 		switch(order_type_int) {
-		case Ordered.ORDER_HUO_AFT:	return "预约后付";
-		case Ordered.ORDER_HUO_BEF:	return "预约先付";
-		case Ordered.XIAN_HUO_AFT:	return "现货后付";
-		case Ordered.XIAN_HUO_BEF:	return "现货先付";
+		case Ordered.ORDER_HUO_AFT:	return "预约(后付)";
+		case Ordered.ORDER_HUO_BEF:	return "预约(先付)";
+		case Ordered.XIAN_HUO_AFT:	return "现货(后付)";
+		case Ordered.XIAN_HUO_BEF:	return "现货(先付)";
 		}
 		return null;
 	}
@@ -205,13 +205,13 @@ public class Ordered implements Serializable{
 		String order_state_str = "";
 		switch (order_state_int) {
 		case Ordered.PAID_ALL:
-			order_state_str = "付全款";
+			order_state_str = "已付全款";
 			break;
 		case Ordered.PAID_CANCEL:
-			order_state_str = "取消";
+			order_state_str = "已取消";
 			break;
 		case Ordered.PAID_PART:
-			order_state_str = "付定金";
+			order_state_str = "已付定金";
 			break;
 		case Ordered.UMPAID:
 			order_state_str = "未付款";

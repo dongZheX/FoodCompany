@@ -7,6 +7,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.sql.rowset.CachedRowSet;
+
+import org.apache.ibatis.session.SqlSession;
+
 import com.sduwh.foodcompany.comm.*;
 import com.sduwh.foodcompany.dao.*;
 import com.sduwh.foodcompany.entity.*;
@@ -155,12 +159,25 @@ public class FinanceBll {
 	 * 账单表的内容：bill_id, bill_date, bill_money, receipt_id, account_user_id
 	 */
 	public static void createReceipt(OrderedTableData data, String teller_user_id) {
+		
+		char s = ' ';
+		System.out.println("here");
+		System.out.println(data.getState());
+		switch(data.getState()){
+		case "未付款": if(data.getType().equals("预约先付") || data.getType().equals("现货先付"))
+			s = 'B'; System.out.println("ssss");break;
+		case "已付定金": s = 'A';System.out.println("ddd"); break;
+		}
+		
+		
 		Map<String, Object> map = new HashMap<>();
 		map.put("order_id", data.getOrderedId());	
-		map.put("receipt_money", data.getSum());
+		map.put("station",s+"" );
+		map.put("bill_money", data.getSum());
 		map.put("teller_user_id", teller_user_id);
-		String dateStr = getDate();
-		map.put("receipted_date", dateStr);
+		
+		//String dateStr = getDate();
+		//map.put("receipted_date", dateStr);
 		
 		ReceiptDao dao = (ReceiptDao)DaoFactory.createDao(DaoFactory.DAO_RECEIPT);
 		dao.receiptByInsert(map);
@@ -174,19 +191,26 @@ public class FinanceBll {
 	public static OrderedTableData searchOrderByOrderId(String orderId) {
 		if(orderId == "")	orderId = null;
 		Ordered order = getOrderById(orderId);
-		if(order == null)	return null;
+		if(order == null)	
+		{
+			System.out.println("无");
+				return null;}
+
 		String customerId = order.getCus_user_id();
 		int type = order.getOrder_type();
 		int state = order.getOrder_state();
 		
 		//获得订单总价的一个map
 		Map<String, Object> getMoneyMap = new HashMap<>();
-		OrderedDao orderDao = (OrderedDao)DaoFactory.createDao(DaoFactory.DAO_ORDERED);
-		getMoneyMap.put("order_id", customerId);
-		getMoneyMap.put("sum", 0);
-		orderDao.selectOrder(getMoneyMap);
-		float sum = (float)getMoneyMap.get("sum");
 		
+		SqlSession session = MybatisUtil.getSession();
+		OrderedDao orderDao = session.getMapper(OrderedDao.class);
+		getMoneyMap.put("order_id", orderId);
+		getMoneyMap.put("sum", "0");
+		orderDao.selectOrder(getMoneyMap);
+		session.commit();
+		
+		float sum = (float)getMoneyMap.get("sum");
 		//获得客户姓名的一个map
 		Map<String, Object> getCustomerName = new HashMap<>();
 		getCustomerName.put("user_id", customerId);
@@ -252,7 +276,10 @@ public class FinanceBll {
 			ArrayList<Ordered> arrayList = orderDao.findOrdered(getOrder);	//得到order的ArrayList
 			int listNum = arrayList.size();
 			for(int j = 0; j < listNum; ++j) {
-				if(getOrderId.get(arrayList.get(j).getOrder_id()) == false) {//如果这个orderId从未出现过的话
+				String tempId = arrayList.get(j).getOrder_id();
+				Boolean temp = getOrderId.get(tempId);
+			
+				if(temp == null) {//如果这个orderId从未出现过的话
 					getOrderId.put(arrayList.get(j).getOrder_id(), true);	//记录下来这个Order的Id
 					order.put(orderNum++, arrayList.get(j).getOrder_id());				//把这个orderId放在map里
 				}

@@ -9,15 +9,17 @@ import java.awt.FlowLayout;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 
+import org.apache.ibatis.session.SqlSession;
 import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
+import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 
-import com.sduwh.foodcompany.bill.FinanceBll;
-import com.sduwh.foodcompany.bill.OrderedTableData;
-import com.sduwh.foodcompany.bill.ReceiptTableData;
 import com.sduwh.foodcompany.comm.MDIDesktopPane;
+import com.sduwh.foodcompany.comm.MybatisUtil;
 import com.sduwh.foodcompany.entity.Administrators;
 import com.sduwh.foodcompany.entity.Ordered;
-
+import com.sduwh.foodcompany.bill.*;
+import com.sduwh.foodcompany.dao.*;
+import com.sduwh.foodcompany.comm.*;
 import javax.swing.JMenu;
 import java.awt.BorderLayout;
 import java.awt.Dialog;
@@ -38,6 +40,10 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.EventHandler;
+import java.lang.management.PlatformLoggingMXBean;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -63,8 +69,9 @@ public class TellerFrame  extends JFrame{
 	JTabbedPane tabbedPane;
 	Administrators admin;
 	JPanel panel;
-	
-	JTextField searchJTF;/*搜索框*/
+	String[] title1 = {"订单号", "客户ID", "客户名称", "付款类型"," 付款状态", "应付金额"};
+	String[] title2	= {"收据id","订单id","客户id","客户名称","收款金额"};
+	JTextField searchJTF, searchJTF1;/*搜索框*/
 	DefaultTableModel   tellerTableModel;/*出纳的表格*/
 	DefaultTableModel accountantTableModel;/*会计的表格*/
 	JTable tellerTable;	/*出纳的table*/
@@ -98,9 +105,12 @@ public class TellerFrame  extends JFrame{
 		panel = new JPanel();
 		/*菜单初始化*/
 		JMenuBar menuBar = new JMenuBar();
+		
+		
 		/*tabbedPane初始化*/
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		
+		searchJTF = new JTextField();
+		searchJTF1 = new JTextField();
 		/*Frame*/
 		frame.setBounds(200, 50, 1200, 800);
 		frame.setResizable(false);
@@ -157,12 +167,11 @@ public class TellerFrame  extends JFrame{
 		JPanel searchPane = new JPanel();			//搜索Panel
 		searchPane.setLayout(new FlowLayout());		//flowlayout类型
 		searchPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		JTextField searchJTF = new JTextField();	//输入框，输入搜索内容
 		searchJTF.setColumns(40);
 		
 		
 		JButton orderIDButton = new JButton("按订单ID搜索");
-		JButton customerNameButton = new JButton("按客户姓名搜索");
+		JButton customerNameButton = new JButton("\u6309\u5BA2\u6237\u540D\u79F0\u641C\u7D22");
 		JButton customerIDButton = new JButton("按客户ID搜索");
 		orderIDButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -191,8 +200,7 @@ public class TellerFrame  extends JFrame{
 		
 		//JTable
 		/*订单号，客户号，客户姓名，订单类型，订单状态，需付款*/
-		String[] title = {"订单号", "客户ID", "客户姓名", "付款类型"," 付款状态", "应付金额"};
-		tellerTableModel = new DefaultTableModel(title, 20) {
+		tellerTableModel = new DefaultTableModel(title1, 20) {
 			 public boolean isCellEditable(int row, int column) {
 				 return false;
 			 }
@@ -223,12 +231,11 @@ public class TellerFrame  extends JFrame{
 		JPanel searchPane = new JPanel();			//搜索Panel
 		searchPane.setLayout(new FlowLayout());		//flowlayout类型
 		searchPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		searchJTF = new JTextField();	//输入框，输入搜索内容
-		searchJTF.setColumns(40);
+		searchJTF1.setColumns(40);
 		JButton receiptIDButton = new JButton("按收据ID搜索");
 		JButton orderIDButton = new JButton("按订单ID搜索");
 		JButton customerIDButton = new JButton("按客户ID搜索");
-		JButton customerNameButton = new JButton("按客户姓名搜索");
+		JButton customerNameButton = new JButton("\u6309\u5BA2\u6237\u540D\u79F0\u641C\u7D22");
 		receiptIDButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				searchReceiptByReceiptId();
@@ -250,7 +257,7 @@ public class TellerFrame  extends JFrame{
 			}
 		});
 		
-		searchPane.add(searchJTF);
+		searchPane.add(searchJTF1);
 		searchPane.add(receiptIDButton);
 		searchPane.add(orderIDButton);
 		searchPane.add(customerNameButton);
@@ -260,8 +267,9 @@ public class TellerFrame  extends JFrame{
 		
 		//JTable
 		//收据id，订单id,客户id，客户姓名，收款金额
-		String[] title = {"收据ID", "订单ID", "客户ID", "客户姓名", "收款金额"};
-		accountantTableModel = new DefaultTableModel(title, 20) {
+
+	
+		accountantTableModel = new DefaultTableModel(title2, 20) {
 			/*表格不可更改*/
 			 public boolean isCellEditable(int row, int column) {
 				 	return false;
@@ -472,55 +480,264 @@ public class TellerFrame  extends JFrame{
 	private void issueReceipt() {
 		/*"订单号", "客户ID", "客户姓名", "付款类型"," 付款状态", "应付金额"*/
 		int row = this.tellerTable.getSelectedRow();
+		if(row == -1) JOptionPane.showMessageDialog(null, "请选中记录");
 		String orderedId = (String) this.tellerTable.getValueAt(row, 0);
 		if(orderedId == "" || orderedId == null) {
 			JOptionPane.showMessageDialog(this, "您选择的是空列表", "错误", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-		String customerId = (String) this.tellerTable.getValueAt(row, 1);
-		String customerName = (String)this.tellerTable.getValueAt(row, 2);
-		int type = Ordered.order_type_toInt((String)this.tellerTable.getValueAt(row, 3));
-		int state = Ordered.order_state_toInt((String)this.tellerTable.getValueAt(row, 4));
-		float sum = Float.parseFloat((String)this.tellerTable.getValueAt(row, 5));
+		String customerId = (String) this.tellerTable.getValueAt(row, 0);
+		String customerName = (String)this.tellerTable.getValueAt(row, 1);
+		int type = Ordered.order_type_toInt((String)this.tellerTable.getValueAt(row, 2));
+		int state = Ordered.order_state_toInt((String)this.tellerTable.getValueAt(row, 3));
+		float sum = Float.parseFloat((String)this.tellerTable.getValueAt(row, 4));
+		
 		OrderedTableData data = new OrderedTableData(orderedId, customerId, customerName, type, state, sum);
+		
+		
 		FinanceBll.createReceipt(data, this.admin.getUser_id());
 		JOptionPane.showMessageDialog(this, "生成收据成功", "Okay", JOptionPane.DEFAULT_OPTION);
 	}
 	
 	/*单击“按订单ID查找”后触发此方法*/
 	private void searchOrderByOrderId() {
-		OrderedTableData data = FinanceBll.searchOrderByOrderId(this.searchJTF.getText());
+		ArrayList <Ordered> l = SelectOrderedBll.select_ordered("order_id",this.searchJTF.getText().equals("")?null:searchJTF.getText());
+		System.out.println(l);
+		/*OrderedTableData data = FinanceBll.searchOrderByOrderId(this.searchJTF.getText());
 		//System.out.println("输入的是!!" + this.searchJTF.getText() + "!!");
 		if(data == null) {
 			JOptionPane.showMessageDialog(this, "您要查找的订单不存在", "错误", JOptionPane.ERROR_MESSAGE);
 		}
 		else
-			this.tellerTableModel.addRow(data.toArray());
+			this.tellerTableModel.addRow(data.toArray());*/
+	
+		//o.getOrder_id(),o.getCus_user_id(),o.getOrder_type()+"" ,o.getOrder_state()+""
+		//{"订单号", "客户ID", "客户姓名", "付款类型"," 付款状态", "应付金额"};
+		
+		
+		
+		SqlSession session = MybatisUtil.getSession();
+		//初始化dao和map
+		OrderedDao dao = session.getMapper(OrderedDao.class);
+		Map<String, Object> map = new HashMap<>();
+		
+		DefaultTableModel defaultTableModel = new DefaultTableModel();
+		defaultTableModel.setColumnIdentifiers(title1);
+		String id = "";
+		for(int i =0;i<l.size();i++){
+			Ordered plan = l.get(i);
+			
+				if(id.equals(plan.getOrder_id()))
+					continue;
+				else 
+					id = plan.getOrder_id();
+			
+			
+			//传参数
+			map.put("order_id", plan.getOrder_id());
+			map.put("sum", "0");
+			
+			//调用接口
+			dao.selectOrder(map);
+			int leixing = plan.getOrder_type();
+			String s1 = new String();
+			s1 = "";
+			switch(leixing){
+				case 1: s1 = "现货（先付)";break;
+				case 2: s1 = "现货（后付)";break;
+				case 3: s1 = "预定（先付)";break;
+				case 4: s1 = "预定（后付)";break;
+			}
+			
+			int order_state = plan.getOrder_state();
+			String s2 = new String();
+			s2 = "";
+			switch(order_state){
+			case 1: s2 = "未付款";break;
+			case 2: s2 = "付定金";break;
+			case 3: s2 = "付全款";break;
+			case 4: s2 = "取消";break;
+			}
+			
+			//提交
+			session.commit();
+			System.out.println(map.get("sum"));
+			defaultTableModel.addRow(new String[]{
+					plan.getOrder_id(),
+					plan.getCus_user_id(),
+					IdToName.Customer_select(plan.getCus_user_id()),
+					s1,s2,
+					map.get("sum")+""
+				
+			});			
+		}
+		
+		tellerTable.setModel(defaultTableModel);
+		
+
+		
+		
+		//this.tellerTableModel.addRow(s);
 	}
 	
 	/*单击“按客户ID查找后触发此方法”*/
 	private void searchOrderByCustomerID() {
-		OrderedTableData[] data = FinanceBll.searchOrderByCustomerId(this.searchJTF.getText());
+		/*OrderedTableData[] data = FinanceBll.searchOrderByCustomerId(this.searchJTF.getText());
 		if(data == null) {
 			JOptionPane.showMessageDialog(this, "您要查找的客户不存在", "错误", JOptionPane.ERROR_MESSAGE);
 		}else
 			for(int i = 0; i < data.length; ++i)
-				this.tellerTableModel.addRow(data[i].toArray());
+				this.tellerTableModel.addRow(data[i].toArray());*/
+		
+		
+		ArrayList <Ordered> l = SelectOrderedBll.select_ordered("cus_user_id",searchJTF.getText().equals("")?null:searchJTF.getText());
+		System.out.println(searchJTF.getText());
+		System.out.println(searchJTF.getText().equals("")?null:searchJTF.getText());
+		SqlSession session = MybatisUtil.getSession();
+		
+		//初始化dao和map
+		OrderedDao dao = session.getMapper(OrderedDao.class);
+		Map<String, Object> map = new HashMap<>();
+		
+		DefaultTableModel defaultTableModel = new DefaultTableModel();
+		defaultTableModel.setColumnIdentifiers(title1);
+		String id = "";
+		for(int i =0;i<l.size();i++){
+			Ordered plan = l.get(i);
+			
+				if(id.equals(plan.getOrder_id()))
+					continue;
+				else 
+					id = plan.getOrder_id();
+			
+			
+			//传参数
+			map.put("order_id", plan.getOrder_id());
+			map.put("sum", "0");
+			//调用接口
+			dao.selectOrder(map);
+			
+			int leixing = plan.getOrder_type();
+			String s1 = new String();
+			s1 = "";
+			switch(leixing){
+				case 1: s1 = "现货（先付)";break;
+				case 2: s1 = "现货（后付)";break;
+				case 3: s1 = "预定（先付)";break;
+				case 4: s1 = "预定（后付)";break;
+			}
+			
+			int order_state = plan.getOrder_state();
+			String s2 = new String();
+			s2 = "";
+			switch(order_state){
+			case 1: s2 = "未付款";break;
+			case 2: s2 = "付定金";break;
+			case 3: s2 = "付全款";break;
+			case 4: s2 = "取消";break;
+		}
+			
+			//提交
+			session.commit();
+			System.out.println(map.get("sum"));
+			defaultTableModel.addRow(new String[]{
+					plan.getOrder_id(),
+					plan.getCus_user_id(),
+					IdToName.Customer_select(plan.getCus_user_id()),
+					s1,s2,
+					map.get("sum")+""
+				
+			});			
+		}
+		
+		tellerTable.setModel(defaultTableModel);
+
 	}
 	
 	/*单击“按客户姓名查找后触发此方法”*/
 	private void searchOrderByCustomerName() {
-		OrderedTableData[] data = FinanceBll.searchOrderByCustomerName(this.searchJTF.getText());
+		int ro = tellerTableModel.getRowCount();
+		while(ro-- != 0)
+			tellerTableModel.removeRow(0);
+		OrderedTableData[] data = FinanceBll.searchOrderByCustomerName(searchJTF.getText().equals("")?null:searchJTF.getText());
 		if(data == null)
 			JOptionPane.showMessageDialog(this, "您要查找的客户不存在", "错误", JOptionPane.ERROR_MESSAGE);
 		else
-			for(int i = 0; i < data.length; ++i)
+			for(int i = 0; i < data.length; ++i){
 				this.tellerTableModel.addRow(data[i].toArray());
+				
+			}
+		/*String user_name = searchJTF.getText().equals("")?null:searchJTF.getText();
+		String user_id = NameToId.Customer_select(plan.getCus_user_id());
+		
+		ArrayList <Ordered> l = SelectOrderedBll.select_ordered("user_id",);
+		
+		System.out.println(searchJTF.getText());
+		System.out.println(searchJTF.getText().equals("")?null:searchJTF.getText());
+		SqlSession session = MybatisUtil.getSession();
+		
+		//初始化dao和map
+		OrderedDao dao = session.getMapper(OrderedDao.class);
+		Map<String, Object> map = new HashMap<>();
+		
+		DefaultTableModel defaultTableModel = new DefaultTableModel();
+		defaultTableModel.setColumnIdentifiers(title1);
+		String id = "";
+		for(int i =0;i<l.size();i++){
+			Ordered plan = l.get(i);
+			
+				if(id.equals(plan.getOrder_id()))
+					continue;
+				else 
+					id = plan.getOrder_id();
+			
+			
+			//传参数
+			map.put("order_id", plan.getOrder_id());
+			map.put("sum", "0");
+			//调用接口
+			dao.selectOrder(map);
+			
+			int leixing = plan.getOrder_type();
+			String s1 = new String();
+			s1 = "";
+			switch(leixing){
+				case 1: s1 = "现货（先付)";break;
+				case 2: s1 = "现货（后付)";break;
+				case 3: s1 = "预定（先付)";break;
+				case 4: s1 = "预定（后付)";break;
+			}
+			
+			int order_state = plan.getOrder_state();
+			String s2 = new String();
+			s2 = "";
+			switch(order_state){
+			case 1: s2 = "未付款";break;
+			case 2: s2 = "付定金";break;
+			case 3: s2 = "付全款";break;
+			case 4: s2 = "取消";break;
+		}
+			
+			//提交
+			session.commit();
+			System.out.println(map.get("sum"));
+			defaultTableModel.addRow(new String[]{
+					plan.getOrder_id(),
+					plan.getCus_user_id(),
+					IdToName.Customer_select(plan.getCus_user_id()),
+					s1,s2,
+					map.get("sum")+""
+				
+			});			
+		}
+		
+		tellerTable.setModel(defaultTableModel);*/
+		
 	}
 	
 	/*根据收据ID查找收据*/
 	private void searchReceiptByReceiptId() {
-		ReceiptTableData data =  FinanceBll.searchReceiptByReceiptId(this.searchJTF.getText());
+		ReceiptTableData data =  FinanceBll.searchReceiptByReceiptId(this.searchJTF1.getText());
 		if(data == null)
 			JOptionPane.showMessageDialog(this, "您要查找的收据不存在", "错误", JOptionPane.ERROR_MESSAGE);
 		else
@@ -529,7 +746,7 @@ public class TellerFrame  extends JFrame{
 	
 	/*根据订单ID查找收据*/
 	private void searchReceiptByOrderId() {
-		ReceiptTableData data = FinanceBll.searchReceiptByOrderId(this.searchJTF.getText());
+		ReceiptTableData data = FinanceBll.searchReceiptByOrderId(this.searchJTF1.getText());
 		if(data == null)
 			JOptionPane.showMessageDialog(this, "您查找的订单不存在", "错误", JOptionPane.ERROR_MESSAGE);
 		else
@@ -538,7 +755,7 @@ public class TellerFrame  extends JFrame{
 	
 	/*根据用户ID查找收据*/
 	private void searchReceiptByCumstomerId() {
-		ReceiptTableData[] data =  FinanceBll.searchReceiptByCustomerId(this.searchJTF.getText());
+		ReceiptTableData[] data =  FinanceBll.searchReceiptByCustomerId(this.searchJTF1.getText());
 		if(data == null)
 			JOptionPane.showMessageDialog(this, "您要查找的客户不存在", "错误", JOptionPane.ERROR_MESSAGE);
 		else
@@ -548,7 +765,7 @@ public class TellerFrame  extends JFrame{
 	
 	/*根据用户姓名查找收据*/
 	private void searchReceiptByCustomerName() {
-		ReceiptTableData[] data =  FinanceBll.searchReceiptByCustomerName(this.searchJTF.getText());
+		ReceiptTableData[] data =  FinanceBll.searchReceiptByCustomerName(this.searchJTF1.getText());
 		if(data == null)
 			JOptionPane.showMessageDialog(this, "您要查找的客户不存在", "错误", JOptionPane.ERROR_MESSAGE);
 		else

@@ -151,14 +151,15 @@ public class MDIcancelOrdered extends JInternalFrame implements ActionListener{
 	    		return false;
 	    	}
 	    };
-	    table.setRowHeight(30);	  
+	    table.setRowHeight(30);	
+	    table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 	    //初始化scrollPane
 	    //将table放入scrollPane
 	    scrollPane = new JScrollPane(table);
 	    //设置滚动条一直显示
 	    scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 	    //设置滚动面板大小
-	    scrollPane.setPreferredSize(new Dimension(900,350));
+	    scrollPane.setPreferredSize(new Dimension(1000,350));
 	    //将滚动面板加入viewPane
 	    viewPane.add(scrollPane);
 	    

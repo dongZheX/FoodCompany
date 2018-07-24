@@ -150,26 +150,28 @@ public class TellerFrame  extends JFrame{
 		searchPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		JTextField searchJTF = new JTextField();	//输入框，输入搜索内容
 		searchJTF.setColumns(40);
-		JRadioButton IDButton = new JRadioButton("按订单ID搜索");	//radiobutton
-		IDButton.setSelected(true);									//默认选中
-		JRadioButton nameButton = new JRadioButton("按客户姓名搜索");
 		
-		bg.add(IDButton);
-		bg.add(nameButton);
+		
+		JButton orderIDButton = new JButton("按订单ID搜索");
+		JButton customerNameButton = new JButton("按客户姓名搜索");
+		JButton customerIDButton = new JButton("按客户ID搜索");
+		
 		searchPane.add(searchJTF);
-		searchPane.add(IDButton);
-		searchPane.add(nameButton);
+		searchPane.add(orderIDButton);
+		searchPane.add(customerIDButton);
+		searchPane.add(customerNameButton);
 		receiptPane.add(searchPane, BorderLayout.NORTH);
 		searchPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		searchPane.setLayout(new GridLayout());
 		
 		
 		//JTable
-		String[] title = {"订单号", "客户ID", "客户姓名", "应付金额", "付款类型"," 付款状态"};
+		/*订单号，客户号，客户姓名，订单类型，订单状态，需付款*/
+		String[] title = {"订单号", "客户ID", "客户姓名", "付款类型"," 付款状态", "应付金额"};
 		DefaultTableModel   tableModel = new DefaultTableModel(title, 20) {
 			 public boolean isCellEditable(int row, int column) {
-				 	return false;
-				  }
+				 return false;
+			 }
 		};
 		JTable table;
 		table = new JTable(tableModel);
@@ -194,22 +196,24 @@ public class TellerFrame  extends JFrame{
 		searchPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		JTextField searchJTF = new JTextField();	//输入框，输入搜索内容
 		searchJTF.setColumns(40);
-		JRadioButton IDButton = new JRadioButton("按客户ID搜索");	//radiobutton
-		IDButton.setSelected(true);									//默认选中
-		JRadioButton nameButton = new JRadioButton("按客户姓名搜索");
-		ButtonGroup bg_sale1 = new ButtonGroup();
-		bg_sale1.add(IDButton);
-		bg_sale1.add(nameButton);
+		JButton receiptIDButton = new JButton("按收据ID搜索");
+		JButton orderIDButton = new JButton("按订单ID搜索");
+		JButton customerIDButton = new JButton("按客户ID搜索");
+		JButton customerNameButton = new JButton("按客户姓名搜索");
+		
 		searchPane.add(searchJTF);
-		searchPane.add(IDButton);
-		searchPane.add(nameButton);
+		searchPane.add(receiptIDButton);
+		searchPane.add(orderIDButton);
+		searchPane.add(customerNameButton);
 		accountingPane.add(searchPane, BorderLayout.NORTH);
 		searchPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		searchPane.setLayout(new GridLayout());
 		
 		//JTable
-		String[] title = {"订单号", "客户ID", "客户姓名", "收款金额", "付款类型"};
+		//收据id，订单id,客户id，客户姓名，收款金额
+		String[] title = {"收据ID", "订单ID", "客户ID", "客户姓名", "收款金额"};
 		DefaultTableModel tableModel = new DefaultTableModel(title, 20) {
+			/*表格不可更改*/
 			 public boolean isCellEditable(int row, int column) {
 				 	return false;
 				  }
@@ -367,8 +371,6 @@ public class TellerFrame  extends JFrame{
 				
 		});
 		toolBar.add(button_update);
-		
-		
 	}
 	
 	/**

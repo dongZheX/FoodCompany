@@ -456,6 +456,10 @@ public class TellerFrame  extends JFrame{
 		//收据id，订单id,客户id，客户姓名，收款金额
 		int row = this.accountantTable.getSelectedRow();
 		String receiptID = (String)this.accountantTable.getValueAt(row, 0);
+		if(receiptID == "" || receiptID == null) {
+			JOptionPane.showMessageDialog(this, "您选择的是空列表", "错误", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
 		String orderID = (String)this.accountantTable.getValueAt(row, 1);
 		String customerID = (String)this.accountantTable.getValueAt(row, 2);
 		String customerName = (String)this.accountantTable.getValueAt(row, 3);
@@ -469,6 +473,10 @@ public class TellerFrame  extends JFrame{
 		/*"订单号", "客户ID", "客户姓名", "付款类型"," 付款状态", "应付金额"*/
 		int row = this.tellerTable.getSelectedRow();
 		String orderedId = (String) this.tellerTable.getValueAt(row, 0);
+		if(orderedId == "" || orderedId == null) {
+			JOptionPane.showMessageDialog(this, "您选择的是空列表", "错误", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
 		String customerId = (String) this.tellerTable.getValueAt(row, 1);
 		String customerName = (String)this.tellerTable.getValueAt(row, 2);
 		int type = Ordered.order_type_toInt((String)this.tellerTable.getValueAt(row, 3));
@@ -482,6 +490,7 @@ public class TellerFrame  extends JFrame{
 	/*单击“按订单ID查找”后触发此方法*/
 	private void searchOrderByOrderId() {
 		OrderedTableData data = FinanceBll.searchOrderByOrderId(this.searchJTF.getText());
+		//System.out.println("输入的是!!" + this.searchJTF.getText() + "!!");
 		if(data == null) {
 			JOptionPane.showMessageDialog(this, "您要查找的订单不存在", "错误", JOptionPane.ERROR_MESSAGE);
 		}

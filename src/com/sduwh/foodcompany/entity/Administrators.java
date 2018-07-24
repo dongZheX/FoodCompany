@@ -31,6 +31,15 @@ public class Administrators extends User implements Serializable{
 		user_tel = "";
 		adm_power = 0;//д╛хо
 	}
+	
+	public Administrators(String user_id, String user_name, String user_psw, String user_tel, int adm_power) {
+		this.user_id = user_id;
+		this.user_name = user_name;
+		this.user_psw = user_psw;
+		this.user_tel = user_tel;
+		this.adm_power = adm_power;
+	}
+	
 	//getter and setters
 	public int getAdm_power() {
 		return adm_power;

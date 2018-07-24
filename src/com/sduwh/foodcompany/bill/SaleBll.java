@@ -5,6 +5,7 @@ import java.util.*;
 import com.sduwh.foodcompany.comm.MapBuilder;
 import com.sduwh.foodcompany.dao.*;
 import com.sduwh.foodcompany.entity.Customer;
+import com.sduwh.foodcompany.entity.Goods;
 
 public class SaleBll {
 	/*¿Í»§×¢²á*/
@@ -49,5 +50,4 @@ public class SaleBll {
 		customerDao.updateCustomer(map);
 	}
 	
-	/**/
 }

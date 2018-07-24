@@ -58,8 +58,6 @@ public class SelectProducePlan extends JInternalFrame implements ActionListener 
 	private DefaultTableModel tableModel;
 	//scrollPane
 	private JScrollPane scrollPane;
-	//checkbox
-	private JCheckBox only_me_checkbox;
 	//弹出菜单
 	private JPopupMenu m_popupMenu;
 	
@@ -99,8 +97,6 @@ public class SelectProducePlan extends JInternalFrame implements ActionListener 
 	    //在this中添加splitPane
 	    this.add(splitPane);
 	    
-	    //初始化only_me_checkbox
-	    only_me_checkbox = new JCheckBox("只看我的");
 	    
 	    //初始化textfield
 	    plan_id_field = new JTextField();
@@ -130,18 +126,17 @@ public class SelectProducePlan extends JInternalFrame implements ActionListener 
 	    selectPane.add(planer_user_id_field);
 	    selectPane.add(plan_state_label);
 	    selectPane.add(plan_state_combobox);
-	    selectPane.add(only_me_checkbox);
 	    selectPane.add(select_btn);
 	  	    	   
 	    //初始化table
-	    tableModel = new DefaultTableModel(table_title,17) {
+	    tableModel = new DefaultTableModel(table_title,17);
+	    table = new JTable(tableModel){
 	    	@Override
 	    	public boolean isCellEditable(int row, int column) {
 	    		// TODO Auto-generated method stub
 	    		return false;
 	    	}
 	    };
-	    table = new JTable(tableModel);
 	    table.setRowHeight(30);	  
 	    //初始化scrollPane
 	    //将table放入scrollPane

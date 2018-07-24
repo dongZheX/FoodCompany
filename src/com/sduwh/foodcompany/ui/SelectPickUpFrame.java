@@ -43,7 +43,9 @@ import javax.swing.table.TableModel;
 
 import com.sduwh.foodcompany.bill.IdToName;
 import com.sduwh.foodcompany.bill.NameToEntity;
+import com.sduwh.foodcompany.bill.SelectPickUpBll;
 import com.sduwh.foodcompany.bill.WarehouseService;
+import com.sduwh.foodcompany.comm.CheckUnit;
 import com.sduwh.foodcompany.entity.Administrators;
 import com.sduwh.foodcompany.entity.PickUp;
 import com.sduwh.foodcompany.entity.User;
@@ -61,8 +63,6 @@ public class SelectPickUpFrame extends JInternalFrame implements ActionListener{
 	private JComboBox<String> pick_up_state_combobox;
 	//label
 	private JLabel pick_up_id_lable,pick_up_state_label;
-	//checkbox
-	private JCheckBox only_me_checkbox;
 	//button
 	private JButton select_btn;
 	//table
@@ -117,8 +117,6 @@ public class SelectPickUpFrame extends JInternalFrame implements ActionListener{
 	    //初始化label
 	    pick_up_id_lable = new JLabel("提货编号：");
 	    pick_up_state_label = new JLabel("提货状态：");
-	    //初始化only_me_checkbox
-	    only_me_checkbox = new JCheckBox("只看我的");
 	    //初始化select_btn
 	    select_btn = new JButton("查询");
 	    select_btn.addActionListener(this);
@@ -127,7 +125,6 @@ public class SelectPickUpFrame extends JInternalFrame implements ActionListener{
 	    selectPane.add(pick_up_id_field);
 	    selectPane.add(pick_up_state_label);
 	    selectPane.add(pick_up_state_combobox);
-	    selectPane.add(only_me_checkbox);
 	    selectPane.add(select_btn);
 	  	    	   
 	    //初始化table
@@ -245,9 +242,38 @@ public class SelectPickUpFrame extends JInternalFrame implements ActionListener{
 
 		        }
 		});
-		        
+		JMenuItem planMenItem_com = new JMenuItem();
+		planMenItem_com.setText("确认提货");
+		planMenItem_com.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+				/*
+				 * 确定table被选中的位置
+				 */
+				int y = table.getSelectedRow();
+	        	Object o = table.getModel().getValueAt(y, 0);
+	        	String pick_up_id = o==null?null:o.toString();
+	        	/*
+	        	 * 
+	        	 */
+	        	if(SelectPickUpBll.alter_state(pick_up_id)){
+	        		JOptionPane.showMessageDialog(pickthis, "确认成功");
+	        		table.getModel().setValueAt("已提货", y, 1);
+	        	}
+	        	else JOptionPane.showMessageDialog(pickthis, "此状态下不能提货");
+			}
+		});
 		        
 		m_popupMenu.add(planMenItem_look);
+		/*
+		 * 只有成品库管理员可操作
+		 */
+		int adm_power = administrators.getAdm_power();
+		if(adm_power == Administrators.WAREHOUSE_ADMIN_NUM || adm_power == administrators.BEST)
+			m_popupMenu.add(planMenItem_com);
 		        	
 		        
 		      
@@ -258,9 +284,13 @@ public class SelectPickUpFrame extends JInternalFrame implements ActionListener{
 		
 		
 		int pick_up_state = PickUp.state_toInt(pick_up_state_combobox.getSelectedItem().toString());
-		Object [] args ={"pick_up_id",pick_up_id_field.getText().equals("")?null:pick_up_id_field.getText(),"pick_up_state",pick_up_state==-1?null:pick_up_state};
+		Object [] args ={
+				"pick_up_id",pick_up_id_field.getText().equals("")?null:pick_up_id_field.getText(),
+				"pick_up_state",pick_up_state==-1?null:pick_up_state
+		};
 		
-		ArrayList<PickUp> pick_up_arr = NameToEntity.PickUp_select(args);
+		ArrayList<PickUp> pick_up_arr = SelectPickUpBll.find_pick_up(args);
+		CheckUnit.print(pick_up_arr);
 		//String[][] datas = new String[3][pick_up_arr.size()];
 		DefaultTableModel dablemodel = new DefaultTableModel();
 		dablemodel.setColumnIdentifiers(table_title);

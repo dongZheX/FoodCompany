@@ -199,7 +199,7 @@ public class ChangePSelectPlan extends JInternalFrame implements ActionListener 
 	  //创建弹出按钮
 		private void createPopupMenu() {
 	        m_popupMenu = new JPopupMenu();
-	        if(muser.getAdm_power()==7) {
+	        if(muser.getAdm_power()==Administrators.PRODUCE_PLAN_ADMIN_NUM || muser.getAdm_power() == Administrators.BEST) {
 	        	JMenuItem planMenItem_alter = new JMenuItem();
 	        	planMenItem_alter.setText("修改");
 	        	planMenItem_alter.addActionListener(new java.awt.event.ActionListener() {
@@ -254,7 +254,7 @@ public class ChangePSelectPlan extends JInternalFrame implements ActionListener 
 	        	});
 	        	m_popupMenu.add(planMenItem_alter);
 	        	m_popupMenu.add(planMenuItem_del);
-	        }else if(muser.getAdm_power()==6) {
+	        } if(muser.getAdm_power()==Administrators.PRODUCE_ADMIN_NUM || muser.getAdm_power() == Administrators.BEST) {
 	        	
 	        	JMenuItem planMenItem_confirm = new JMenuItem();
 	        	planMenItem_confirm.setText("确认");
@@ -280,7 +280,7 @@ public class ChangePSelectPlan extends JInternalFrame implements ActionListener 
 	        		}
 	        	});
 	        
-	        	JMenuItem planMenuItem_cancel = new JMenuItem("取消");
+	        	JMenuItem planMenuItem_cancel = new JMenuItem("终止");
 	        	planMenuItem_cancel.addActionListener(new ActionListener() {
 				
 	        		@Override
@@ -288,18 +288,18 @@ public class ChangePSelectPlan extends JInternalFrame implements ActionListener 
 	        			// TODO Auto-generated method stub
 	        			try {
 	        				int row = table.getSelectedRow();
-	        				int result = new JOptionPane().showConfirmDialog(selectProducePlan, "您确定要取消吗？");
+	        				int result = new JOptionPane().showConfirmDialog(selectProducePlan, "您确定要终止吗？");
 	        				if(result == JOptionPane.YES_OPTION) {
 	        					Object object = table.getModel().getValueAt(row, 4);
 	        					if(object==null)
 	        						return;
 	        					String state = object.toString();
 	        					if(state.equals("入库")||state.equals("取消")) {
-	        						JOptionPane.showMessageDialog(selectProducePlan,"此订单已经不能取消");
+	        						JOptionPane.showMessageDialog(selectProducePlan,"此订单已经不能终止");
 	        					}
 	        					else {
 	        						SelectProducePlanBll.cancel_plan(table.getModel().getValueAt(row, 0).toString());
-	        						JOptionPane.showMessageDialog(selectProducePlan,"取消成功");
+	        						JOptionPane.showMessageDialog(selectProducePlan,"终止成功");
 	        						table.getModel().setValueAt("取消", row, 4);
 	        					}
 	        					
@@ -335,7 +335,7 @@ public class ChangePSelectPlan extends JInternalFrame implements ActionListener 
 	        					else {
 	        						SelectProducePlanBll.cometo_plan(table.getModel().getValueAt(row, 0).toString());
 	        						JOptionPane.showMessageDialog(selectProducePlan,"入库成功");
-	        						table.getModel().setValueAt("入库", row, 3);
+	        						table.getModel().setValueAt("入库", row, 4);
 	        					}
 	        					
 	        				}else {

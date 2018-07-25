@@ -69,6 +69,7 @@ public class SaleBll {
 			ArrayList<Warehouse> warehouseList = WarehouseService.getWarehouseList("good_id", goodsList.get(i).getGood_id());
 			int sum = 0;
 			for(int j = 0; j < warehouseList.size(); ++j)
+				WarehouseService.OutOfDateRefresh();
 				sum += warehouseList.get(j).getGood_num();
 			data[i] = new GoodsTableData(0, sum, goodsList.get(i).getGood_id(), goodsList.get(i).getGood_name());
 		}
@@ -76,6 +77,7 @@ public class SaleBll {
 		return data;
 	}
 	//goodsData, cus_user_id, sale_user_id, order_type, order_date, pick_up_time_start, pick_up_time_end, order_state
+	/*¶©µ¥*/
 	public static void createOrder(GoodsTableData[] data, String cus_user_id, String sale_user_id, int order_type, String order_date, String pick_up_time_start,
 			String pick_up_time_end, int order_state) {
 		SqlSession session = MybatisUtil.getSession();

@@ -128,10 +128,15 @@ public class FinanceBll {
 		if(customer == null)	return null;
 		/*找到这个客户的所有订单*/
 		OrderedTableData[] orderTableData = FinanceBll.searchOrderByCustomerId(customerId);
-		ReceiptTableData[] receiptTableData = new ReceiptTableData[orderTableData.length];
-		for(int i = 0; i < receiptTableData.length; ++i) 
-			receiptTableData[i] = FinanceBll.searchReceiptByOrderId(orderTableData[i].getOrderedId());
+		ArrayList<ReceiptTableData> list = new ArrayList<ReceiptTableData>();
+		ReceiptTableData[] receiptTableData;
 		
+		for(int i = 0; i < orderTableData.length; ++i) { 
+			receiptTableData = FinanceBll.searchReceiptByOrderId(orderTableData[i].getOrderedId());
+			for(int j = 0; j < receiptTableData.length; ++j)
+				list.add(receiptTableData[j]);
+		}
+		receiptTableData = (ReceiptTableData[])list.toArray();
 		return receiptTableData;
 	}
 	

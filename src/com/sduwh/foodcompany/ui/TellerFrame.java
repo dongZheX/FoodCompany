@@ -112,7 +112,7 @@ public class TellerFrame  extends JFrame{
 		searchJTF = new JTextField();
 		searchJTF1 = new JTextField();
 		/*Frame*/
-		frame.setBounds(200, 50, 1150, 700);
+		frame.setBounds(200, 50, 1250, 700);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
@@ -308,7 +308,7 @@ public class TellerFrame  extends JFrame{
 		salepanel.setLayout(null);
 
 		//scrollpane
-		selectScrollPane.setBounds(0, 0, 1116, 600);
+		selectScrollPane.setBounds(0, 0, 1139, 600);
 		salepanel.add(selectScrollPane);
 		
 		JToolBar toolBar = new JToolBar();

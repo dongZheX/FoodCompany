@@ -77,7 +77,7 @@ public class SystemBll {
 		
 		SqlSession session = MybatisUtil.getSession();
 		AdministratorsDao dao = session.getMapper(AdministratorsDao.class);
-		dao.updateAdministrators(map)
+		dao.updateAdministrators(map);
 	}
 	
 	public static AdministratorsTableData[] searchAdministrators(String user_id, String user_name) {

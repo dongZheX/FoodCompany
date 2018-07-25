@@ -1,5 +1,6 @@
 package com.sduwh.foodcompany.bill;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -81,7 +82,14 @@ public class SystemBll {
 	public static AdministratorsTableData[] searchAdministrators(String user_id, String user_name) {
 		Map map = MapBuilder.buildMap("user_id", user_id, "user_name", user_name);
 		SqlSession session = MybatisUtil.getSession();
-		//AdministratorsDao dao = session.getClass()
-		return null;
+		AdministratorsDao dao = session.getMapper(AdministratorsDao.class);
+		ArrayList<Administrators> list = dao.findAdministrators(map);
+		session.commit();
+		AdministratorsTableData[] data = new AdministratorsTableData[list.size()];
+		for(int i = 0; i < data.length; ++i) {
+			Administrators d = list.get(i);		
+			data[i] = new AdministratorsTableData(d.getUser_id(), d.getUser_name(), d.getUser_tel(), d.getUser_psw(), d.getAdm_power());
+		}
+		return data;
 	}
 }

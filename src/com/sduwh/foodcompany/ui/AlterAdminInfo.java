@@ -196,22 +196,22 @@ public class AlterAdminInfo extends JInternalFrame {
 	            public void actionPerformed(java.awt.event.ActionEvent evt) {
 	                //该操作需要做的事
 	            	/*
-	            	 * 获取选中的cus_user_id
+	            	 * 获取选中的admin_id
 	            	 * 暂时注释掉,因为没实际查询时会报错
 	            	 */
 	            	//int row = table.getRowCount();
-	            	//String cus_user_id = table.getModel().getValueAt(row, 0).toString();
+	            	//String admin_id = table.getModel().getValueAt(row, 0).toString();
 	            	/*
-	            	 * 创建修改用户信息dialog
+	            	 * 创建修改管理员信息dialog
 	            	 */
 	            	
 	            	
 	            	//这是一个测试字段
-	            	String cus_user_id = "";
+	            	String user_id = "";
 	            	//x
 	            	
 	            	
-	            	AlterDialog alterDialog = new AlterDialog(cus_user_id);
+	            	AlterAdminDialog alterDialog = new AlterAdminDialog(user_id);
 	        	    alterDialog.setLocation(new Point(width*1/4, height*1/5));
 	        		alterDialog.setAlwaysOnTop(true);
 	        		alterDialog.show();	

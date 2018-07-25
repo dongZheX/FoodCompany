@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 
 import com.sduwh.foodcompany.comm.MD5;
+import com.sduwh.foodcompany.comm.MapBuilder;
 import com.sduwh.foodcompany.comm.MybatisUtil;
 import com.sduwh.foodcompany.dao.AdministratorsDao;
 import com.sduwh.foodcompany.dao.DaoFactory;
@@ -75,5 +76,12 @@ public class SystemBll {
 		
 		AdministratorsDao dao = (AdministratorsDao)DaoFactory.createDao(DaoFactory.DAO_ADMINISTRATORS);
 		dao.insertAdministrators(map);
+	}
+	
+	public static AdministratorsTableData[] searchAdministrators(String user_id, String user_name) {
+		Map map = MapBuilder.buildMap("user_id", user_id, "user_name", user_name);
+		SqlSession session = MybatisUtil.getSession();
+		//AdministratorsDao dao = session.getClass()
+		return null;
 	}
 }

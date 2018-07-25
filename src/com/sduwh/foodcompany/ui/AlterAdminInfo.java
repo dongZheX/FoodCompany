@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -25,7 +26,9 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-public class AlterAdminInfo extends JInternalFrame implements ActionListener{
+import com.sduwh.foodcompany.comm.MapBuilder;
+
+public class AlterAdminInfo extends JInternalFrame {
 
 		//创建自身对象
 		private AlterAdminInfo alterCusInfo = this;
@@ -99,7 +102,11 @@ public class AlterAdminInfo extends JInternalFrame implements ActionListener{
 		    //初始化select_btn
 		    select_btn = new JButton("查询");
 		    select_btn.setPreferredSize(new Dimension(150, 30));
-		    select_btn.addActionListener(this);
+		    select_btn.addActionListener(new ActionListener() {
+		    	public void actionPerformed(ActionEvent e) {
+		    		
+		    	}
+		    });
 		    //将label,combobox,textfield放入selectPane
 		    selectPane.add(user_id_lable);
 		    selectPane.add(user_id_field);
@@ -170,10 +177,7 @@ public class AlterAdminInfo extends JInternalFrame implements ActionListener{
 
 		}
 
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub	
-		}
+		
 		//创建弹窗
 		private void createPopupMenu() {
 			//获取屏幕
@@ -204,7 +208,7 @@ public class AlterAdminInfo extends JInternalFrame implements ActionListener{
 	            	
 	            	//这是一个测试字段
 	            	String cus_user_id = "";
-	            	//
+	            	//x
 	            	
 	            	
 	            	AlterDialog alterDialog = new AlterDialog(cus_user_id);

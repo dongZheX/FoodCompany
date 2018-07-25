@@ -72,24 +72,31 @@ public class FinanceBll {
 	/*
 	 * 根据收据Id找到收据
 	 */
-	public static ReceiptTableData searchReceiptByReceiptId(String receiptId) {
+	public static ReceiptTableData[] searchReceiptByReceiptId(String receiptId) {
 		if(receiptId == "")	receiptId = null;
 		Map map = MapBuilder.buildMap("receipt_id", receiptId);
 		ReceiptDao receiptDao = (ReceiptDao)DaoFactory.createDao(DaoFactory.DAO_RECEIPT);
 		ArrayList<Receipt> arrayList = receiptDao.findReceipt(map);
 		if(arrayList.size() == 0)	return null;	/*如果数据库中没有该订单，则返回null*/
-		Receipt receipt = arrayList.get(0);	//找到这个收据
 		
-		Ordered order = FinanceBll.getOrderById(receipt.getOrder_id());
-		Customer customer = FinanceBll.getCustomerById(order.getCus_user_id());
 		
-		return new ReceiptTableData(receipt.getReceipt_id(), order.getOrder_id(), customer.getUser_id(), customer.getUser_name(), receipt.getReceipt_money()); 
+		ReceiptTableData[] data = new ReceiptTableData[arrayList.size()];
+		int size = arrayList.size();
+		for(int i = 0; i < size; ++i) {
+			Receipt receipt = arrayList.get(i);
+			Ordered order = FinanceBll.getOrderById(receipt.getOrder_id());
+			Customer customer = FinanceBll.getCustomerById(order.getCus_user_id());
+			data[i] = new ReceiptTableData(receipt.getReceipt_id(), order.getOrder_id(), customer.getUser_id(), customer.getUser_name(), receipt.getReceipt_money());
+		}
+		
+		
+		return data; 
 	}
 	
 	/*
 	 * 根据订单Id找到收据
 	 */
-	public static ReceiptTableData searchReceiptByOrderId(String orderId) {
+	public static ReceiptTableData[] searchReceiptByOrderId(String orderId) {
 		if(orderId == "")	orderId = null;
 		Ordered order = FinanceBll.getOrderById(orderId);
 		if(order == null)	return null;
@@ -98,19 +105,19 @@ public class FinanceBll {
 		ReceiptDao receiptDao = (ReceiptDao)DaoFactory.createDao(DaoFactory.DAO_RECEIPT);
 		ArrayList<Receipt> arrayList = (ArrayList)receiptDao.findReceipt(getReceipt);
 		if(arrayList.size() == 0)	return null;
+		ReceiptTableData[]	data = new ReceiptTableData[arrayList.size()];
 		/*通过for循环找到收据*/
 		Receipt receipt = null;
 		for(int i = 0; i < arrayList.size(); ++i) {
 			receipt = arrayList.get(i);
-			char receiptType = receipt.getOrder_id().charAt(receipt.getOrder_id().length() - 1) ;
-			if(receiptType == 'A' && orderState == Ordered.PAID_ALL || receiptType == 'B' && orderState == Ordered.PAID_PART || receiptType == 'C' && orderState == Ordered.PAID_ALL)
-				break;
+			Customer customer = FinanceBll.getCustomerById(order.getCus_user_id());
+			data[i] = new ReceiptTableData(receipt.getReceipt_id(), order.getOrder_id(), customer.getUser_id(), customer.getUser_name(), receipt.getReceipt_money()); 
 		}
 		
 		/*找到用户*/
-		Customer customer = FinanceBll.getCustomerById(order.getCus_user_id());
 		
-		return new ReceiptTableData(receipt.getReceipt_id(), order.getOrder_id(), customer.getUser_id(), customer.getUser_name(), receipt.getReceipt_money()); 
+		
+		return data;
 	}
 	
 	/*根据客户ID找到收据*/

@@ -490,9 +490,8 @@ public class TellerFrame  extends JFrame{
 			String customerId = (String)this.tellerTable.getValueAt(row, 1);
 			String customerName = (String)this.tellerTable.getValueAt(row, 2);
 			int type = Ordered.order_type_toInt((String)this.tellerTable.getValueAt(row, 3));
-			int state = Ordered.order_state_toInt((String)this.tellerTable.getValueAt(row, 4));
+			
 			float sum = Float.parseFloat((String)this.tellerTable.getValueAt(row, 5));
-			System.out.println(state);
 			String string_state = (String)this.tellerTable.getValueAt(row, 4);
 			String string_type = (String)this.tellerTable.getValueAt(row, 3);
 			if(string_state.equals("未付款") && (string_type.equals("现货(先付)") || string_type.equals("预约(先付)")))
@@ -501,6 +500,7 @@ public class TellerFrame  extends JFrame{
 				this.tellerTable.setValueAt("已付全款", row, 4);
 			else if(string_state.equals("未付款") && (string_type.equals("现货(后付)") || string_type.equals("预约(后付)")))
 				this.tellerTable.setValueAt("已付定金", row, 4);
+			int state = Ordered.order_state_toInt((String)this.tellerTable.getValueAt(row, 4));
 			if(state != 3 && state != 4){
 				OrderedTableData data = new OrderedTableData(orderId, customerId , customerName, type, state, sum);
 				FinanceBll.createReceipt(data, this.admin.getUser_id());

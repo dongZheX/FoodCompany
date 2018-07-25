@@ -164,7 +164,7 @@ public class MDISaleFrame extends JInternalFrame implements ActionListener{
 		//查询商品
 		button_search.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String s = id_name.getText();
+				String s = id_name_textField.getText();
 				if(s.equals("")||s.equals(null))
 					JOptionPane.showMessageDialog(panel, "请填写客户信息","提示",JOptionPane.WARNING_MESSAGE);
 				else

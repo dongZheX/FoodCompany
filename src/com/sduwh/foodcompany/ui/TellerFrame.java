@@ -668,16 +668,17 @@ public class TellerFrame  extends JFrame{
 	/*单击“按客户姓名查找后触发此方法”*/
 	private void searchOrderByCustomerName() {
 		int ro = tellerTableModel.getRowCount();
-		while(ro-- != 0)
-			tellerTableModel.removeRow(0);
+		DefaultTableModel model = new DefaultTableModel(title1, 0);
 		OrderedTableData[] data = FinanceBll.searchOrderByCustomerName(searchJTF.getText().equals("")?null:searchJTF.getText());
 		if(data == null)
 			JOptionPane.showMessageDialog(this, "您要查找的客户不存在", "错误", JOptionPane.ERROR_MESSAGE);
 		else
 			for(int i = 0; i < data.length; ++i){
-				this.tellerTableModel.addRow(data[i].toArray());
-				
+				//System.out.println(data[i].toArray());
+				//this.tellerTableModel.addRow(data[i].toArray());
+				model.addRow(data[i].toArray());
 			}
+		tellerTable.setModel(model);
 		/*String user_name = searchJTF.getText().equals("")?null:searchJTF.getText();
 		String user_id = NameToId.Customer_select(plan.getCus_user_id());
 		
@@ -748,11 +749,22 @@ public class TellerFrame  extends JFrame{
 	
 	/*根据收据ID查找收据*/
 	private void searchReceiptByReceiptId() {
-		ReceiptTableData data =  FinanceBll.searchReceiptByReceiptId(this.searchJTF1.getText());
+		/*ReceiptTableData[] data =  FinanceBll.searchReceiptByReceiptId(this.searchJTF1.getText() == "" ? null : this.searchJTF1.getText());
 		if(data == null)
 			JOptionPane.showMessageDialog(this, "您要查找的收据不存在", "错误", JOptionPane.ERROR_MESSAGE);
 		else
-			this.accountantTableModel.addRow(data.toArray());
+		{
+			DefaultTableModel model = new DefaultTableModel(title2, 0);
+			//this.accountantTableModel.addRow(data.toArray());
+			for(int i = 0; i < data.length; ++i){
+				//System.out.println(data[i].toArray());
+				//this.tellerTableModel.addRow(data[i].toArray());
+				model.addRow(data[i].toArray());
+			}
+		tellerTable.setModel(model);
+			
+		}*/
+			
 	}
 	
 	/*根据订单ID查找收据*/

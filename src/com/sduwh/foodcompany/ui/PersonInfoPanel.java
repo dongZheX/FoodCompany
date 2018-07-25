@@ -235,6 +235,7 @@ public class PersonInfoPanel extends JPanel implements ActionListener{
 				boolean state = PersonalInfoBll.reSetUserTel(user_id,new_tel);
 				if(state) {
 					JOptionPane.showMessageDialog(this, "ÐÞ¸Ä³É¹¦");
+					textField_tel.setText(new_tel);
 					btn_edit.setEnabled(true);
 					btn_edit.setEnabled(true);
 					button_save.setEnabled(false);

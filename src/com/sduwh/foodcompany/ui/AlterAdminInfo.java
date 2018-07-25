@@ -105,7 +105,6 @@ public class AlterAdminInfo extends JInternalFrame {
 		    select_btn = new JButton("查询");
 		    select_btn.setPreferredSize(new Dimension(150, 30));
 		    select_btn.addActionListener(new ActionListener() {
-<<<<<<< HEAD
 		    	public void actionPerformed(ActionEvent e) {
 		    		String user_id = user_id_field.getText();
 		    		String user_name =  user_name_field.getText();
@@ -117,18 +116,6 @@ public class AlterAdminInfo extends JInternalFrame {
 		    		}
 		    		table.setModel(model);
 		    	}
-=======
-			    public void actionPerformed(ActionEvent e) {
-			    		String user_id = user_id_field.getText();
-			    		String user_name = user_id_field.getText();
-			    		AdministratorsTableData[] data = SystemBll.searchAdministrators(user_id, user_name);
-			    		DefaultTableModel model = new DefaultTableModel();
-			    		model.setColumnIdentifiers(table_title);
-			    		for(int i = 0; i < data.length; ++i)
-			    			model.addRow(data[i].toArray());
-			    		table.setModel(model);
-			    	}
->>>>>>> f27f9665e1da4bddf9449d2e5cd479985e84ae01
 		    });
 		    //将label,combobox,textfield放入selectPane
 		    selectPane.add(user_id_lable);

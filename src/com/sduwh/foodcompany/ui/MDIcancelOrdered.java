@@ -319,12 +319,15 @@ public class MDIcancelOrdered extends JInternalFrame implements ActionListener{
 	            }
 	        });
 	        
-	        MenItem_alter1.addActionListener(new java.awt.event.ActionListener() {
+	        MenItem_alter2.addActionListener(new java.awt.event.ActionListener() {
 	            public void actionPerformed(java.awt.event.ActionEvent evt) {
 	            	int row = table.getRowCount();
 	            	String order_id = table.getModel().getValueAt(row, 0).toString();
-	            	String good_name = "";
-	            	String good_id = WarehouseService.findIdByGoodName(good_name);
+	            	
+	            	/*
+	            	 * 创建修改用户信息dialog
+	            	 */
+	            	SaleBll.cancelOrder(order_id, null);
 	            }
 	          });
 	        //添加弹窗item

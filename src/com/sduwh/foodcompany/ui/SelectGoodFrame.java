@@ -25,30 +25,12 @@ import com.sduwh.foodcompany.entity.Goods;
 
 public class SelectGoodFrame extends JInternalFrame implements ActionListener {
 
-//	/**
-//	 * Launch the application.
-//	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					SelectGoodFrame frame = new SelectGoodFrame();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
-	
-//	good_id
-//	good_name
-//	good_standard
-//	good_cost
-//	good_expiration_date
 
 	private SelectGoodFrame selectGoodFrame = this;
 	
+	
+	//scrollPane
+	private JScrollPane scrollPane_main;
 	//JSplitPane
 	private JSplitPane splitPane;
 	//selectPane和viewPane
@@ -99,10 +81,12 @@ public class SelectGoodFrame extends JInternalFrame implements ActionListener {
 	    splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 	    selectPane.setLayout(new FlowLayout(FlowLayout.CENTER, 25, 10));
 	    splitPane.setRightComponent(viewPane);
+	    splitPane.setPreferredSize(new Dimension(900, 350));
 	    
-	    
-	    //在this中添加splitPane
-	    this.add(splitPane);
+	    //初始化scrollPane
+	    scrollPane = new JScrollPane(splitPane);
+	    //在this中添加scrollPane
+	    this.add(scrollPane);
 	    
 	    
 	    //初始化textfield
@@ -144,7 +128,7 @@ public class SelectGoodFrame extends JInternalFrame implements ActionListener {
 	    //设置滚动条一直显示
 	    scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 	    //设置滚动面板大小
-	    scrollPane.setPreferredSize(new Dimension(900,350));
+	    scrollPane.setPreferredSize(new Dimension(890,350));
 	    //将滚动面板加入viewPane
 	    viewPane.add(scrollPane);
 	    this.setVisible(true);

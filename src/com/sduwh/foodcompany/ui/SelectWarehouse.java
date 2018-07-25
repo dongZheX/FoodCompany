@@ -26,6 +26,9 @@ import com.sduwh.foodcompany.entity.Warehouse;
 
 public class SelectWarehouse extends JInternalFrame implements ActionListener {
 
+	
+	//scrollPane
+	private JScrollPane scrollPane_main;
 	// JSplitPane
 	private JSplitPane splitPane;
 	// selectPane和viewPane
@@ -47,7 +50,7 @@ public class SelectWarehouse extends JInternalFrame implements ActionListener {
 	private String batch_id, good_name, warehouse_username, workshop_username, good_state;
 	// 字符串
 	private String[] good_states = { "<--请选择-->","正常", "售空", "已过期", "已销毁" };
-	private String[] table_title = { "批号", "商品号", "生产日期", "有效期", "商品余量", "成品库操作人员", "生产车间操作人员", "商品状态" };
+	private String[] table_title = { "批号", "商品号", "商品余量", "生产日期", "有效期", "成品库操作人员", "生产车间操作人员", "商品状态" };
 	/**
 	 * Create the frame.
 	 */
@@ -77,9 +80,12 @@ public class SelectWarehouse extends JInternalFrame implements ActionListener {
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		selectPane.setLayout(new FlowLayout(FlowLayout.CENTER, 25, 10));
 		splitPane.setRightComponent(viewPane);
-
-		// 在this中添加splitPane
-		this.add(splitPane);
+		splitPane.setPreferredSize(new Dimension(900, 350));
+		
+		//初始化scrollPane
+		scrollPane = new JScrollPane(splitPane);
+		// 在this中添加scrollPane
+		this.add(scrollPane);
 
 		// 初始化textfield
 		batch_id_field = new JTextField();
@@ -94,7 +100,7 @@ public class SelectWarehouse extends JInternalFrame implements ActionListener {
 		good_state_combobox = new JComboBox(good_states);
 		// 初始化label
 		batch_id_label = new JLabel("批号：");
-		good_id_label = new JLabel("商品编号：");
+		good_id_label = new JLabel("商品名称：");
 		warehouse_user_id_label = new JLabel("成品库操作人员编号：");
 		workshop_user_id_label = new JLabel("生产车间操作人员编号：");
 		good_state_label = new JLabel("商品状态：");
@@ -131,7 +137,7 @@ public class SelectWarehouse extends JInternalFrame implements ActionListener {
 		// 设置滚动条一直显示
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		// 设置滚动面板大小
-		scrollPane.setPreferredSize(new Dimension(900, 350));
+		scrollPane.setPreferredSize(new Dimension(890, 350));
 		// 将滚动面板加入viewPane
 		viewPane.add(scrollPane);
 		this.setVisible(true);

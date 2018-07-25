@@ -480,23 +480,33 @@ public class TellerFrame  extends JFrame{
 	private void issueReceipt() {
 		/*"订单号", "客户ID", "客户姓名", "付款类型"," 付款状态", "应付金额"*/
 		int row = this.tellerTable.getSelectedRow();
-		if(row == -1) JOptionPane.showMessageDialog(null, "请选中记录");
-		String orderedId = (String) this.tellerTable.getValueAt(row, 0);
-		if(orderedId == "" || orderedId == null) {
-			JOptionPane.showMessageDialog(this, "您选择的是空列表", "错误", JOptionPane.ERROR_MESSAGE);
-			return;
+		if(row != -1) {
+			String orderedId = (String) this.tellerTable.getValueAt(row, 0);
+			if(orderedId == "" || orderedId == null) {
+				JOptionPane.showMessageDialog(this, "您选择的是空列表", "错误", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			String orderId = (String) this.tellerTable.getValueAt(row, 0);
+			String customerId = (String)this.tellerTable.getValueAt(row, 1);
+			String customerName = (String)this.tellerTable.getValueAt(row, 2);
+			int type = Ordered.order_type_toInt((String)this.tellerTable.getValueAt(row, 3));
+			int state = Ordered.order_state_toInt((String)this.tellerTable.getValueAt(row, 4));
+			float sum = Float.parseFloat((String)this.tellerTable.getValueAt(row, 5));
+			System.out.println(state);
+		
+			if(state != 3 && state != 4){
+				OrderedTableData data = new OrderedTableData(orderId, customerId , customerName, type, state, sum);
+				FinanceBll.createReceipt(data, this.admin.getUser_id());
+				JOptionPane.showMessageDialog(this, "生成收据成功", "Okay", JOptionPane.DEFAULT_OPTION);
+			}
+			else if(state == 3)
+				JOptionPane.showMessageDialog(this, "该订单已付款！");
+			else 
+				JOptionPane.showMessageDialog(this, "该订单已取消！");
 		}
-		String customerId = (String) this.tellerTable.getValueAt(row, 0);
-		String customerName = (String)this.tellerTable.getValueAt(row, 1);
-		int type = Ordered.order_type_toInt((String)this.tellerTable.getValueAt(row, 2));
-		int state = Ordered.order_state_toInt((String)this.tellerTable.getValueAt(row, 3));
-		float sum = Float.parseFloat((String)this.tellerTable.getValueAt(row, 4));
+		else
+			JOptionPane.showMessageDialog(null, "请选中记录");
 		
-		OrderedTableData data = new OrderedTableData(orderedId, customerId, customerName, type, state, sum);
-		
-		
-		FinanceBll.createReceipt(data, this.admin.getUser_id());
-		JOptionPane.showMessageDialog(this, "生成收据成功", "Okay", JOptionPane.DEFAULT_OPTION);
 	}
 	
 	/*单击“按订单ID查找”后触发此方法*/
@@ -543,10 +553,10 @@ public class TellerFrame  extends JFrame{
 			String s1 = new String();
 			s1 = "";
 			switch(leixing){
-				case 1: s1 = "现货（先付)";break;
-				case 2: s1 = "现货（后付)";break;
-				case 3: s1 = "预定（先付)";break;
-				case 4: s1 = "预定（后付)";break;
+				case 1: s1 = "现货(先付)";break;
+				case 2: s1 = "现货(后付)";break;
+				case 3: s1 = "预定(先付)";break;
+				case 4: s1 = "预定(后付)";break;
 			}
 			
 			int order_state = plan.getOrder_state();
@@ -554,13 +564,14 @@ public class TellerFrame  extends JFrame{
 			s2 = "";
 			switch(order_state){
 			case 1: s2 = "未付款";break;
-			case 2: s2 = "付定金";break;
-			case 3: s2 = "付全款";break;
-			case 4: s2 = "取消";break;
+			case 2: s2 = "已付定金";break;
+			case 3: s2 = "已付全款";break;
+			case 4: s2 = "已取消";break;
 			}
 			
 			//提交
 			session.commit();
+			
 			System.out.println(map.get("sum"));
 			defaultTableModel.addRow(new String[]{
 					plan.getOrder_id(),
@@ -621,10 +632,10 @@ public class TellerFrame  extends JFrame{
 			String s1 = new String();
 			s1 = "";
 			switch(leixing){
-				case 1: s1 = "现货（先付)";break;
-				case 2: s1 = "现货（后付)";break;
-				case 3: s1 = "预定（先付)";break;
-				case 4: s1 = "预定（后付)";break;
+				case 1: s1 = "现货(先付)";break;
+				case 2: s1 = "现货(后付)";break;
+				case 3: s1 = "预定(先付)";break;
+				case 4: s1 = "预定(后付)";break;
 			}
 			
 			int order_state = plan.getOrder_state();
@@ -632,9 +643,9 @@ public class TellerFrame  extends JFrame{
 			s2 = "";
 			switch(order_state){
 			case 1: s2 = "未付款";break;
-			case 2: s2 = "付定金";break;
-			case 3: s2 = "付全款";break;
-			case 4: s2 = "取消";break;
+			case 2: s2 = "已付定金";break;
+			case 3: s2 = "已付全款";break;
+			case 4: s2 = "已取消";break;
 		}
 			
 			//提交

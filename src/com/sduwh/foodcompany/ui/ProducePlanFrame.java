@@ -62,7 +62,7 @@ public class ProducePlanFrame extends JFrame implements ActionListener{
 	private JToolBar toolbar;
 	private JToolBar toolbar_plan;
 	//button
-	private JButton selectPickUp_btn,selectWarehouse_btn,selectProducePlan_btn,selectOrdered_btn,selectCus_btn,selectGood_btn;
+	private JButton selectPickUp_btn,selectWarehouse_btn,selectProducePlan_btn,selectOrdered_btn,selectCus_btn,selectGood_btn,selectBill_btn;
 	private JButton insertPlan_btn,alterPlan_btn;
 	private Administrators user;
 	//
@@ -125,6 +125,7 @@ public class ProducePlanFrame extends JFrame implements ActionListener{
 		selectOrdered_btn = new JButton("查询订货单");
 		selectCus_btn = new JButton("查询客户信息");
 		selectGood_btn = new JButton("查询商品信息");
+		selectBill_btn = new JButton("查询账单");
 		insertPlan_btn = new JButton("创建生产计划");
 		alterPlan_btn = new JButton("修改生产计划");
 		//为Button注册监听信息
@@ -134,6 +135,7 @@ public class ProducePlanFrame extends JFrame implements ActionListener{
 		selectOrdered_btn.addActionListener(this);
 		selectCus_btn.addActionListener(this);
 		selectGood_btn.addActionListener(this);
+		selectBill_btn.addActionListener(this);
 		insertPlan_btn.addActionListener(this);
 		alterPlan_btn.addActionListener(this);
 		
@@ -148,6 +150,7 @@ public class ProducePlanFrame extends JFrame implements ActionListener{
 		toolbar.add(selectOrdered_btn);
 		toolbar.add(selectCus_btn);
 		toolbar.add(selectGood_btn);
+		toolbar.add(selectBill_btn);
 		toolbar.setFloatable(true);
 		toolbar_plan.add(insertPlan_btn);
 		toolbar_plan.add(alterPlan_btn);
@@ -187,6 +190,9 @@ public class ProducePlanFrame extends JFrame implements ActionListener{
 		}
 		else if(btn_name.equals("查询商品信息")){
 			selectDesktop.add(new SelectGoodFrame());
+		}
+		else if(btn_name.equals("查询账单")){
+			selectDesktop.add(new SelectBillFrame());
 		}
 		else if(btn_name.equals("创建生产计划")){
 			planDesktop.add(new InsertProducePlan(user));

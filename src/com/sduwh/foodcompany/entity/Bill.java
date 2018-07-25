@@ -12,14 +12,14 @@ public class Bill {
 	private Date bill_date;
 	private float bill_money;
 	private String receipt_id;//收货id 退货id
-	private String acountant_user_id;
+	private String accountant_user_id;
 	//默认构造函数
 	public Bill(){
 		bill_id = "";
 		bill_date = null;
 		bill_money =0;
 		receipt_id = "";
-		acountant_user_id = "";
+		accountant_user_id = "";
 	}
 	//getters and setters
 	public String getBill_id() {
@@ -47,15 +47,15 @@ public class Bill {
 		this.receipt_id = receipt_id;
 	}
 	public String getAcountant_user_id() {
-		return acountant_user_id;
+		return accountant_user_id;
 	}
 	public void setAcountant_user_id(String acountant_user_id) {
-		this.acountant_user_id = acountant_user_id;
+		this.accountant_user_id = acountant_user_id;
 	}
 	@Override
 	public String toString() {
 		return "Bill [bill_id=" + bill_id + ", bill_date=" + bill_date + ", bill_money=" + bill_money + ", receipt_id="
-				+ receipt_id + ", acountant_user_id=" + acountant_user_id + "]";
+				+ receipt_id + ", acountant_user_id=" + accountant_user_id + "]";
 	}
 	public boolean equals(Bill c) {
 		if(c instanceof Bill) {

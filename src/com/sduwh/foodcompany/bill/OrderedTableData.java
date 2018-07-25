@@ -26,10 +26,10 @@ public class OrderedTableData {
 	}
 	public String getType() {
 		switch(this.type) {
-		case Ordered.ORDER_HUO_AFT:	return "预约后付";
-		case Ordered.ORDER_HUO_BEF:	return "预约先付";
-		case Ordered.XIAN_HUO_AFT:	return "现货后付";
-		case Ordered.XIAN_HUO_BEF:	return "现货先付";
+		case Ordered.ORDER_HUO_AFT:	return "预约(后付)";
+		case Ordered.ORDER_HUO_BEF:	return "预约(先付)";
+		case Ordered.XIAN_HUO_AFT:	return "现货(后付)";
+		case Ordered.XIAN_HUO_BEF:	return "现货(先付)";
 		}
 		return null;
 	}

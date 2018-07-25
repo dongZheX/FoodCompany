@@ -7,6 +7,7 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.SimpleDateFormat;
@@ -29,7 +30,9 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import com.sduwh.foodcompany.bill.IdToName;
 import com.sduwh.foodcompany.bill.SelectProducePlanBll;
+import com.sduwh.foodcompany.bill.WarehouseService;
 import com.sduwh.foodcompany.entity.Administrators;
 import com.sduwh.foodcompany.entity.ProducePlan;
 
@@ -115,7 +118,7 @@ public class ChangePSelectPlan extends JInternalFrame implements ActionListener 
 	    //plan_state_combobox.setSize(new Dimension(00, 30));
 	    //初始化label
 	    plan_id_label = new JLabel("计划号：");
-	    good_id_label = new JLabel("商品编号：");
+	    good_id_label = new JLabel("商品名：");
 	    plan_state_label = new JLabel("计划状态：");
 	    planer_user_id_label = new JLabel("生产计划科操作人员编号：");
 	    //初始化select_btn
@@ -147,7 +150,25 @@ public class ChangePSelectPlan extends JInternalFrame implements ActionListener 
 	    scrollPane.setPreferredSize(new Dimension(900,350));
 	    //将滚动面板加入viewPane
 	    viewPane.add(scrollPane);
-	    this.setVisible(true);
+	    
+	    //tip
+	    table.addMouseMotionListener(new MouseAdapter() {
+	    	 public void mouseMoved(MouseEvent e) {  
+	    	        int row=table.rowAtPoint(e.getPoint());  
+	    	        int col=table.columnAtPoint(e.getPoint());  
+	    	        if(row>-1 && col>-1){  
+	    	        	Object object = table.getValueAt(row, col);
+	    	        	if(object==null)return;
+	    	            Object value= IdToName.Administrators_Select(object.toString());
+	    	            if(null!=value && !"".equals(value))  
+	    	                table.setToolTipText(value.toString());//悬浮显示单元格内容  
+	    	            else  
+	    	                table.setToolTipText(null);//关闭提示  
+	    	        }  
+	    	    }  
+
+		});
+	    
 	    
 	    
 	    createPopupMenu();
@@ -195,6 +216,9 @@ public class ChangePSelectPlan extends JInternalFrame implements ActionListener 
 				
 			}
 		});
+	    
+	    
+	    this.setVisible(true);
 	}
 	  //创建弹出按钮
 		private void createPopupMenu() {
@@ -272,7 +296,7 @@ public class ChangePSelectPlan extends JInternalFrame implements ActionListener 
         						JOptionPane.showMessageDialog(selectProducePlan,"此订单已经确认过");
         					}
         					else {
-        						SelectProducePlanBll.cancel_plan(table.getModel().getValueAt(row, 0).toString());
+        						SelectProducePlanBll.confirm_plan(table.getModel().getValueAt(row, 0).toString());
         						JOptionPane.showMessageDialog(selectProducePlan,"确认成功");
         						table.getModel().setValueAt("已投入生产", row, 4);
         					}
@@ -375,12 +399,12 @@ public class ChangePSelectPlan extends JInternalFrame implements ActionListener 
 	}
 	
 	public void select_btn_action() {
-		
+		String good_id = WarehouseService.findIdByGoodName(good_id_field.getText());
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		int plan_state_int = ProducePlan.plan_state_toInt(plan_state_combobox.getSelectedItem().toString());
 		String [] select_key = {
 				"plan_id",plan_id_field.getText().equals("")?null:plan_id_field.getText().toString(),
-				"good_id",good_id_field.getText().equals("")?null:good_id_field.getText().toString(),
+				"good_id",good_id.equals("")?null:good_id,
 				"planer_user_id",planer_user_id_field.getText().equals("")?null:planer_user_id_field.getText().toString(),
 				"plan_state",plan_state_int == -1?null:plan_state_int+""
 				};

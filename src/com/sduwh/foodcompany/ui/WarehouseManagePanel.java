@@ -70,7 +70,7 @@ public class WarehouseManagePanel extends JPanel implements ActionListener{
 	//下拉列表
 	private JComboBox<String> jComboBox_state;
 	private String comboBoxString[] = {"<--请选择-->","正常","售空","销毁","已过期"};
-	private String columndefine[] =  {"批次号","商品名","商品数量","生产日期","有效期","成品库管理员","计划科管理员","状态"};
+	private String columndefine[] =  {"批次号","商品名","商品数量","生产日期","有效期","成品库管理员","成品库管理员","状态"};
 	//split
 	private JSplitPane splitPane = new JSplitPane();
 	//checkBox

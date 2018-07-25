@@ -36,6 +36,9 @@ public class SelectOrderedFrame extends JInternalFrame implements ActionListener
 	
 	private SelectOrderedFrame selectOrderedFrame = this;
 	
+	
+	//scrollPane
+	private JScrollPane scrollPane_main;
 	//JSplitPane
 	private JSplitPane splitPane;
 	//selectPane和viewPane
@@ -57,7 +60,7 @@ public class SelectOrderedFrame extends JInternalFrame implements ActionListener
 	private JPopupMenu m_popupMenu;
 	
 	 //字符串
-    private String [] order_state ={"<-请选择->","未确认","已投入生产","入库","取消"};
+    private String [] order_state ={"<-请选择->","未付款","付定金","付全款","取消"};
     private String [] order_type = {"<-请选择->","现货(先付)","现货(后付)","预定(先付)","预定()"};
     private String [] table_title = {"订货单号","商品编号","客户编号","销售人员编号","单价","数量","订单类型","订单日期","最早提货日期","最晚提货日期","订单状态"};
 
@@ -91,10 +94,12 @@ public class SelectOrderedFrame extends JInternalFrame implements ActionListener
 	    splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 	    selectPane.setLayout(new FlowLayout(FlowLayout.CENTER, 25, 10));
 	    splitPane.setRightComponent(viewPane);
+	    splitPane.setPreferredSize(new Dimension(900, 350));
 	    
-	    
-	    //在this中添加splitPane
-	    this.add(splitPane);
+	    //初始化scrollPane
+	    scrollPane = new JScrollPane(splitPane);  
+	    //在this中添加scrollPane
+	    this.add(scrollPane);
 	    
 	    
 	    //初始化textfield
@@ -154,7 +159,7 @@ public class SelectOrderedFrame extends JInternalFrame implements ActionListener
 	    //设置滚动条一直显示
 	    scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 	    //设置滚动面板大小
-	    scrollPane.setPreferredSize(new Dimension(900,350));
+	    scrollPane.setPreferredSize(new Dimension(890,350));
 	    //将滚动面板加入viewPane
 	    viewPane.add(scrollPane);
 	    //tip
@@ -199,6 +204,7 @@ public class SelectOrderedFrame extends JInternalFrame implements ActionListener
 		String order_state_str = order_state_combobox.getSelectedItem().toString();
 		int order_type_int = Ordered.order_type_toInt(order_type_str);
 		int order_state_int = Ordered.order_state_toInt(order_state_str);
+		System.out.println(good_id.equals("")?null:good_id);
 		String [] key = {
 				"order_id",order_id.equals("")?null:order_id,
 				"good_id",good_id.equals("")?null:good_id,

@@ -1,9 +1,11 @@
 package com.sduwh.foodcompany.ui;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Point;
+import java.awt.ScrollPane;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,6 +32,7 @@ import javax.swing.table.DefaultTableModel;
 
 import com.sduwh.foodcompany.bill.IdToName;
 import com.sduwh.foodcompany.bill.SelectProducePlanBll;
+import com.sduwh.foodcompany.bill.WarehouseService;
 import com.sduwh.foodcompany.entity.Administrators;
 import com.sduwh.foodcompany.entity.PickUp;
 import com.sduwh.foodcompany.entity.ProducePlan;
@@ -41,6 +44,8 @@ public class SelectProducePlan extends JInternalFrame implements ActionListener 
 
 	private SelectProducePlan selectProducePlan = this;
 	
+	//scrollPane
+	private JScrollPane scrollPane_main;
 	//JSplitPane
 	private JSplitPane splitPane;
 	//selectPane和viewPane
@@ -81,8 +86,6 @@ public class SelectProducePlan extends JInternalFrame implements ActionListener 
 	    selectPane = new JPanel();
 	    viewPane = new JPanel();
 	   
-	   
-	    
 	    //初始化splitPane
 	    splitPane = new JSplitPane();
 	    //设置分割线位置
@@ -92,11 +95,19 @@ public class SelectProducePlan extends JInternalFrame implements ActionListener 
 	    splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 	    selectPane.setLayout(new FlowLayout(FlowLayout.CENTER, 25, 10));
 	    splitPane.setRightComponent(viewPane);
+	    splitPane.setPreferredSize(new Dimension(700, 350));
+	    
+	    //初始化scrollPane_main
+	    scrollPane_main = new JScrollPane(splitPane);
+	    //设置滚动条一直显示
+	    scrollPane_main.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+	    //设置滚动面板大小
+	    scrollPane_main.setPreferredSize(new Dimension(700,350));
 	    
 	    
 	    //在this中添加splitPane
-	    this.add(splitPane);
-	    
+	    this.add(scrollPane_main);
+	    //scrollPane.add(splitPane);
 	    
 	    //初始化textfield
 	    plan_id_field = new JTextField();
@@ -110,12 +121,12 @@ public class SelectProducePlan extends JInternalFrame implements ActionListener 
 	    //plan_state_combobox.setSize(new Dimension(00, 30));
 	    //初始化label
 	    plan_id_label = new JLabel("计划号：");
-	    good_id_label = new JLabel("商品编号：");
+	    good_id_label = new JLabel("商品名：");
 	    plan_state_label = new JLabel("计划状态：");
 	    planer_user_id_label = new JLabel("生产计划科操作人员编号：");
 	    //初始化select_btn
 	    select_btn = new JButton("查询");
-	    select_btn.setPreferredSize(new Dimension(500, 30));
+	    select_btn.setPreferredSize(new Dimension(300, 30));
 	    select_btn.addActionListener(this);
 	    //将label,combobox,textfield放入selectPane
 	    selectPane.add(plan_id_label);
@@ -144,7 +155,7 @@ public class SelectProducePlan extends JInternalFrame implements ActionListener 
 	    //设置滚动条一直显示
 	    scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 	    //设置滚动面板大小
-	    scrollPane.setPreferredSize(new Dimension(900,350));
+	    scrollPane.setPreferredSize(new Dimension(880,350));
 	    //将滚动面板加入viewPane
 	    viewPane.add(scrollPane);
 	    //tip
@@ -182,10 +193,11 @@ public class SelectProducePlan extends JInternalFrame implements ActionListener 
 	public void select_btn_action() {
 		
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String good_id = WarehouseService.findIdByGoodName(good_id_field.getText());
 		int plan_state_int = ProducePlan.plan_state_toInt(plan_state_combobox.getSelectedItem().toString());
 		String [] select_key = {
 				"plan_id",plan_id_field.getText().equals("")?null:plan_id_field.getText().toString(),
-				"good_id",good_id_field.getText().equals("")?null:good_id_field.getText().toString(),
+				"good_id",good_id.equals("")?null:good_id,
 				"planer_user_id",planer_user_id_field.getText().equals("")?null:planer_user_id_field.getText().toString(),
 				"plan_state",plan_state_int == -1?null:plan_state_int+""
 				};

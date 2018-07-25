@@ -127,19 +127,7 @@ public class SaleBll {
 	//public void 
 	
 	
-	public void cancelOrder(String order_id, String good_id) {
-		/*order_id
-good_id
-cus_user_id
-sale_user_id
-order_unit_price
-order_num
-order_type
-order_date
-pick_up_time_start
-pick_up_time_end
-order_state
-*/
+	public static void cancelOrder(String order_id, String good_id) {
 		SqlSession session = MybatisUtil.getSession();
 		OrderedDao dao = session.getMapper(OrderedDao.class);
 		Map map = MapBuilder.buildMap("order_id", order_id, "good_id", good_id);

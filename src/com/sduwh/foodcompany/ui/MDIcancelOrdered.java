@@ -32,7 +32,9 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
 import com.sduwh.foodcompany.bill.IdToName;
+import com.sduwh.foodcompany.bill.SaleBll;
 import com.sduwh.foodcompany.bill.SelectOrderedBll;
+import com.sduwh.foodcompany.bill.SystemBll;
 import com.sduwh.foodcompany.bill.WarehouseService;
 import com.sduwh.foodcompany.entity.Ordered;
 
@@ -304,7 +306,7 @@ public class MDIcancelOrdered extends JInternalFrame implements ActionListener{
 	            	/*
 	            	 * 创建修改用户信息dialog
 	            	 */
-	            	
+	            	SaleBll.cancelOrder(order_id, good_id);
 	            	
 	            	//这是一个测试字段
 	            	

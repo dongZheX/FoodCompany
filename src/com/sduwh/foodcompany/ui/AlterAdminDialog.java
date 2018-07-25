@@ -1,7 +1,6 @@
 package com.sduwh.foodcompany.ui;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
+import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -9,7 +8,11 @@ import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import org.apache.ibatis.session.SqlSession;
@@ -20,11 +23,7 @@ import com.sduwh.foodcompany.comm.MybatisUtil;
 import com.sduwh.foodcompany.dao.CustomerDao;
 import com.sduwh.foodcompany.entity.Customer;
 
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-
-public class AlterDialog extends JDialog implements ActionListener {
+public class AlterAdminDialog extends JDialog implements ActionListener  {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textField;
@@ -36,7 +35,7 @@ public class AlterDialog extends JDialog implements ActionListener {
 	/**
 	 * Create the dialog.
 	 */
-	public AlterDialog(String cus_user_id) {
+	public AlterAdminDialog(String admin_id) {
 		setBounds(100, 100, 462, 369);
 		getContentPane().setLayout(null);
 		contentPanel.setBounds(0, 0, 434, 261);
@@ -44,39 +43,39 @@ public class AlterDialog extends JDialog implements ActionListener {
 		getContentPane().add(contentPanel);
 		contentPanel.setLayout(null);
 		
-		JLabel label = new JLabel("\u8054\u7CFB\u65B9\u5F0F\uFF1A");
+		JLabel label = new JLabel("\u59D3\u540D\uFF1A");
 		label.setBounds(55, 42, 70, 15);
 		contentPanel.add(label);
 		
 		textField = new JTextField();
-		textField.setBounds(135, 39, 163, 21);
+		textField.setBounds(148, 39, 163, 21);
 		contentPanel.add(textField);
 		textField.setColumns(10);
 		
-		JLabel label_1 = new JLabel("\u5BA2\u6237\u7EA7\u522B\uFF1A");
+		JLabel label_1 = new JLabel("\u8054\u7CFB\u65B9\u5F0F\uFF1A");
 		label_1.setBounds(55, 82, 66, 15);
 		contentPanel.add(label_1);
 		
 		textField_1 = new JTextField();
-		textField_1.setBounds(135, 79, 163, 21);
+		textField_1.setBounds(148, 79, 163, 21);
 		contentPanel.add(textField_1);
 		textField_1.setColumns(10);
 		
-		JLabel label_2 = new JLabel("\u4FE1\u8A89\u79EF\u5206\uFF1A");
+		JLabel label_2 = new JLabel("\u5BC6\u7801\uFF1A");
 		label_2.setBounds(55, 123, 70, 15);
 		contentPanel.add(label_2);
 		
 		textField_2 = new JTextField();
-		textField_2.setBounds(135, 120, 163, 21);
+		textField_2.setBounds(148, 120, 163, 21);
 		contentPanel.add(textField_2);
 		textField_2.setColumns(10);
 		
-		JLabel lblNewLabel = new JLabel("\u5BA2\u6237\u5730\u5740\uFF1A");
-		lblNewLabel.setBounds(55, 169, 70, 15);
+		JLabel lblNewLabel = new JLabel("\u7BA1\u7406\u5458\u7C7B\u578B\uFF1A");
+		lblNewLabel.setBounds(55, 169, 89, 15);
 		contentPanel.add(lblNewLabel);
 		
 		textField_3 = new JTextField();
-		textField_3.setBounds(135, 166, 163, 21);
+		textField_3.setBounds(148, 166, 163, 21);
 		contentPanel.add(textField_3);
 		textField_3.setColumns(10);
 		
@@ -86,10 +85,10 @@ public class AlterDialog extends JDialog implements ActionListener {
 		contentPanel.add(button);
 		
 		/*
-		 * 获取现有的用户信息
+		 * 获取现有的管理员信息
 		 */
 		/*
-		 * 调用    private static Customer getCustomerById(String customerId)
+		 * 调用    private static Admin getAdminById(String adminId)
 		 */
 		
 	}
@@ -102,24 +101,24 @@ public class AlterDialog extends JDialog implements ActionListener {
 		String btn_name = e.getActionCommand();
 		if(btn_name.equals("确认修改")){
 			/*
-			 * 修改用户信息函数
+			 * 修改管理员信息函数
 			 */
 			SqlSession session = MybatisUtil.getSession();
 			CustomerDao dao = session.getMapper(CustomerDao.class);
 			Map map = MapBuilder.buildMap("user_name", textField.getText());
 			ArrayList<Customer> list = dao.findCustomer(map);
 			if(list.size() ==0)
-				JOptionPane.showMessageDialog(this, "用户不存在", "错误", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "管理员不存在", "错误", JOptionPane.ERROR_MESSAGE);
 			String id = list.get(0).getUser_id();
-			//联系方式，级别，积分，地址
-			SaleBll.updateCustomer(id, textField.getText(), Integer.parseInt(textField_1.getText()), Float.parseFloat(textField_2.getText()), textField_3.getText());
+			//姓名 联系方式 密码 类型
+			//SaleBll.updateAdmin(id, textField.getText(),  textField_1.getText(),  textField_2.getText(),  textField_3.getText());
 			btn_alter_action();
 		}
 	}
 	
 	public void btn_alter_action(){
 		/*
-		 * 修改用户信息逻辑层
+		 * 修改逻辑层
 		 */
 	}
 }

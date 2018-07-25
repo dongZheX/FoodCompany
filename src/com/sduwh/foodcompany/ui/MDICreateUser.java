@@ -122,6 +122,8 @@ public class MDICreateUser extends JInternalFrame implements ActionListener{
 				repsw = String.valueOf(passwordField_1.getPassword());
 				if(name.equals("") || tell.equals("")||psw.equals("")||repsw.equals(""))
 					JOptionPane.showMessageDialog(null, "信息输入不完整", "【出错啦】", JOptionPane.ERROR_MESSAGE);
+				else if(tell.length()!= 11)
+					JOptionPane.showMessageDialog(null, "手机号长度有误", "【出错啦】", JOptionPane.ERROR_MESSAGE);
 				else if(!psw.equals(repsw))
 					JOptionPane.showMessageDialog(null, "密码输入不一致，请重试", "【出错啦】", JOptionPane.ERROR_MESSAGE);
 				else

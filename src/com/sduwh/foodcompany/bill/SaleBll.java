@@ -104,8 +104,11 @@ public class SaleBll {
 		getID.put("order_id", "0");
 		dao.selectOrder(getID);
 		session.commit();
+		
+		System.out.println("!!!" + cus_user_id);
 		String order_id = (String)getID.get("order_id");
 		OrderedDao orderDao = (OrderedDao)DaoFactory.createDao(DaoFactory.DAO_ORDERED);
+		
 		for(int i = 0; i < data.length; ++i) {
 			Map<String, Object> map = new HashMap<>();
 			map.put("order_id", order_id);
@@ -120,6 +123,7 @@ public class SaleBll {
 			map.put("pick_up_time_end", pick_up_time_end);
 			map.put("order_state", order_state);
 			orderDao.insertOrder(map);
+			//session.commit();
 		}
 	}
 	

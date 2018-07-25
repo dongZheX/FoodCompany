@@ -3,7 +3,7 @@ package com.sduwh.foodcompany.ui;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Date;
+import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -220,16 +220,28 @@ public class MDISaleFrame extends JInternalFrame implements ActionListener{
 					}
 				}
 				
-				String pick_up_start = (String)comboBox_year.getSelectedItem() + "-" + (String)comboBox_month.getSelectedItem() + "-" + (String)comboBox_year.getSelectedItem();
+				String pick_up_start = (String)comboBox_year.getSelectedItem() + "-" + (String)comboBox_month.getSelectedItem() + "-" + (String)comboBox_day.getSelectedItem();
+				//System.out.println((String)comboBox_year.getSelectedItem());
+				//System.out.println((String)comboBox_month.getSelectedItem());
+				//System.out.println((String)comboBox_day.getSelectedItem());
+				
+				
 				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
 				String pick_up_end = null;
 				try {
 					Date date_start = (Date)dateFormat.parse(pick_up_start);
+					
 					Calendar c = Calendar.getInstance();
 					c.setTime(date_start);
 					c.add(Calendar.DAY_OF_MONTH, 3);
+					
+					
+					
 					Date date_end = (Date)c.getTime();
 					pick_up_end = date_end.toString();
+					System.out.println(date_start);
+					System.out.println(date_end);
+					System.out.println(dateFormat.format(date_start));
 				} catch (ParseException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -239,8 +251,11 @@ public class MDISaleFrame extends JInternalFrame implements ActionListener{
 				if(button_name.isSelected()) {
 					SqlSession session = MybatisUtil.getSession();
 					CustomerDao dao = session.getMapper(CustomerDao.class);
-					Map map = MapBuilder.buildMap("user_id", text);
+					Map map = MapBuilder.buildMap("user_name", text);
+					if(dao.findCustomer(map).size()!=0 )
 					text = dao.findCustomer(map).get(0).getUser_id();
+					else
+						JOptionPane.showMessageDialog(null, "客户不存在");
 				}
 				
 				String order_date = FinanceBll.getDate();

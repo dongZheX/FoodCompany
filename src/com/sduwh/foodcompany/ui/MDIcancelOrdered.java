@@ -32,7 +32,9 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
 import com.sduwh.foodcompany.bill.IdToName;
+import com.sduwh.foodcompany.bill.SaleBll;
 import com.sduwh.foodcompany.bill.SelectOrderedBll;
+import com.sduwh.foodcompany.bill.SystemBll;
 import com.sduwh.foodcompany.bill.WarehouseService;
 import com.sduwh.foodcompany.entity.Ordered;
 
@@ -304,7 +306,7 @@ public class MDIcancelOrdered extends JInternalFrame implements ActionListener{
 	            	/*
 	            	 * 创建修改用户信息dialog
 	            	 */
-	            	
+	            	SaleBll.cancelOrder(order_id, good_id);
 	            	
 	            	//这是一个测试字段
 	            	
@@ -317,12 +319,15 @@ public class MDIcancelOrdered extends JInternalFrame implements ActionListener{
 	            }
 	        });
 	        
-	        MenItem_alter1.addActionListener(new java.awt.event.ActionListener() {
+	        MenItem_alter2.addActionListener(new java.awt.event.ActionListener() {
 	            public void actionPerformed(java.awt.event.ActionEvent evt) {
 	            	int row = table.getRowCount();
 	            	String order_id = table.getModel().getValueAt(row, 0).toString();
-	            	String good_name = "";
-	            	String good_id = WarehouseService.findIdByGoodName(good_name);
+	            	
+	            	/*
+	            	 * 创建修改用户信息dialog
+	            	 */
+	            	SaleBll.cancelOrder(order_id, null);
 	            }
 	          });
 	        //添加弹窗item

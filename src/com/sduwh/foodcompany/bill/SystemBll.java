@@ -81,6 +81,8 @@ public class SystemBll {
 	}
 	
 	public static AdministratorsTableData[] searchAdministrators(String user_id, String user_name) {
+		if(user_id.equals(""))	user_id = null;
+		if(user_name.equals("")) user_name = null;
 		Map map = MapBuilder.buildMap("user_id", user_id, "user_name", user_name);
 		SqlSession session = MybatisUtil.getSession();
 		AdministratorsDao dao = session.getMapper(AdministratorsDao.class);

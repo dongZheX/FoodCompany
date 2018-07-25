@@ -9,8 +9,11 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.nio.channels.NetworkChannel;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -26,6 +29,8 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import org.apache.ibatis.scripting.ScriptingException;
+
 import com.sduwh.foodcompany.bill.IdToName;
 import com.sduwh.foodcompany.bill.SelectBillBll;
 import com.sduwh.foodcompany.entity.Bill;
@@ -35,21 +40,6 @@ import java.awt.Font;
 
 public class SelectBillFrame extends JInternalFrame implements ActionListener{
 
-//	/**
-//	 * Launch the application.
-//	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					SelectBill frame = new SelectBill();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
 	
 	private SelectBillFrame selectBillFrame = this;
 	
@@ -76,7 +66,7 @@ public class SelectBillFrame extends JInternalFrame implements ActionListener{
 	private JLabel tip_label;
 	
 	 //字符串
-    private String [] year ={"<-请选择->","2016","2017","2018"};
+    private ArrayList<String> year = new ArrayList<>();
     private String [] month = {"<-请选择->","1", "2", "3", "4", "5","6", "7", "8", "9", "10","11","12"};
     private String [] day = {"<-请选择->","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25",
 			"26","27","28","29","30","31"};
@@ -98,7 +88,17 @@ public class SelectBillFrame extends JInternalFrame implements ActionListener{
 	    selectPane = new JPanel();
 	    viewPane = new JPanel();
 	   
-	   
+	    //初始化年份字符串
+	    int year_start = 1998;
+	    Calendar calendar = Calendar.getInstance();//获取calendar的实例
+	    Date today = new Date();
+	    calendar.setTime(today);
+	    int this_year = calendar.get(Calendar.YEAR);
+	    year.add("<-请选择->");
+	    for(int year_temp = year_start; year_temp <= this_year; year_temp++){
+	    	year.add(year_temp+"");
+	    }
+	    String [] year_arr = year.toArray(new String [year.size()]);
 	    
 	    //初始化splitPane
 	    splitPane = new JSplitPane();
@@ -118,7 +118,7 @@ public class SelectBillFrame extends JInternalFrame implements ActionListener{
 	    
 	    
 	    //初始化combobox
-	    select_year_combocox = new JComboBox(year);
+	    select_year_combocox = new JComboBox(year_arr);
 	    select_year_combocox.setPreferredSize(new Dimension(130, 30));
 	    select_month_combobox = new JComboBox (month);
 	    select_day_combocox = new JComboBox(day);

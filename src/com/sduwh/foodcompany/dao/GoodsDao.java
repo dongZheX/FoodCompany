@@ -18,4 +18,5 @@ public interface GoodsDao {
 	/*
 	 * 可修改good_name,good_stadard,good_cost,good_expiration_date根据good_id
 	 */
+	public void updateGoods(Map map);
 }

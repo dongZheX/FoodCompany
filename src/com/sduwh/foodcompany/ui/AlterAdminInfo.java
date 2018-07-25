@@ -26,6 +26,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import com.sduwh.foodcompany.bill.AdministratorsTableData;
+import com.sduwh.foodcompany.bill.SystemBll;
 import com.sduwh.foodcompany.comm.MapBuilder;
 
 public class AlterAdminInfo extends JInternalFrame {
@@ -104,7 +106,15 @@ public class AlterAdminInfo extends JInternalFrame {
 		    select_btn.setPreferredSize(new Dimension(150, 30));
 		    select_btn.addActionListener(new ActionListener() {
 		    	public void actionPerformed(ActionEvent e) {
-		    		
+		    		String user_id = user_id_field.getText();
+		    		String user_name =  user_name_field.getText();
+		    		AdministratorsTableData[] data = SystemBll.searchAdministrators(user_id, user_name);
+		    		DefaultTableModel model = new DefaultTableModel();
+		    		model.setColumnIdentifiers(table_title);
+		    		for(int i = 0; i < data.length; ++i) {
+		    			model.addRow(data[i].toArray());
+		    		}
+		    		table.setModel(model);
 		    	}
 		    });
 		    //½«label,combobox,textfield·ÅÈëselectPane

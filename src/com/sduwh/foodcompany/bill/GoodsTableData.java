@@ -18,7 +18,7 @@ public class GoodsTableData {
 		this.nowNumber = nowNumber;
 		this.goodsID = goodsID;
 		this.goodsName = goodsName;
-		this.value = value;
+		this.value = (float)(value * 1.2);
 	}
 	
 	public int getNeedNumber() {

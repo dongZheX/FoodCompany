@@ -26,9 +26,11 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import com.sduwh.foodcompany.bill.CustomerAlterData;
+import com.sduwh.foodcompany.bill.SaleBll;
 import com.sduwh.foodcompany.entity.Customer;
 
-public class AlterCusInfo extends JInternalFrame implements ActionListener{
+public class AlterCusInfo extends JInternalFrame{
 
 
 	//创建自身对象
@@ -103,7 +105,18 @@ public class AlterCusInfo extends JInternalFrame implements ActionListener{
 	    //初始化select_btn
 	    select_btn = new JButton("查询");
 	    select_btn.setPreferredSize(new Dimension(150, 30));
-	    select_btn.addActionListener(this);
+	    select_btn.addActionListener(new ActionListener() {
+	    	public void actionPerformed(ActionEvent e) {
+	    		String user_id = user_id_field.getText();
+	    		String user_name = user_name_field.getText();
+	    		CustomerAlterData[] data = SaleBll.searchCustomer(user_id, user_name);
+	    		DefaultTableModel model = new DefaultTableModel();
+	    		model.setColumnIdentifiers(table_title);
+	    		for(int i = 0; i < data.length; ++i)
+	    			model.addRow(data[i].getArray());
+	    		table.setModel(model);
+	    	}
+	    });
 	    //将label,combobox,textfield放入selectPane
 	    selectPane.add(user_id_lable);
 	    selectPane.add(user_id_field);
@@ -180,11 +193,6 @@ public class AlterCusInfo extends JInternalFrame implements ActionListener{
 
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
 	//创建弹窗
 	private void createPopupMenu() {
 		//获取屏幕

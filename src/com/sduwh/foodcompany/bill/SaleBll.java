@@ -26,6 +26,24 @@ public class SaleBll {
 		customerDao.insertCustomer(customerMap);
 	}
 	
+	public static CustomerAlterData[] searchCustomer(String user_id, String user_name) {
+		//"客户编号","客户姓名","联系方式","客户等级","信誉积分","客户地址"
+		if(user_id.equals(""))	user_id = null;
+		if(user_name.equals(""))	user_name = null;
+		Map map = MapBuilder.buildMap("user_id", user_id, "user_name", user_name);
+		SqlSession session = MybatisUtil.getSession();
+		CustomerDao dao = session.getMapper(CustomerDao.class);
+		ArrayList<Customer> list = dao.findCustomer(map);
+		
+		CustomerAlterData[] data = new CustomerAlterData[list.size()];
+		for(int i = 0; i < data.length; ++i) {
+			Customer c = list.get(i);
+			//"客户编号","客户姓名","联系方式","客户等级","信誉积分","客户地址"
+			data[i] = new CustomerAlterData(c.getUser_id(), c.getUser_name(), c.getUser_tel(), c.getCus_address(), c.getCus_rank(), c.getCus_score());
+		}
+		return data;
+	}
+	
 	/*根据顾客ID返回顾客信息*/
 	public static Customer getCustomerById(String customerId) {
 		Map map = MapBuilder.buildMap("cus_user_id", customerId);

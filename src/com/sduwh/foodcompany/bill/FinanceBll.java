@@ -24,8 +24,8 @@ public class FinanceBll {
 	 */
 	public static void createBill(ReceiptTableData receiptTableData, String accountantId) {
 		Map<String, Object> map = new HashMap<>();
-		map.put("bill_date", getDate());
-		map.put("bill_money", receiptTableData.getMoney());
+		//map.put("bill_date", getDate());
+		map.put("money", receiptTableData.getMoney());
 		map.put("receipt_id", receiptTableData.getReceiptId());
 		map.put("accountant_user_id", accountantId);
 		
@@ -47,8 +47,10 @@ public class FinanceBll {
 		map.put("pick_up_id", receiptTableData.getOrderId());
 		map.put("pick_up_state", PickUp.HAVE_NOT_PICKUP);
 		map.put("accountant_user_id", accountantId);
-		PickUpDao pickUpDao = (PickUpDao)DaoFactory.createDao(DaoFactory.DAO_PICKUP);
+		SqlSession session = MybatisUtil.getSession();
+		PickUpDao pickUpDao = session.getMapper(PickUpDao.class);
 		pickUpDao.insertPickUp(map);
+		session.commit();
 	}
 	
 	/*

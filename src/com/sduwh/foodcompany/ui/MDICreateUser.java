@@ -132,6 +132,8 @@ public class MDICreateUser extends JInternalFrame implements ActionListener{
 					
 					//AdministratorsTableData data = new AdministratorsTableData(name, psw, tel, type);
 					SystemBll.createAdministrators(name, psw, tell, temp);
+					
+					JOptionPane.showMessageDialog(null, "创建成功");
 				}
 			}
 		});

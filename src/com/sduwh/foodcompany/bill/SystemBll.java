@@ -34,17 +34,17 @@ public class SystemBll {
 		}
 		
 		Map<String, Object> map = new HashMap<>();
-		map.put("user_name", user_name);
-		map.put("user_psw", MD5.getMD5(adm_power));
-		map.put("user_tel", user_tel);
-		map.put("adm_power", power);
-		/*AdministratorsDao dao = (AdministratorsDao)DaoFactory.createDao(DaoFactory.DAO_ADMINISTRATORS);
+		map.put("name", user_name);
+		map.put("psw", MD5.getMD5(adm_power));
+		map.put("tel", user_tel);
+		map.put("power", power);
+		AdministratorsDao dao = (AdministratorsDao)DaoFactory.createDao(DaoFactory.DAO_ADMINISTRATORS);
 		dao.insertAdministrators(map);
-		*/
-		SqlSession session = MybatisUtil.getSession();
+		
+		/*SqlSession session = MybatisUtil.getSession();
 		AdministratorsDao dao = session.getMapper(AdministratorsDao.class);
 		dao.insertAdministrators(map);
-		session.commit();
+		session.commit();*/
 	}
 	
 	/*°´IDËÑË÷Ô±¹¤*/

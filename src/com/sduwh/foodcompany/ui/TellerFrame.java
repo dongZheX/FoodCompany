@@ -319,7 +319,7 @@ public class TellerFrame  extends JFrame{
 		JButton button_sale = new JButton("\u9500\u552E");
 		button_sale.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				MDIDesktop.add(new MDISaleFrame());
+				MDIDesktop.add(new MDISaleFrame(admin));
 				JInternalFrame sf = MDIDesktop.getSelectedFrame();
 				try {
 					//将当前窗口最大化

@@ -283,11 +283,13 @@ public class MDIcancelOrdered extends JInternalFrame implements ActionListener{
 	        /*
 	         * 弹窗菜单设置
 	         */
-	        JMenuItem MenItem_alter = new JMenuItem();
+	        JMenuItem MenItem_alter1 = new JMenuItem();
+	        JMenuItem MenItem_alter2 = new JMenuItem();
 	        //添加 修改 弹窗item
-	        MenItem_alter.setText("退货 ");
+	        MenItem_alter1.setText("退货 ");
+	        MenItem_alter2.setText("退订该订单所有商品 ");
 	        //添加监听器
-	        MenItem_alter.addActionListener(new java.awt.event.ActionListener() {
+	        MenItem_alter1.addActionListener(new java.awt.event.ActionListener() {
 	            public void actionPerformed(java.awt.event.ActionEvent evt) {
 	                //该操作需要做的事
 	            	/*
@@ -314,7 +316,17 @@ public class MDIcancelOrdered extends JInternalFrame implements ActionListener{
 	        		alterDialog.show();	
 	            }
 	        });
+	        
+	        MenItem_alter1.addActionListener(new java.awt.event.ActionListener() {
+	            public void actionPerformed(java.awt.event.ActionEvent evt) {
+	            	int row = table.getRowCount();
+	            	String order_id = table.getModel().getValueAt(row, 0).toString();
+	            	String good_name = "";
+	            	String good_id = WarehouseService.findIdByGoodName(good_name);
+	            }
+	          });
 	        //添加弹窗item
-	        m_popupMenu.add(MenItem_alter);
+	        m_popupMenu.add(MenItem_alter1);
+	        m_popupMenu.add(MenItem_alter2);
 		}
 }

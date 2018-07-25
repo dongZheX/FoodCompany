@@ -3,7 +3,10 @@ package com.sduwh.foodcompany.bill;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.ibatis.session.SqlSession;
+
 import com.sduwh.foodcompany.comm.MD5;
+import com.sduwh.foodcompany.comm.MybatisUtil;
 import com.sduwh.foodcompany.dao.AdministratorsDao;
 import com.sduwh.foodcompany.dao.DaoFactory;
 import com.sduwh.foodcompany.entity.Administrators;
@@ -24,7 +27,7 @@ public class SystemBll {
 		break;
 		case "生产车间管理员":	power = 6;
 		break;
-		case "生产计划科管理员":	power = 7;
+		case "生产计划管理员":	power = 7;
 		break;
 		case "销售":		power = 8;
 		break;
@@ -35,8 +38,13 @@ public class SystemBll {
 		map.put("user_psw", MD5.getMD5(adm_power));
 		map.put("user_tel", user_tel);
 		map.put("adm_power", power);
-		AdministratorsDao dao = (AdministratorsDao)DaoFactory.createDao(DaoFactory.DAO_ADMINISTRATORS);
+		/*AdministratorsDao dao = (AdministratorsDao)DaoFactory.createDao(DaoFactory.DAO_ADMINISTRATORS);
 		dao.insertAdministrators(map);
+		*/
+		SqlSession session = MybatisUtil.getSession();
+		AdministratorsDao dao = session.getMapper(AdministratorsDao.class);
+		dao.insertAdministrators(map);
+		session.commit();
 	}
 	
 	/*按ID搜索员工*/

@@ -206,14 +206,14 @@ public class MainWindow {
 					int correct_power = a.getAdm_power();
 					
 					//correct 是正确密码
-					/*System.out.print("正确加密后密码：");
+					System.out.print("正确加密后密码：");
 					CheckUnit.print(correct);
 					
 					//System.out.print("md5加密后密码：");
 					CheckUnit.print(MD5.getMD5(psw));
 					
 					System.out.print("密码是否相等：");
-					CheckUnit.print(correct.equals(MD5.getMD5(psw)));*/
+					CheckUnit.print(correct.equals(MD5.getMD5(psw)));
 					
 					//信息不正确
 					if(!correct.equals(MD5.getMD5(psw)) )

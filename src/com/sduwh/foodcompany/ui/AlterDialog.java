@@ -4,15 +4,24 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import org.apache.ibatis.session.SqlSession;
+
+import com.sduwh.foodcompany.bill.SaleBll;
+import com.sduwh.foodcompany.comm.MapBuilder;
+import com.sduwh.foodcompany.comm.MybatisUtil;
+import com.sduwh.foodcompany.dao.CustomerDao;
 import com.sduwh.foodcompany.entity.Customer;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 public class AlterDialog extends JDialog implements ActionListener {
@@ -28,7 +37,7 @@ public class AlterDialog extends JDialog implements ActionListener {
 	 * Create the dialog.
 	 */
 	public AlterDialog(String cus_user_id) {
-		setBounds(100, 100, 450, 400);
+		setBounds(100, 100, 763, 575);
 		getContentPane().setLayout(null);
 		contentPanel.setBounds(0, 0, 434, 261);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -95,6 +104,15 @@ public class AlterDialog extends JDialog implements ActionListener {
 			/*
 			 * 修改用户信息函数
 			 */
+			SqlSession session = MybatisUtil.getSession();
+			CustomerDao dao = session.getMapper(CustomerDao.class);
+			Map map = MapBuilder.buildMap("user_name", textField.getText());
+			ArrayList<Customer> list = dao.findCustomer(map);
+			if(list.size() ==0)
+				JOptionPane.showMessageDialog(this, "用户不存在", "错误", JOptionPane.ERROR_MESSAGE);
+			String id = list.get(0).getUser_id();
+			//联系方式，级别，积分，地址
+			SaleBll.updateCustomer(id, textField.getText(), Integer.parseInt(textField_1.getText()), Float.parseFloat(textField_2.getText()), textField_3.getText());
 			btn_alter_action();
 		}
 	}

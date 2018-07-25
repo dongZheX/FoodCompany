@@ -4,6 +4,10 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Map;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -29,8 +33,16 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
+import org.apache.ibatis.session.SqlSession;
+
+import com.sduwh.foodcompany.bill.FinanceBll;
 import com.sduwh.foodcompany.bill.GoodsTableData;
 import com.sduwh.foodcompany.bill.SaleBll;
+import com.sduwh.foodcompany.comm.MapBuilder;
+import com.sduwh.foodcompany.comm.MybatisUtil;
+import com.sduwh.foodcompany.dao.CustomerDao;
+import com.sduwh.foodcompany.entity.Administrators;
+import com.sduwh.foodcompany.entity.Ordered;
 
 import javax.swing.JSpinner;
 import javax.swing.JComboBox;
@@ -39,16 +51,20 @@ public class MDISaleFrame extends JInternalFrame implements ActionListener{
 
 	private JFrame frame;
 	private  JPanel panel;
+	private Administrators admin;
 	private  JTextField id_name ;
 	private JTextField id_name_textField;
 	private JTable table;
 	private DefaultTableModel tableModel;
 	private JLabel label_sumMoney;
 	GoodsTableData[] data; /*存的是商品的表格*/
+	private JComboBox <String>comboBox_year;
+	private JComboBox <String>comboBox_month;
+	private JComboBox<String> comboBox_day;
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -59,12 +75,13 @@ public class MDISaleFrame extends JInternalFrame implements ActionListener{
 				}
 			}
 		});
-	}
+	}*/
 
 	/**
 	 * Create the application.
 	 */
-	public MDISaleFrame() {
+	public MDISaleFrame(Administrators admin) {
+		this.admin = admin;
 		initialize();
 		setMaximizable(true);	//标题栏有最大化按钮
 	    setIconifiable(true);	//标题栏有最小化按钮
@@ -75,7 +92,7 @@ public class MDISaleFrame extends JInternalFrame implements ActionListener{
 
 		JLabel lblNewLabel = new JLabel("\u5BA2\u6237\u540D\u79F0\u6216ID");
 		lblNewLabel.setBounds(34, 9, 111, 15);
-		JLabel lblNewLabel1 = new JLabel("\u5BA2\u6237\u59D3\u540D\u6216ID\uFF1A");
+		JLabel lblNewLabel1 = new JLabel("\u5BA2\u6237\u540D\u79F0 \u6216ID\uFF1A");
 		lblNewLabel1.setBounds(10, 9, 111, 15);
 		panel.add(lblNewLabel1);
 		id_name_textField = new JTextField();
@@ -184,7 +201,7 @@ public class MDISaleFrame extends JInternalFrame implements ActionListener{
 				if(rbutton_2.isSelected())	Type = rbutton_2.getText();
 				if(rbutton_3.isSelected())	Type = rbutton_3.getText();
 				if(rbutton_4.isSelected())	Type = rbutton_4.getText();
-				
+				int type = Ordered.order_type_toInt(Type);
 				int goodNum = 0;
 				for(int i = 0; i < data.length; ++i) {
 					int num = Integer.parseInt((String)table.getValueAt(i, 0));
@@ -203,26 +220,35 @@ public class MDISaleFrame extends JInternalFrame implements ActionListener{
 					}
 				}
 				
-				/*private String order_id;
-				private String good_id;
-				private String cus_user_id;
-				private String sale_user_id;
-				private float order_unit_price;
-				private int order_num;
-				private int order_type;
-				private Date order_date;
-				private Date pick_up_time_start;
-				private Date pick_up_time_end ;
-				private int order_state;*/
+				String pick_up_start = (String)comboBox_year.getSelectedItem() + "-" + (String)comboBox_month.getSelectedItem() + "-" + (String)comboBox_year.getSelectedItem();
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+				String pick_up_end = null;
+				try {
+					Date date_start = (Date)dateFormat.parse(pick_up_start);
+					Calendar c = Calendar.getInstance();
+					c.setTime(date_start);
+					c.add(Calendar.DAY_OF_MONTH, 3);
+					Date date_end = (Date)c.getTime();
+					pick_up_end = date_end.toString();
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
-				/*private int needNumber;
-				private int nowNumber;
-				private String goodsID;
-				private String goodsName;
-				private float value;*/
+				String text = id_name_textField.getText();
+				if(button_name.isSelected()) {
+					SqlSession session = MybatisUtil.getSession();
+					CustomerDao dao = session.getMapper(CustomerDao.class);
+					Map map = MapBuilder.buildMap("user_id", text);
+					text = dao.findCustomer(map).get(0).getUser_id();
+				}
+				
+				String order_date = FinanceBll.getDate();
+				
 				/*把相关参数传过去*/
 				//goodsData, cus_user_id, sale_user_id, order_type, order_date, pick_up_time_start, pick_up_time_end, order_state
 				
+				SaleBll.createOrder(goodsData, text, admin.getUser_id(), type, order_date, pick_up_start, pick_up_end, Ordered.UMPAID);
 			}
 		});
 		button_createOrdered.setBounds(898, 373, 124, 35);
@@ -230,23 +256,23 @@ public class MDISaleFrame extends JInternalFrame implements ActionListener{
 	
 		//选择最早提货日期
 		String[] year = {"2018", "2019", "2020", "2021", "2022"};
-		String[] month = {"一月", "二月", "三月", "四月", "五月","六月", "七月", "八月", "九月", "十月","十一月","十二月"};
+		String[] month = {"1", "2", "3", "4", "5","6", "7", "8", "9", "10","11","12"};
 		String[] day = {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25",
 				"26","27","28","29","30","31"};
 		
-		JComboBox <String>comboBox_year = new JComboBox<String>();
+		comboBox_year = new JComboBox<String>();
 		comboBox_year.setBounds(507, 380, 71, 21);
 		for(int i = 0 ;i < year.length;i++)
 			comboBox_year.addItem(year[i]);
 		panel.add(comboBox_year);
 		
-		JComboBox <String>comboBox_month = new JComboBox<String>();
+		comboBox_month = new JComboBox<String>();
 		comboBox_month.setBounds(622, 380, 66, 21);
 		for(int i = 0 ;i < month.length;i++)
 			comboBox_month.addItem(month[i]);
 		panel.add(comboBox_month);
 		
-		JComboBox<String> comboBox_day = new JComboBox<String>();
+		comboBox_day = new JComboBox<String>();
 		comboBox_day.setBounds(740, 380, 73, 21);
 		for(int i = 0 ;i < day.length;i++)
 			comboBox_day.addItem(day[i]);

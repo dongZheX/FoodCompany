@@ -55,6 +55,21 @@ public class Administrators extends User implements Serializable{
 		return "Administrators [adm_power=" + adm_power + ", user_id=" + user_id + ", user_name=" + user_name
 				+ ", user_psw=" + user_psw + ", user_tel=" + user_tel + "]";
 	}
+	
+	/*String[] combobox_item = {"系统管理员", "成品库管理员","会计","出纳","生产车间管理员","生产计划管理员","销售"};*/
+	public static int administrators_string_toInt(String type) {
+		switch(type) {
+		case "系统管理员": return 2;
+		case "成品库管理员": return 3;
+		case "会计": return 4;
+		case "出纳": return 5;
+		case "生产车间管理员": return 6;
+		case "生产计划管理员": return 7;
+		case "销售": return 8;
+		case "万能": return 9;
+		}
+		return 0;
+	}
 	public boolean equals(Administrators c) {
 		if(c instanceof Administrators) {
 			String id = c.getUser_id();

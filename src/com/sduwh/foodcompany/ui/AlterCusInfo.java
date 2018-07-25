@@ -63,7 +63,7 @@ public class AlterCusInfo extends JInternalFrame implements ActionListener{
 		/*
 		 * 初始化界面
 		 */
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 827, 651);
 		setTitle("修改客户信息窗口");
 		
 		//this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -90,7 +90,7 @@ public class AlterCusInfo extends JInternalFrame implements ActionListener{
 	    
 	    
 	    //在this中添加splitPane
-	    this.add(splitPane);
+	    getContentPane().add(splitPane);
 	    
 	    //初始化textfield
 	    user_id_field = new JTextField();

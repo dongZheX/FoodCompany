@@ -320,7 +320,7 @@ public class FinanceBll {
 		return arrayList.get(0);
 	}
 	
-	private static String getDate() {
+	public static String getDate() {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
 		Date date = new Date();
 		return sdf.format(date);

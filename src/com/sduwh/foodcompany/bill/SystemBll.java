@@ -12,7 +12,7 @@ public class SystemBll {
 	/*创建员工*/
 	/*user_id, user_name, user_psw, user_tel, adm_power*/
 	public static void  createAdministrators(String user_name, String user_psw, String user_tel, String adm_power) {
-		int power = 1;
+		int power = 0;
 		switch(adm_power) {
 		case "系统管理员": 	power = 2;
 		break;
@@ -25,6 +25,8 @@ public class SystemBll {
 		case "生产车间管理员":	power = 6;
 		break;
 		case "生产计划科管理员":	power = 7;
+		break;
+		case "销售":		power = 8;
 		break;
 		}
 		

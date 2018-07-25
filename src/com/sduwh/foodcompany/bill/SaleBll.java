@@ -42,7 +42,7 @@ public class SaleBll {
 	}
 	
 	/*修改客户信息*/
-	public static void updateCustomer(String user_id, String user_tel, String cus_rank, String cus_score, String cus_address) {
+	public static void updateCustomer(String user_id, String user_tel, int cus_rank, float cus_score, String cus_address) {
 		Map<String, Object> map = new HashMap<>();
 		map.put("user_id", user_id);
 		map.put("user_tel", user_tel);
@@ -82,6 +82,45 @@ public class SaleBll {
 		OrderedDao dao = session.getMapper(OrderedDao.class);
 		Map<String, Object> getID = new HashMap<>();
 		getID.put("order_id", "0");
+		dao.selectOrder(getID);
+		session.commit();
+		String order_id = (String)getID.get("order_id");
+		OrderedDao orderDao = (OrderedDao)DaoFactory.createDao(DaoFactory.DAO_ORDERED);
+		for(int i = 0; i < data.length; ++i) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("order_id", order_id);
+			map.put("good_id", data[i].getGoodsID());
+			map.put("cus_user_id", cus_user_id);
+			map.put("sale_user_id", sale_user_id);
+			map.put("order_unit_price", data[i].getValue());
+			map.put("order_num", data[i].getNeedNumber());
+			map.put("order_type", order_type);
+			map.put("order_date", order_date);
+			map.put("pick_up_time_start", pick_up_time_start);
+			map.put("pick_up_time_end", pick_up_time_end);
+			map.put("order_state", order_state);
+			orderDao.insertOrder(map);
+		}
+	}
+	
+	/*开具退货单*/
+	//public void 
+	
+	
+	public void cancelOrder() {
+		/*order_id
+good_id
+cus_user_id
+sale_user_id
+order_unit_price
+order_num
+order_type
+order_date
+pick_up_time_start
+pick_up_time_end
+order_state
+*/
+		
 		
 	}
 	

@@ -12,6 +12,12 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+
+import com.sduwh.foodcompany.bill.AdministratorsTableData;
+import com.sduwh.foodcompany.bill.SystemBll;
+import com.sduwh.foodcompany.comm.MD5;
+import com.sduwh.foodcompany.entity.Administrators;
+
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.Font;
@@ -121,6 +127,11 @@ public class MDICreateUser extends JInternalFrame implements ActionListener{
 				else
 				{
 					//´«µÝ²ÎÊý
+					String temp = (String)comboBox.getSelectedItem();
+					int type = Administrators.administrators_string_toInt(temp);
+					
+					//AdministratorsTableData data = new AdministratorsTableData(name, psw, tel, type);
+					SystemBll.createAdministrators(name, psw, tell, temp);
 				}
 			}
 		});

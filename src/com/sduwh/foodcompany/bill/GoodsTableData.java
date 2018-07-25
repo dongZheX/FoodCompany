@@ -13,11 +13,12 @@ public class GoodsTableData {
 	private String goodsName;
 	private float value;
 	
-	public GoodsTableData(int needNumber, int nowNumber, String goodsID, String goodsName) {
+	public GoodsTableData(int needNumber, int nowNumber, String goodsID, String goodsName, float value) {
 		this.needNumber = needNumber;
 		this.nowNumber = nowNumber;
 		this.goodsID = goodsID;
 		this.goodsName = goodsName;
+		this.value = value;
 	}
 	
 	public int getNeedNumber() {
@@ -46,7 +47,7 @@ public class GoodsTableData {
 				String.format("%d", this.nowNumber),
 				this.goodsID,
 				this.goodsName,
-				String.format("%f", this.value)
+				String.format("%.2f", this.value)
 		};
 		return ans;
 	}

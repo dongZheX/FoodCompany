@@ -128,7 +128,7 @@ public class MDISaleFrame extends JInternalFrame implements ActionListener{
 		//JButton现货
 		JRadioButton rbutton_1 = new JRadioButton("现货(先付)");
 		rbutton_1.setBackground(Color.WHITE);
-		rbutton_1.setBounds(472, 5, 71, 23);
+		rbutton_1.setBounds(506, 5, 106, 23);
 		rbutton_1.setSelected(true);
 		panel.add(rbutton_1);
 		bg_sale2.add(rbutton_1);
@@ -136,26 +136,26 @@ public class MDISaleFrame extends JInternalFrame implements ActionListener{
 		//JButton现货后付
 		JRadioButton rbutton_2 = new JRadioButton("现货(后付)");
 		rbutton_2.setBackground(Color.WHITE);
-		rbutton_2.setBounds(554, 5, 97, 23);
+		rbutton_2.setBounds(625, 5, 97, 23);
 		panel.add(rbutton_2);
 		bg_sale2.add(rbutton_2);
 		
 		//JButton预定
 		JRadioButton rbutton_3 = new JRadioButton("预定(先付)");
 		rbutton_3.setBackground(Color.WHITE);
-		rbutton_3.setBounds(678, 5, 79, 23);
+		rbutton_3.setBounds(738, 5, 102, 23);
 		panel.add(rbutton_3);
 		
 		//JButton预定后付
 		JRadioButton rbutton_4 = new JRadioButton("预定(后付)");
 		rbutton_4.setBackground(Color.WHITE);
-		rbutton_4.setBounds(813, 5, 97, 23);
+		rbutton_4.setBounds(858, 5, 97, 23);
 		panel.add(rbutton_4);
 		bg_sale2.add(rbutton_4);
 		
 		//查询商品
 		JButton button_search = new JButton("显示商品");
-		button_search.setBounds(940, 5, 124, 23);
+		button_search.setBounds(961, 5, 124, 23);
 		JRadioButton r_button4 = new JRadioButton("\u9884\u5B9A\uFF08\u540E\u4ED8\uFF09");
 		r_button4.setBackground(Color.WHITE);
 		r_button4.setBounds(776, 5, 97, 23);
@@ -295,17 +295,17 @@ public class MDISaleFrame extends JInternalFrame implements ActionListener{
 		
 		
 		 //初始化table
-		String[] table_title = {"数量", "商品编号", "商品名称", "单价", "现货数量"};
+		String[] table_title = {"数量", "现货数量", "商品编号", "商品名称", "单价"};
 
-	    tableModel = new DefaultTableModel(table_title, 20) {
+	    tableModel = new DefaultTableModel();
+		tableModel.setColumnIdentifiers(table_title);
+	    table = new JTable(tableModel) {
 			 public boolean isCellEditable(int row, int column) {
 				 	if(column != 0) 
 				 		return false;
 				 	return true;
 				  }
 		};
-		
-	    table = new JTable(tableModel);
 	    table.setRowHeight(35);
 	    table.setEditingColumn(0);
 	    

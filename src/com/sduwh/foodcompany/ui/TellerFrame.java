@@ -112,7 +112,7 @@ public class TellerFrame  extends JFrame{
 		searchJTF = new JTextField();
 		searchJTF1 = new JTextField();
 		/*Frame*/
-		frame.setBounds(200, 50, 1200, 800);
+		frame.setBounds(200, 50, 1150, 700);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
@@ -248,7 +248,7 @@ public class TellerFrame  extends JFrame{
 		});
 		customerIDButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				searchReceiptByCumstomerId();
+				searchReceiptByCustomerName();
 			}
 		});
 		customerNameButton.addActionListener(new ActionListener() {
@@ -308,7 +308,7 @@ public class TellerFrame  extends JFrame{
 		salepanel.setLayout(null);
 
 		//scrollpane
-		selectScrollPane.setBounds(0, 0, 1200, 600);
+		selectScrollPane.setBounds(0, 0, 1116, 600);
 		salepanel.add(selectScrollPane);
 		
 		JToolBar toolBar = new JToolBar();
@@ -749,50 +749,77 @@ public class TellerFrame  extends JFrame{
 	
 	/*根据收据ID查找收据*/
 	private void searchReceiptByReceiptId() {
-		/*ReceiptTableData[] data =  FinanceBll.searchReceiptByReceiptId(this.searchJTF1.getText() == "" ? null : this.searchJTF1.getText());
+		ReceiptTableData[] data =  FinanceBll.searchReceiptByReceiptId(this.searchJTF1.getText().equals("")? null : this.searchJTF1.getText());
+		System.out.println("haha" + data);
 		if(data == null)
 			JOptionPane.showMessageDialog(this, "您要查找的收据不存在", "错误", JOptionPane.ERROR_MESSAGE);
 		else
 		{
-			DefaultTableModel model = new DefaultTableModel(title2, 0);
+			DefaultTableModel model = new DefaultTableModel();
+			model.setColumnIdentifiers(title2);
+			//this.accountantTableModel.addRow(data.toArray());
+			for(int i = 0; i < data.length; ++i){
+				System.out.println(data[i].toArray()[1]);
+				//this.tellerTableModel.addRow(data[i].toArray());
+				model.addRow(data[i].toArray());
+			}
+		accountantTable.setModel(model);
+			
+		}
+			
+	}
+	
+	/*根据订单ID查找收据*/
+	private void searchReceiptByOrderId() {
+
+		ReceiptTableData[] data =  FinanceBll.searchReceiptByOrderId(this.searchJTF1.getText().equals("")? null : this.searchJTF1.getText());
+		if(data == null)
+			JOptionPane.showMessageDialog(this, "您要查找的订单不存在", "错误", JOptionPane.ERROR_MESSAGE);
+		else
+		{
+			DefaultTableModel model = new DefaultTableModel();
+			model.setColumnIdentifiers(title2);
 			//this.accountantTableModel.addRow(data.toArray());
 			for(int i = 0; i < data.length; ++i){
 				//System.out.println(data[i].toArray());
 				//this.tellerTableModel.addRow(data[i].toArray());
 				model.addRow(data[i].toArray());
 			}
-		tellerTable.setModel(model);
-			
-		}*/
-			
-	}
-	
-	/*根据订单ID查找收据*/
-	private void searchReceiptByOrderId() {
-		ReceiptTableData data = FinanceBll.searchReceiptByOrderId(this.searchJTF1.getText());
-		if(data == null)
-			JOptionPane.showMessageDialog(this, "您查找的订单不存在", "错误", JOptionPane.ERROR_MESSAGE);
-		else
-			this.accountantTableModel.addRow(data.toArray());
+			accountantTable.setModel(model);
+		}
 	}
 	
 	/*根据用户ID查找收据*/
-	private void searchReceiptByCumstomerId() {
-		ReceiptTableData[] data =  FinanceBll.searchReceiptByCustomerId(this.searchJTF1.getText());
+	/*private void searchReceiptByCumstomerId() {
+		ReceiptTableData[] data =  FinanceBll.searchReceiptByCustomerId(this.searchJTF1.getText() == "" ? null : this.searchJTF1.getText());
 		if(data == null)
-			JOptionPane.showMessageDialog(this, "您要查找的客户不存在", "错误", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "您要查找的订单不存在", "错误", JOptionPane.ERROR_MESSAGE);
 		else
-			for(int i = 0; i < data.length; ++i)
-				this.accountantTableModel.addRow(data[i].toArray());
+		{
+			DefaultTableModel model = new DefaultTableModel(title2, 10);
+			for(int i = 0; i < data.length; ++i){
+				model.addRow(data[i].toArray());
+			}
+			accountantTable.setModel(model);
+		}
 	}
-	
+	*/
 	/*根据用户姓名查找收据*/
 	private void searchReceiptByCustomerName() {
-		ReceiptTableData[] data =  FinanceBll.searchReceiptByCustomerName(this.searchJTF1.getText());
+		ReceiptTableData[] data =  FinanceBll.searchReceiptByCustomerName(this.searchJTF1.getText().equals("") ? null : this.searchJTF1.getText());
 		if(data == null)
 			JOptionPane.showMessageDialog(this, "您要查找的客户不存在", "错误", JOptionPane.ERROR_MESSAGE);
 		else
-			for(int i = 0; i < data.length; ++i)
-				this.accountantTableModel.addRow(data[i].toArray());
+		{
+			DefaultTableModel model = new DefaultTableModel();
+			model.setColumnIdentifiers(title2);
+			//this.accountantTableModel.addRow(data.toArray());
+			for(int i = 0; i < data.length; ++i){
+				//System.out.println(data[i].toArray());
+				//this.tellerTableModel.addRow(data[i].toArray());
+				model.addRow(data[i].toArray());
+			}
+			accountantTable.setModel(model);
+		}
 	}
 }

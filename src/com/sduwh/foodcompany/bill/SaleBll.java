@@ -68,10 +68,10 @@ public class SaleBll {
 		for(int i = 0; i < size; ++i) {
 			ArrayList<Warehouse> warehouseList = WarehouseService.getWarehouseList("good_id", goodsList.get(i).getGood_id());
 			int sum = 0;
+			WarehouseService.OutOfDateRefresh();
 			for(int j = 0; j < warehouseList.size(); ++j)
-				WarehouseService.OutOfDateRefresh();
 				sum += warehouseList.get(j).getGood_num();
-			data[i] = new GoodsTableData(0, sum, goodsList.get(i).getGood_id(), goodsList.get(i).getGood_name());
+			data[i] = new GoodsTableData(0, sum, goodsList.get(i).getGood_id(), goodsList.get(i).getGood_name(), goodsList.get(i).getGood_cost());
 		}
 		
 		return data;

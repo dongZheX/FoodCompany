@@ -73,10 +73,14 @@ public class FinanceBll {
 	 * 根据收据Id找到收据
 	 */
 	public static ReceiptTableData[] searchReceiptByReceiptId(String receiptId) {
-		if(receiptId == "")	receiptId = null;
 		Map map = MapBuilder.buildMap("receipt_id", receiptId);
-		ReceiptDao receiptDao = (ReceiptDao)DaoFactory.createDao(DaoFactory.DAO_RECEIPT);
-		ArrayList<Receipt> arrayList = receiptDao.findReceipt(map);
+		ArrayList<Receipt> arrayList;
+		
+		SqlSession session = MybatisUtil.getSession();
+		ReceiptDao dao = session.getMapper(ReceiptDao.class);
+		arrayList = dao.findReceipt(map);
+		System.out.println(arrayList);
+
 		if(arrayList.size() == 0)	return null;	/*如果数据库中没有该订单，则返回null*/
 		
 		
@@ -97,7 +101,6 @@ public class FinanceBll {
 	 * 根据订单Id找到收据
 	 */
 	public static ReceiptTableData[] searchReceiptByOrderId(String orderId) {
-		if(orderId == "")	orderId = null;
 		Ordered order = FinanceBll.getOrderById(orderId);
 		if(order == null)	return null;
 		int orderState = order.getOrder_state();
@@ -122,7 +125,6 @@ public class FinanceBll {
 	
 	/*根据客户ID找到收据*/
 	public static ReceiptTableData[] searchReceiptByCustomerId(String customerId) {
-		if(customerId == "")	customerId = null;
 		/*找到这个客户*/
 		Customer customer = FinanceBll.getCustomerById(customerId);
 		if(customer == null)	return null;
@@ -136,13 +138,17 @@ public class FinanceBll {
 			for(int j = 0; j < receiptTableData.length; ++j)
 				list.add(receiptTableData[j]);
 		}
-		receiptTableData = (ReceiptTableData[])list.toArray();
+		
+		receiptTableData = new ReceiptTableData[list.size()];
+		for(int i = 0; i < receiptTableData.length; ++i){
+			receiptTableData[i] = list.get(i);
+		}
+		//receiptTableData = (ReceiptTableData[]) list.toArray();
 		return receiptTableData;
 	}
 	
 	/*根据客户的姓名找到收据*/
 	public static ReceiptTableData[] searchReceiptByCustomerName(String customerName) {
-		if(customerName == "")	customerName = null;
 		Map<Integer, ReceiptTableData> ans = new HashMap<>();
 		int ansNumber = 0;
 		
@@ -204,7 +210,7 @@ public class FinanceBll {
 	 *OrderedTableData的属性有orderedId, customerId, customerName, type, sum
 	 */
 	public static OrderedTableData searchOrderByOrderId(String orderId) {
-		if(orderId == "")	orderId = null;
+		if(orderId.equals(""))	orderId = null;
 		Ordered order = getOrderById(orderId);
 		if(order == null)	
 		{
@@ -244,7 +250,7 @@ public class FinanceBll {
 	 * 根据客户的id查询订单
 	 */
 	public static OrderedTableData[] searchOrderByCustomerId(String cus_user_id) {
-		if(cus_user_id == "")	cus_user_id = null;
+		if(cus_user_id.equals(""))	cus_user_id = null;
 		Map<String, Boolean> getOrderId = new HashMap<>();
 		Map<Integer, String> order = new HashMap<>();
 		int orderNum = 0;
@@ -255,7 +261,7 @@ public class FinanceBll {
 		int listNum = arrayList.size();
 		if(listNum == 0)	return null;
 		for(int i = 0; i < listNum; ++i) {
-			if(getOrderId.get(arrayList.get(i).getOrder_id()) == false) {
+			if(getOrderId.get(arrayList.get(i).getOrder_id()) == null) {
 				getOrderId.put(arrayList.get(i).getOrder_id(), true);
 				order.put(orderNum++, arrayList.get(i).getOrder_id());
 			}
@@ -271,7 +277,6 @@ public class FinanceBll {
 	 * 根据客户的姓名查找相应的订单
 	 */
 	public static OrderedTableData[] searchOrderByCustomerName(String userName) {
-		if(userName == "")	userName = null;
 		Map<String, Object> getCustomerId = new HashMap<>();
 		getCustomerId.put("user_name", userName);
 		CustomerDao customerDao = (CustomerDao)DaoFactory.createDao(DaoFactory.DAO_CUSTOMER);

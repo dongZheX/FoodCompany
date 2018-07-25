@@ -294,16 +294,18 @@ public class MDIcancelOrdered extends JInternalFrame implements ActionListener{
 	            	 * 获取选中的order_id
 	            	 * 暂时注释掉,因为没实际查询时会报错
 	            	 */
-	            	//int row = table.getRowCount();
-	            	//String order_id = table.getModel().getValueAt(row, 0).toString();
+	            	int row = table.getRowCount();
+	            	String order_id = table.getModel().getValueAt(row, 0).toString();
+	            	String good_name = "";
+	            	String good_id = WarehouseService.findIdByGoodName(good_name);
+	            	
 	            	/*
 	            	 * 创建修改用户信息dialog
 	            	 */
 	            	
 	            	
 	            	//这是一个测试字段
-	            	String order_id = "";
-	            	//
+	            	
 	            	
 	            	
 	            	AlterDialog alterDialog = new AlterDialog(order_id);

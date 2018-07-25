@@ -18,9 +18,11 @@ import javax.swing.border.EmptyBorder;
 import org.apache.ibatis.session.SqlSession;
 
 import com.sduwh.foodcompany.bill.SaleBll;
+import com.sduwh.foodcompany.bill.SystemBll;
 import com.sduwh.foodcompany.comm.MapBuilder;
 import com.sduwh.foodcompany.comm.MybatisUtil;
 import com.sduwh.foodcompany.dao.CustomerDao;
+import com.sduwh.foodcompany.entity.Administrators;
 import com.sduwh.foodcompany.entity.Customer;
 
 public class AlterAdminDialog extends JDialog implements ActionListener  {
@@ -30,12 +32,14 @@ public class AlterAdminDialog extends JDialog implements ActionListener  {
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
+	String admin_id;
 
 
 	/**
 	 * Create the dialog.
 	 */
 	public AlterAdminDialog(String admin_id) {
+		this.admin_id = admin_id;
 		setBounds(100, 100, 462, 369);
 		getContentPane().setLayout(null);
 		contentPanel.setBounds(0, 0, 434, 261);
@@ -111,6 +115,14 @@ public class AlterAdminDialog extends JDialog implements ActionListener  {
 				JOptionPane.showMessageDialog(this, "管理员不存在", "错误", JOptionPane.ERROR_MESSAGE);
 			String id = list.get(0).getUser_id();
 			//姓名 联系方式 密码 类型
+			String name = textField.getText();
+			String tel = textField_1.getText();
+			String psw = textField_2.getText();
+			int type = Integer.parseInt(textField_3.getText());
+			//String user_id, String user_name, String user_psw, String user_tel, int adm_power
+			Administrators adm = new Administrators(this.admin_id, name, psw, tel, type);
+			SystemBll.updateAdministrators(adm);
+			JOptionPane.showMessageDialog(this, "修改成功");
 			//SaleBll.updateAdmin(id, textField.getText(),  textField_1.getText(),  textField_2.getText(),  textField_3.getText());
 			btn_alter_action();
 		}

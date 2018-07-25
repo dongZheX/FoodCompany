@@ -75,8 +75,9 @@ public class SystemBll {
 		map.put("user_tel", admin.getUser_tel());
 		map.put("user_power", admin.getAdm_power());
 		
-		AdministratorsDao dao = (AdministratorsDao)DaoFactory.createDao(DaoFactory.DAO_ADMINISTRATORS);
-		dao.insertAdministrators(map);
+		SqlSession session = MybatisUtil.getSession();
+		AdministratorsDao dao = session.getMapper(AdministratorsDao.class);
+		dao.updateAdministrators(map)
 	}
 	
 	public static AdministratorsTableData[] searchAdministrators(String user_id, String user_name) {
